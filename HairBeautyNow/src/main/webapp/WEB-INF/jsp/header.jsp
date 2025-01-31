@@ -15,7 +15,7 @@
                 <li><a href="#" class="interactive-link" style="font-weight: bold; font-size: 18px;">Storico Ordini</a></li>
             </ul>
         </nav>
-        fekfewlkgn
+
         <div class="user-icons">
             <a href="<%= request.getContextPath() %>/registerPage" id="user-icon">
                 <i class="fas fa-user" style="font-size: 30px; color: #007DFF;"></i>
