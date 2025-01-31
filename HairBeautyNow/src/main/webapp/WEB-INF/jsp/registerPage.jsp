@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-
+    <h1>HairBeautyNow</h1>
 </body>
 </html>

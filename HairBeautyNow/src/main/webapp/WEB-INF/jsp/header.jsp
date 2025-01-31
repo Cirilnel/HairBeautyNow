@@ -21,7 +21,7 @@
             </a>
         </div>
 
-            <!-- Link per caricare correttamente lo script JS -->
+        <!-- Link per caricare correttamente lo script JS -->
         <script src="<%= request.getContextPath() %>/static/js/userMenu.js"></script>
     </div>
 </header>
