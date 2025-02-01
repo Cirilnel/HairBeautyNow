@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Context path="/miosito">
-    <!-- Permetti di accedere ai file JSP nella cartella WEB-INF -->
-    <WatchedResource>WEB-INF/web.xml</WatchedResource>
-
-    <!-- Configura la directory di default per le pagine JSP -->
-    <Parameter name="defaultJsp" value="/WEB-INF/jsp/index.jsp" override="false"/>
-</Context>
-
