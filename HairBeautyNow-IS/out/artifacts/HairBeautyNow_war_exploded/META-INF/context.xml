@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/HairBeautyNow_war_exploded">
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+    <Parameter name="defaultJsp" value="/WEB-INF/jsp/index.jsp" override="false"/>
+</Context>
