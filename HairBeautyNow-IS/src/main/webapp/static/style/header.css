@@ -1,0 +1,105 @@
+/* header.css */
+header {
+    background: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+header .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+header nav ul li {
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: #0056b3;
+    transform: scale(1.05);
+}
+
+.social-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.social-icons a i {
+    font-size: 30px;
+    color: #007DFF;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a i:hover {
+    color: #0056b3;
+    transform: scale(1.1);
+}
+
+.user-icons {
+    position: relative;
+}
+
+#user-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 180px;
+    text-align: left;
+    padding: 10px;
+}
+
+#user-menu a {
+    display: block;
+    padding: 8px 10px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+#user-menu a:hover {
+    background: #f1f1f1;
+}
+
+.logout-btn {
+    color: red;
+}
+
+nav {
+    margin-left: 40px;
+    margin-right: 0;
+}
+
+header h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+}
+
+nav ul li img {
+    pointer-events: none;
+    max-width: 100%;
+    height: auto;
+}
