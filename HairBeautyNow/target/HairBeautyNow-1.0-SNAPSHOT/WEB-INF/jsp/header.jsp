@@ -1,4 +1,5 @@
 <header>
+    <link rel="stylesheet" type="text/css" href="static/style/header.css">
     <div class="top-bar">
         <div class="social-icons">
             <a href="#"><i class="fab fa-facebook-f" style="font-size: 30px; color: #007DFF;"></i></a>
@@ -16,12 +17,9 @@
             </ul>
         </nav>
         <div class="user-icons">
-            <a href="<%= request.getContextPath() %>/registerPage" id="user-icon">
+            <a href="<%= request.getContextPath() %>/loginPage" id="user-icon">
                 <i class="fas fa-user" style="font-size: 30px; color: #007DFF;"></i>
             </a>
         </div>
-
-        <!-- Link per caricare correttamente lo script JS -->
-        <script src="<%= request.getContextPath() %>/static/js/userMenu.js"></script>
     </div>
 </header>

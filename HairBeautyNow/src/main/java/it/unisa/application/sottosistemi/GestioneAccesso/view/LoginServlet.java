@@ -1,4 +1,5 @@
-package it.unisa.application.sottosistemi.GestioneRegistrazione.view;
+package it.unisa.application.sottosistemi.GestioneAccesso.view;
+
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,10 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/registerPage")
-public class RegisterServlet extends HttpServlet {
+@WebServlet("/loginPage")
+public class LoginServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/jsp/registerPage.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/loginPage.jsp").forward(request, response);
 
     }
 }
+
+
