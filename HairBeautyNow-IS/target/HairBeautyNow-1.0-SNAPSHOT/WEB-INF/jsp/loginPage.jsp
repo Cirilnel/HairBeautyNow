@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: utente
-  Date: 01/02/2025
-  Time: 11:34
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -22,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="login">
 <%@ include file="header.jsp" %>
 
 <h1>Autenticazione</h1>
@@ -41,13 +34,12 @@
 
     <button type="submit" class="auth-button">Autenticazione</button>
 
-    <p class="register-prompt">Non sei ancora registrato? <a href="<%= request.getContextPath() %>/registerPage" class="register-link">Registrati qui</a></p>
+    <p class="register-prompt">Non sei ancora registrato?
+      <a href="<%= request.getContextPath() %>/registerPage" class="register-link">Registrati qui</a>
+    </p>
   </form>
 </section>
 
-
-
 <%@ include file="footer.jsp" %>
-
 </body>
 </html>

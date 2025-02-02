@@ -1,6 +1,5 @@
 package it.unisa.application.sottosistemi.GestioneServizi.view;
 
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.RequestDispatcher;
@@ -15,8 +14,8 @@ public class ServiziServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Reindirizza alla pagina servizi.jsp
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/servizi.jsp");
+        // Chiamata alla servlet "servizi" utilizzando il RequestDispatcher
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/servizi"); // Assumendo che "/servizi" sia l'URL della servlet servizi
         dispatcher.forward(request, response);
     }
 }

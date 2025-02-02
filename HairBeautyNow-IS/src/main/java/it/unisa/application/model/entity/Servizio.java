@@ -6,17 +6,19 @@ public class Servizio {
     private String tipo;
     private int durata;
     private double prezzo;
-    private int id; //FK
 
-    public Servizio(String nome, int id, double prezzo, int durata, String tipo, String descrizione) {
+    public Servizio(String nome, double prezzo, int durata, String tipo, String descrizione) {
         this.nome = nome;
-        this.id = id;
         this.prezzo = prezzo;
         this.durata = durata;
         this.tipo = tipo;
         this.descrizione = descrizione;
     }
-
+    public Servizio(String nome, double prezzo, String tipo) {
+        this.nome = nome;
+        this.prezzo = prezzo;
+        this.tipo = tipo;
+    }
     @Override
     public String toString() {
         return "Servizio{" +
@@ -25,16 +27,7 @@ public class Servizio {
                 ", tipo='" + tipo + '\'' +
                 ", durata=" + durata +
                 ", prezzo=" + prezzo +
-                ", id=" + id +
                 '}';
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNome() {

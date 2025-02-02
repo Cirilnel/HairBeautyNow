@@ -4,14 +4,14 @@ import java.util.Date;
 
 public class Prenotazione {
     private int id; //PK
-    private int servizioId; // FK
+    private String servizioName; // FK
     private int professionistaId; // FK
     private Date data;
 
     // Costruttore
-    public Prenotazione(int id, int servizioId, int professionistaId, Date data) {
+    public Prenotazione(int id, String servizioId, int professionistaId, Date data) {
         this.id = id;
-        this.servizioId = servizioId;
+        this.servizioName = servizioId;
         this.professionistaId = professionistaId;
         this.data = data;
     }
@@ -25,12 +25,12 @@ public class Prenotazione {
         this.id = id;
     }
 
-    public int getServizioId() {
-        return servizioId;
+    public String getServizioName() {
+        return servizioName;
     }
 
-    public void setServizioId(int servizioId) {
-        this.servizioId = servizioId;
+    public void setServizioName(String servizioName) {
+        this.servizioName = servizioName;
     }
 
     public int getProfessionistaId() {
@@ -54,7 +54,7 @@ public class Prenotazione {
     public String toString() {
         return "Prenotazione{" +
                 "id=" + id +
-                ", servizioId=" + servizioId +
+                ", servizioId=" + servizioName +
                 ", professionistaId=" + professionistaId +
                 ", data=" + data +
                 '}';

@@ -20,4 +20,3 @@ public class DataSourceSingleton {
         return instance;
     }
 }
-
