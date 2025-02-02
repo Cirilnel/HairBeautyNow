@@ -9,16 +9,21 @@ header .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 header nav ul {
     list-style: none;
     padding: 0;
     display: flex;
+    align-items: center; /* Allinea verticalmente gli elementi nella barra di navigazione */
+    margin: 0;
 }
 
 header nav ul li {
     margin: 0 15px;
+    display: flex;
+    align-items: center; /* Allinea verticalmente gli elementi */
 }
 
 header nav ul li a {
@@ -27,6 +32,8 @@ header nav ul li a {
     font-weight: bold;
     font-size: 18px;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center; /* Assicura che il link sia centrato verticalmente */
 }
 
 header nav ul li a:hover {
@@ -44,6 +51,8 @@ header nav ul li a:hover {
     font-size: 30px;
     color: #007DFF;
     transition: color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center; /* Allinea le icone verticalmente */
 }
 
 .social-icons a i:hover {
@@ -53,6 +62,8 @@ header nav ul li a:hover {
 
 .user-icons {
     position: relative;
+    display: flex;
+    align-items: center; /* Allinea l'icona dell'utente verticalmente */
 }
 
 #user-menu {
@@ -102,4 +113,6 @@ nav ul li img {
     pointer-events: none;
     max-width: 100%;
     height: auto;
+    display: inline-block; /* Mantiene l'immagine allineata con il testo */
+    vertical-align: middle; /* Assicura che l'immagine sia centrata verticalmente rispetto al testo */
 }

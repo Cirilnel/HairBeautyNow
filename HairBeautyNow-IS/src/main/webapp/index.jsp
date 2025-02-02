@@ -18,17 +18,17 @@
 <body>
 
 <%@ include file="WEB-INF/jsp/header.jsp" %>
-<h1>HairBeauty Now</h1>
-<section class="hero">
+<h1 class="general">HairBeauty Now</h1>
+<section class="hero general">
     <img src="static/images/hero-image.png" alt="Parrucchiera con vista panoramica">
 </section>
 
-<section class="intro">
+<section class="intro general">
     <h2>L'eleganza deriva dall'essere belli dentro come fuori</h2>
 </section>
 
-<section class="services">
-    <div class="service-card">
+<section class="services general">
+    <div class="service-card general">
         <img src="static/images/makeup.png" alt="Make Up">
         <div class="service-item">
             <!-- Aggiungi qui l'icona piccola -->
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <div class="service-card">
+    <div class="service-card general">
         <img src="static/images/hair.png" alt="Hair Styling">
         <div class="service-item">
             <!-- Aggiungi qui l'icona piccola -->
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="service-card">
+    <div class="service-card general">
         <img src="static/images/nail.png" alt="Nail Care">
         <div class="service-item">
             <!-- Aggiungi qui l'icona piccola -->
@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div class="service-card">
+    <div class="service-card general">
         <img src="static/images/massage.png" alt="Massaggi">
         <div class="service-item">
             <!-- Aggiungi qui l'icona piccola -->
@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <div class="service-card">
+    <div class="service-card general">
         <img src="static/images/spa.png" alt="SPA">
         <div class="service-item">
             <!-- Aggiungi qui l'icona piccola -->
@@ -74,8 +74,6 @@
     </div>
 
 </section>
-
-
 
 <%@ include file="WEB-INF/jsp/footer.jsp" %>
 
