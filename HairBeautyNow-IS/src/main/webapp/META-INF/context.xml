@@ -1,6 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Context path="/HairBeautyNow_war_exploded">
-    <WatchedResource>WEB-INF/web.xml</WatchedResource>
-
-    <Parameter name="defaultJsp" value="/WEB-INF/jsp/index.jsp" override="false"/>
+<Context>
+    <!-- Definizione del DataSource per la connessione al database -->
+    <Resource name="jdbc/HairBeautyNowDataSource"
+              auth="Container"
+              type="javax.sql.DataSource"
+              maxTotal="20"
+              maxIdle="10"
+              maxWaitMillis="-1"
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/HairBeautyNow"
+              username="root"
+              password="root"
+              validationQuery="SELECT 1"
+              testOnBorrow="true"/>
 </Context>
