@@ -21,6 +21,11 @@
 <h1>Autenticazione</h1>
 
 <section class="auth-container">
+  <a href="javascript:history.back()" class="back-arrow">
+    <i class="fa fa-arrow-left"></i>
+  </a>
+
+<section class="auth-container">
   <form action="<%= request.getContextPath() %>/login" method="post" class="auth-form">
     <label for="email">Email</label>
     <input type="email" id="email" name="email" placeholder="Value" required>
