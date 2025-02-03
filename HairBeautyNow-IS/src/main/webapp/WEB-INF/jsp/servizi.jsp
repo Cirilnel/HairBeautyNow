@@ -23,13 +23,13 @@
 <%@ include file="header.jsp" %>
 
 <div class="main-content">
-    <h1>Servizi Make-Up</h1>
+    <h1>Servizi</h1>
     <section class="hero">
         <img src="static/images/her-image2.png" alt="Parrucchiera con vista panoramica">
     </section>
 
     <section class="intro">
-        <h2>Prezzi e Servizi di Make-Up</h2>
+        <h2>Prezzi e Servizi</h2>
     </section>
 
     <div class="service-container">
@@ -39,35 +39,36 @@
             if (serviziPerTipo != null && !serviziPerTipo.isEmpty()) {
                 for (Map.Entry<String, List<Servizio>> entry : serviziPerTipo.entrySet()) {
                     String tipo = entry.getKey();
-                    // Procediamo solo con i servizi di make-up
-                    if ("Make Up".equalsIgnoreCase(tipo)) {
-                        List<Servizio> servizi = entry.getValue();
-                        for (Servizio servizio : servizi) {
-                            String nome = servizio.getNome();
-                            String descrizione = servizio.getDescrizione(); // Assumiamo che il servizio abbia una descrizione
-                            double prezzo = servizio.getPrezzo();
-                            String immagineServizio = "static/images/" + nome.toLowerCase().replace(" ", "_") + "-image.png"; // Crea un nome immagine
+                    List<Servizio> servizi = entry.getValue();
+                    String immagineTipo = "static/images/" + tipo.toLowerCase() + "-image.png";
+                    String layoutClass = (index % 2 == 0) ? "left" : "right";
+                    index++;
         %>
-        <section class="service-item">
+        <section class="service-type <%= layoutClass %>">
             <div class="service-image">
-                <img src="<%= immagineServizio %>" alt="<%= nome %>">
+                <img src="<%= immagineTipo %>" alt="<%= tipo %>">
             </div>
-            <div class="service-details">
-                <h2><%= nome %></h2>
-                <p><%= descrizione %></p>
-                <div class="service-price">
+            <div class="services-list">
+                <h2><%= tipo %></h2>
+                <%
+                    for (Servizio servizio : servizi) {
+                        String nome = servizio.getNome();
+                        double prezzo = servizio.getPrezzo();
+                %>
+                <div class="service-item">
+                    <h3><%= nome %></h3>
                     <p>Prezzo: &euro;<%= prezzo %></p>
-                    <button class="book-button">Prenota Servizio</button>
                 </div>
+                <%
+                    }
+                %>
             </div>
         </section>
         <%
-                    }
-                }
             }
         } else {
         %>
-        <p>Non ci sono servizi di make-up disponibili al momento.</p>
+        <p>Non ci sono servizi disponibili al momento.</p>
         <%
             }
         %>
