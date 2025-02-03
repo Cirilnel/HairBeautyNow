@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet("/MakeUpServlet")
+@WebServlet("/make%20upServlet")
 public class MakeUpServlet extends HttpServlet {
     private MakeUpService makeUpService;  // Declare the MakeUpService instance
 

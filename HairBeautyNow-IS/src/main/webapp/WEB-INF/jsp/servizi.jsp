@@ -49,7 +49,10 @@
                 <img src="<%= immagineTipo %>" alt="<%= tipo %>">
             </div>
             <div class="services-list">
-                <h2><%= tipo %></h2>
+                <!-- Link to the corresponding servlet -->
+                <h2>
+                    <a href="<%= request.getContextPath() + "/" + tipo + "Servlet" %>"><%= tipo %></a>
+                </h2>
                 <%
                     for (Servizio servizio : servizi) {
                         String nome = servizio.getNome();

@@ -29,7 +29,7 @@
 
 <section class="services general">
     <div class="service-card general">
-        <a href="<%= request.getContextPath() %>/MakeUpServlet">
+        <a href="<%= request.getContextPath() %>/make%20upServlet">
             <img src="static/images/makeup.png" alt="Make Up">
             <div class="service-item">
                 <!-- Aggiungi qui l'icona piccola -->
@@ -40,7 +40,7 @@
     </div>
 
     <div class="service-card general">
-        <a href="<%= request.getContextPath() %>/HairStylingServlet">
+        <a href="<%= request.getContextPath() %>/hair%20stylingServlet">
             <img src="static/images/hair.png" alt="Hair Styling">
             <div class="service-item">
                 <!-- Aggiungi qui l'icona piccola -->
@@ -51,7 +51,7 @@
     </div>
 
     <div class="service-card general">
-        <a href="<%= request.getContextPath() %>/NailCareServlet">
+        <a href="<%= request.getContextPath() %>/nail%20careServlet">
             <img src="static/images/nail.png" alt="Nail Care">
             <div class="service-item">
                 <!-- Aggiungi qui l'icona piccola -->
@@ -62,7 +62,7 @@
     </div>
 
     <div class="service-card general">
-        <a href="<%= request.getContextPath() %>/MassageServlet">
+        <a href="<%= request.getContextPath() %>/massaggiServlet">
             <img src="static/images/massage.png" alt="Massaggi">
             <div class="service-item">
                 <!-- Aggiungi qui l'icona piccola -->
@@ -73,7 +73,7 @@
     </div>
 
     <div class="service-card general">
-        <a href="<%= request.getContextPath() %>/SpaServlet">
+        <a href="<%= request.getContextPath() %>/spaServlet">
             <img src="static/images/spa.png" alt="SPA">
             <div class="service-item">
                 <!-- Aggiungi qui l'icona piccola -->

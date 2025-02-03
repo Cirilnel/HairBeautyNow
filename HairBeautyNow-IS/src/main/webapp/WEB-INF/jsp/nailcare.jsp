@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HairBeauty Now</title>
-    <link rel="stylesheet" href="static/style/servizi.css">
+    <link rel="stylesheet" href="static/style/nailcare.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@5.5.0/dist/ionicons/ionicons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,27 +40,30 @@
                 for (Map.Entry<String, List<Servizio>> entry : serviziPerTipo.entrySet()) {
                     String tipo = entry.getKey();
                     List<Servizio> servizi = entry.getValue();
-                    String immagineTipo = "static/images/" + tipo.toLowerCase() + "-image.png";
-                    String layoutClass = (index % 2 == 0) ? "left" : "right";
-                    index++;
+                    if (tipo.equals("nail care")) { // Verifica che il tipo sia "nail care"
         %>
-        <section class="service-type <%= layoutClass %>">
-            <div class="service-image">
-                <img src="<%= immagineTipo %>" alt="<%= tipo %>">
-            </div>
+        <section class="service-type">
+            <h2><%= tipo %></h2>
             <div class="services-list">
-                <!-- Link to the corresponding servlet -->
-                <h2>
-                    <a href="<%= request.getContextPath() + "/" + tipo + "Servlet" %>"><%= tipo %></a>
-                </h2>
                 <%
                     for (Servizio servizio : servizi) {
                         String nome = servizio.getNome();
                         double prezzo = servizio.getPrezzo();
+                        String descrizione = servizio.getDescrizione(); // Assuming there is a description field
+                        String immagineTipo = "static/images/" + nome.toLowerCase().replaceAll("\\s+", "") + ".png"; // Dynamically generate image path
+                        String layoutClass = (index % 2 == 0) ? "left" : "right";
+                        index++;
                 %>
-                <div class="service-item">
-                    <h3><%= nome %></h3>
-                    <p>Prezzo: &euro;<%= prezzo %></p>
+                <div class="service-item <%= layoutClass %>">
+                    <div class="service-image">
+                        <img src="<%= immagineTipo %>" alt="<%= nome %>">
+                    </div>
+                    <div class="service-details">
+                        <h3><%= nome %></h3>
+                        <p><%= descrizione %></p>
+                        <p><strong>Prezzo:</strong> &euro;<%= prezzo %></p>
+                        <button class="book-button">Prenota ora</button>
+                    </div>
                 </div>
                 <%
                     }
@@ -68,13 +71,15 @@
             </div>
         </section>
         <%
+                }
             }
         } else {
         %>
-        <p>Non ci sono servizi disponibili al momento.</p>
+        <p>Non ci sono servizi di nail care disponibili al momento.</p>
         <%
             }
         %>
+
     </div>
 </div>
 
