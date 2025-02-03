@@ -24,6 +24,7 @@ header nav ul li {
     margin: 0 15px;
     display: flex;
     align-items: center; /* Allinea verticalmente gli elementi */
+    font-family: Arial, sans-serif;
 }
 
 header nav ul li a {
