@@ -53,5 +53,30 @@ public class UtenteAcquirenteDAO {
         }
     }
 
-    // Altri metodi come `getByUsername`, `getAll`, etc., sono simili, basta cambiare `DriverManager.getConnection` in `ds.getConnection`
+    // Metodo nel DAO per recuperare un utente con email e password
+    public UtenteAcquirente getByEmailAndPassword(String email, String password) {
+        String sql = "SELECT * FROM UtenteAcquirente WHERE email = ? AND password = ?";
+        try (Connection connection = ds.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String username = resultSet.getString("username");
+                String nome = resultSet.getString("nome");
+                String cognome = resultSet.getString("cognome");
+                String citta = resultSet.getString("citta");
+                Integer prenotazioneID = (resultSet.getObject("prenotazioneID") != null)
+                        ? resultSet.getInt("prenotazioneID") : null;
+                String nCarta = resultSet.getString("nCarta");
+
+                return new UtenteAcquirente(username, email, password, nome, cognome, citta, prenotazioneID, nCarta);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;  // Nessun utente trovato con queste credenziali
+    }
 }
