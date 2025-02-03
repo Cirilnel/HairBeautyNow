@@ -116,3 +116,51 @@ nav ul li img {
     display: inline-block; /* Mantiene l'immagine allineata con il testo */
     vertical-align: middle; /* Assicura che l'immagine sia centrata verticalmente rispetto al testo */
 }
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 45px; /* Posiziona il menu sotto l'icona */
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    min-width: 200px;
+    z-index: 1000;
+    text-align: left;
+    padding: 12px;
+}
+
+
+.dropdown-menu.show {
+    display: block;
+}
+.dropdown-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f5f5f5;
+}
+
+.dropdown-menu .logout-link {
+    color: red;
+    font-weight: bold;
+}
+.user-icons i {
+    font-size: 30px;
+    color: #007DFF;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.user-icons i:hover {
+    color: #0056b3;
+    transform: scale(1.1);
+}
