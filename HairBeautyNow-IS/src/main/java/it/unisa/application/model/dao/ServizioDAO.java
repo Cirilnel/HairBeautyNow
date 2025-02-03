@@ -21,7 +21,6 @@ public class ServizioDAO {
             preparedStatement.setString(1, servizio.getNome());
             preparedStatement.setString(2, servizio.getDescrizione());
             preparedStatement.setString(3, servizio.getTipo());
-            preparedStatement.setInt(4, servizio.getDurata());
             preparedStatement.setDouble(5, servizio.getPrezzo());
 
             preparedStatement.executeUpdate();
@@ -39,10 +38,9 @@ public class ServizioDAO {
             if (resultSet.next()) {
                 String descrizione = resultSet.getString("descrizione");
                 String tipo = resultSet.getString("tipo");
-                int durata = resultSet.getInt("durata");
                 double prezzo = resultSet.getDouble("prezzo");
 
-                return new Servizio(nome, prezzo, durata, tipo, descrizione);
+                return new Servizio(nome, prezzo, tipo, descrizione);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,10 +57,9 @@ public class ServizioDAO {
                 String nome = resultSet.getString("nome");
                 String descrizione = resultSet.getString("descrizione");
                 String tipo = resultSet.getString("tipo");
-                int durata = resultSet.getInt("durata");
                 double prezzo = resultSet.getDouble("prezzo");
 
-                servizi.add(new Servizio(nome, prezzo, durata, tipo, descrizione));
+                servizi.add(new Servizio(nome, prezzo, tipo, descrizione));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,7 +72,6 @@ public class ServizioDAO {
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, servizio.getDescrizione());
             preparedStatement.setString(2, servizio.getTipo());
-            preparedStatement.setInt(3, servizio.getDurata());
             preparedStatement.setDouble(4, servizio.getPrezzo());
             preparedStatement.setString(5, servizio.getNome());
 

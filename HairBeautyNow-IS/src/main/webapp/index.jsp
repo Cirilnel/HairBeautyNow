@@ -29,48 +29,58 @@
 
 <section class="services general">
     <div class="service-card general">
-        <img src="static/images/makeup.png" alt="Make Up">
-        <div class="service-item">
-            <!-- Aggiungi qui l'icona piccola -->
-            <img src="static/images/small-makeup-icon.png" alt="Icona Make Up" class="service-icon">
-            <p>Make Up</p>
-        </div>
+        <a href="<%= request.getContextPath() %>/MakeUpServlet">
+            <img src="static/images/makeup.png" alt="Make Up">
+            <div class="service-item">
+                <!-- Aggiungi qui l'icona piccola -->
+                <img src="static/images/small-makeup-icon.png" alt="Icona Make Up" class="service-icon">
+                <p>Make Up</p>
+            </div>
+        </a>
     </div>
 
     <div class="service-card general">
-        <img src="static/images/hair.png" alt="Hair Styling">
-        <div class="service-item">
-            <!-- Aggiungi qui l'icona piccola -->
-            <img src="static/images/small-hair-icon.png" alt="Icona Hair Styling" class="service-icon">
-            <p>Hair Styling</p>
-        </div>
+        <a href="<%= request.getContextPath() %>/HairStylingServlet">
+            <img src="static/images/hair.png" alt="Hair Styling">
+            <div class="service-item">
+                <!-- Aggiungi qui l'icona piccola -->
+                <img src="static/images/small-hair-icon.png" alt="Icona Hair Styling" class="service-icon">
+                <p>Hair Styling</p>
+            </div>
+        </a>
     </div>
 
     <div class="service-card general">
-        <img src="static/images/nail.png" alt="Nail Care">
-        <div class="service-item">
-            <!-- Aggiungi qui l'icona piccola -->
-            <img src="static/images/small-nail-icon.png" alt="Icona Nail Care" class="service-icon">
-            <p>Nail Care</p>
-        </div>
+        <a href="<%= request.getContextPath() %>/NailCareServlet">
+            <img src="static/images/nail.png" alt="Nail Care">
+            <div class="service-item">
+                <!-- Aggiungi qui l'icona piccola -->
+                <img src="static/images/small-nail-icon.png" alt="Icona Nail Care" class="service-icon">
+                <p>Nail Care</p>
+            </div>
+        </a>
     </div>
 
     <div class="service-card general">
-        <img src="static/images/massage.png" alt="Massaggi">
-        <div class="service-item">
-            <!-- Aggiungi qui l'icona piccola -->
-            <img src="static/images/small-massage-icon.png" alt="Icona Massaggi" class="service-icon">
-            <p>Massaggi</p>
-        </div>
+        <a href="<%= request.getContextPath() %>/MassageServlet">
+            <img src="static/images/massage.png" alt="Massaggi">
+            <div class="service-item">
+                <!-- Aggiungi qui l'icona piccola -->
+                <img src="static/images/small-massage-icon.png" alt="Icona Massaggi" class="service-icon">
+                <p>Massaggi</p>
+            </div>
+        </a>
     </div>
 
     <div class="service-card general">
-        <img src="static/images/spa.png" alt="SPA">
-        <div class="service-item">
-            <!-- Aggiungi qui l'icona piccola -->
-            <img src="static/images/small-spa-icon.png" alt="Icona SPA" class="service-icon">
-            <p>SPA</p>
-        </div>
+        <a href="<%= request.getContextPath() %>/SpaServlet">
+            <img src="static/images/spa.png" alt="SPA">
+            <div class="service-item">
+                <!-- Aggiungi qui l'icona piccola -->
+                <img src="static/images/small-spa-icon.png" alt="Icona SPA" class="service-icon">
+                <p>SPA</p>
+            </div>
+        </a>
     </div>
 
 </section>

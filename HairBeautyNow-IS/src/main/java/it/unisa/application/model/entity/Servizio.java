@@ -4,13 +4,11 @@ public class Servizio {
     private String nome; //PK
     private String descrizione;
     private String tipo;
-    private int durata;
     private double prezzo;
 
-    public Servizio(String nome, double prezzo, int durata, String tipo, String descrizione) {
+    public Servizio(String nome, double prezzo, String tipo, String descrizione) {
         this.nome = nome;
         this.prezzo = prezzo;
-        this.durata = durata;
         this.tipo = tipo;
         this.descrizione = descrizione;
     }
@@ -25,7 +23,6 @@ public class Servizio {
                 "nome='" + nome + '\'' +
                 ", descrizione='" + descrizione + '\'' +
                 ", tipo='" + tipo + '\'' +
-                ", durata=" + durata +
                 ", prezzo=" + prezzo +
                 '}';
     }
@@ -54,13 +51,6 @@ public class Servizio {
         this.tipo = tipo;
     }
 
-    public int getDurata() {
-        return durata;
-    }
-
-    public void setDurata(int durata) {
-        this.durata = durata;
-    }
 
     public double getPrezzo() {
         return prezzo;
