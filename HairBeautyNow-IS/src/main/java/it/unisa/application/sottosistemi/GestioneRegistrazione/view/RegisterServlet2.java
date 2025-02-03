@@ -1,6 +1,5 @@
 package it.unisa.application.sottosistemi.GestioneRegistrazione.view;
 
-
 import it.unisa.application.model.entity.UtenteAcquirente;
 import it.unisa.application.sottosistemi.GestioneRegistrazione.service.UtenteAcquirenteService;
 
@@ -32,11 +31,12 @@ public class RegisterServlet2 extends HttpServlet {
 
         // Se l'utente è stato creato con successo, invia l'utente alla pagina di login
         if (result) {
-            response.sendRedirect("loginPage");  // Puoi indirizzare l'utente alla pagina di login
+            // Redirige alla pagina di login dopo la registrazione
+            response.sendRedirect(request.getContextPath() + "/WEB-INF/jsp/loginPage.jsp");
         } else {
             // Se si è verificato un errore, invia l'utente alla pagina di registrazione con un errore
             request.setAttribute("errorMessage", "Errore nella registrazione. Riprova!");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerPage.jsp");
             dispatcher.forward(request, response);
         }
     }

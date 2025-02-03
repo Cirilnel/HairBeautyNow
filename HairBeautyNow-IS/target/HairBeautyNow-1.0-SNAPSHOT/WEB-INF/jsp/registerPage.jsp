@@ -26,7 +26,7 @@
         <i class="fa fa-arrow-left"></i>
     </a>
 
-    <form class="auth-form">
+    <form class="auth-form" action="<%= request.getContextPath() %>/register" method="post">
         <!-- Nome e Cognome -->
         <label for="nome">Nome</label>
         <input type="text" id="nome" name="nome" placeholder="Inserisci il tuo nome" required>
