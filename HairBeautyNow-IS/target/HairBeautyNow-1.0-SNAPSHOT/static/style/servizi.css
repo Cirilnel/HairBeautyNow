@@ -1,0 +1,134 @@
+/* Generale */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+    text-align: center;
+}
+
+/* Titolo */
+h1 {
+    font-family: 'Imperial Script', cursive;
+    color: #87CEFA;
+    font-size: 90px;
+    margin-top: 10px;
+}
+
+/* Hero Section */
+.hero img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Introduzione */
+.intro h2 {
+    font-family: 'Abhaya Libre', serif;
+    color: #007DFF;
+    font-size: 28px;
+    margin-top: 20px;
+    border-bottom: 2px solid #87CEFA;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Sezioni Servizi */
+.service-type {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* Immagini */
+.service-type .service-image {
+    flex: 0 0 35%; /* Mantiene le immagini più visibili */
+    text-align: center;
+}
+
+.service-type img {
+    width: 280px; /* Leggermente ridotte per migliorare la disposizione */
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Contenitore dei servizi */
+.service-type .services-list {
+    flex: 0 0 55%; /* Più stretto per lasciare spazio all'immagine */
+    text-align: left;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Alternanza delle sezioni */
+.service-type.left {
+    flex-direction: row;
+}
+
+.service-type.right {
+    flex-direction: row-reverse;
+}
+
+/* Titoli dei servizi */
+.service-type h2 {
+    font-size: 24px;
+    color: #007DFF;
+    margin-bottom: 10px;
+}
+
+/* Elementi della lista servizi */
+.service-item {
+    background: #f5f5f5;
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Titolo servizio */
+.service-item h3 {
+    color: #0056b3;
+    font-size: 18px;
+    margin: 0;
+}
+
+/* Prezzo servizio */
+.service-item p {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Messaggio nessun servizio */
+.no-services {
+    font-size: 18px;
+    color: #666;
+    margin-top: 30px;
+}
+
+/* Responsività */
+@media (max-width: 768px) {
+    .service-type {
+        flex-direction: column !important;
+        text-align: center;
+    }
+
+    .service-type .service-image {
+        flex: 1;
+    }
+
+    .service-type img {
+        width: 250px;
+    }
+
+    .service-type .services-list {
+        flex: 1;
+        width: 90%;
+        text-align: center;
+        padding: 15px;
+    }
+}
