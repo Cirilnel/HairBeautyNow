@@ -3,7 +3,7 @@
 <header class="header">
     <script src="static/js/UserMenu.js"></script>
     <link rel="stylesheet" type="text/css" href="static/style/header.css">
-    <script defer src="static/js/UserMenu.js"></script> <!-- Colleghiamo lo script JS -->
+    <script defer src="static/js/UserMenu.js"></script>
 
     <div class="top-bar">
         <!-- Social Icons -->
@@ -25,9 +25,7 @@
             </ul>
         </nav>
 
-        <!-- User Icon -->
-        <!-- User Icon -->
-        <!-- User Icon -->
+
         <div class="user-icons">
             <%
                 UtenteAcquirente user = (UtenteAcquirente) session.getAttribute("user");

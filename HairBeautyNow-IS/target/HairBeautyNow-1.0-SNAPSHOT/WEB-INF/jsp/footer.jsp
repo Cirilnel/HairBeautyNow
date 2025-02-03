@@ -1,4 +1,5 @@
 <footer class="footer">
+    <link rel="stylesheet" type="text/css" href="static/style/footer.css">
     <p>HairBeauty Now</p>
     <div class="social-icons">
         <a href="#"><i class="fab fa-facebook"></i></a>

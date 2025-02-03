@@ -21,64 +21,63 @@
 <body>
 
 <%@ include file="header.jsp" %>
-<h1>Servizi</h1>
-<section class="hero">
-    <img src="static/images/her-image2.png" alt="Parrucchiera con vista panoramica">
-</section>
 
-<section class="intro">
-    <h2>Prezzi e Servizi</h2>
-</section>
+<div class="main-content">
+    <h1>Servizi</h1>
+    <section class="hero">
+        <img src="static/images/her-image2.png" alt="Parrucchiera con vista panoramica">
+    </section>
 
-<!-- Verifica se ci sono servizi per tipo -->
-<%
-    Map<String, List<Servizio>> serviziPerTipo = (Map<String, List<Servizio>>) request.getAttribute("serviziPerTipo");
-    int index = 0; // Aggiungiamo un contatore per alternare la posizione dell'immagine
-    if (serviziPerTipo != null && !serviziPerTipo.isEmpty()) {
-        // Itera sui servizi raggruppati per tipo
-        for (Map.Entry<String, List<Servizio>> entry : serviziPerTipo.entrySet()) {
-            String tipo = entry.getKey();
-            List<Servizio> servizi = entry.getValue();
+    <section class="intro">
+        <h2>Prezzi e Servizi</h2>
+    </section>
 
-            // Alterna la posizione dell'immagine
-            String immagineTipo = "static/images/" + tipo.toLowerCase() + "-image.png"; // Definisci un'immagine per ogni tipo
-            String layoutClass = (index % 2 == 0) ? "left" : "right"; // Alterna tra "left" e "right" in base all'indice
-            index++;
-%>
-<section class="service-type <%= layoutClass %>">
-    <div class="service-image">
-        <img src="<%= immagineTipo %>" alt="<%= tipo %>">
-    </div>
-    <div class="services-list">
-        <h2><%= tipo %></h2> <!-- Tipo di servizio, es. "Make Up", "Hair Styling", ecc. -->
-        <!-- Itera sui singoli servizi di quel tipo -->
+    <div class="service-container">
         <%
-            for (Servizio servizio : servizi) {
-                String nome = servizio.getNome();
-                double prezzo = servizio.getPrezzo();
+            Map<String, List<Servizio>> serviziPerTipo = (Map<String, List<Servizio>>) request.getAttribute("serviziPerTipo");
+            int index = 0; // Alternanza layout
+            if (serviziPerTipo != null && !serviziPerTipo.isEmpty()) {
+                for (Map.Entry<String, List<Servizio>> entry : serviziPerTipo.entrySet()) {
+                    String tipo = entry.getKey();
+                    List<Servizio> servizi = entry.getValue();
+                    String immagineTipo = "static/images/" + tipo.toLowerCase() + "-image.png";
+                    String layoutClass = (index % 2 == 0) ? "left" : "right";
+                    index++;
         %>
-        <div class="service-item">
-            <div class="service-text">
-                <h3><%= nome %></h3> <!-- Nome del servizio -->
-                <p>Prezzo: &euro;<%= prezzo %></p>
-                <!-- Prezzo del servizio -->
+        <section class="service-type <%= layoutClass %>">
+            <div class="service-image">
+                <img src="<%= immagineTipo %>" alt="<%= tipo %>">
             </div>
-        </div>
+            <div class="services-list">
+                <h2><%= tipo %></h2>
+                <%
+                    for (Servizio servizio : servizi) {
+                        String nome = servizio.getNome();
+                        double prezzo = servizio.getPrezzo();
+                %>
+                <div class="service-item">
+                    <h3><%= nome %></h3>
+                    <p>Prezzo: &euro;<%= prezzo %></p>
+                </div>
+                <%
+                    }
+                %>
+            </div>
+        </section>
+        <%
+            }
+        } else {
+        %>
+        <p>Non ci sono servizi disponibili al momento.</p>
         <%
             }
         %>
     </div>
-</section>
-<%
-    }
-} else {
-%>
-<p>Non ci sono servizi disponibili al momento.</p>
-<%
-    }
-%>
+</div>
 
 <%@ include file="footer.jsp" %>
 
 </body>
 </html>
+
+

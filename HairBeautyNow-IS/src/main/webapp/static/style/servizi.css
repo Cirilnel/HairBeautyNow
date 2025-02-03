@@ -1,10 +1,20 @@
 /* Generale */
-body {
-    font-family: Arial, sans-serif;
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
     background: #f9f9f9;
     text-align: center;
+}
+
+/* Contenitore principale per lo sticky footer */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Titolo */
@@ -34,44 +44,53 @@ h1 {
 }
 
 /* Sezioni Servizi */
+.service-container {
+    width: 90%;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Ridotta la distanza tra le sezioni */
+    margin: 20px auto;
+}
+
+/* Singolo blocco servizio */
 .service-type {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1000px;
-    margin: 40px auto;
     padding: 20px;
-}
-
-/* Immagini */
-.service-type .service-image {
-    flex: 0 0 35%; /* Mantiene le immagini più visibili */
-    text-align: center;
-}
-
-.service-type img {
-    width: 280px; /* Leggermente ridotte per migliorare la disposizione */
-    height: auto;
     border-radius: 10px;
-}
-
-/* Contenitore dei servizi */
-.service-type .services-list {
-    flex: 0 0 55%; /* Più stretto per lasciare spazio all'immagine */
-    text-align: left;
-    padding: 15px;
     background: white;
-    border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    gap: 20px;
 }
 
-/* Alternanza delle sezioni */
+/* Alternanza tra immagine a sinistra e a destra */
 .service-type.left {
     flex-direction: row;
 }
 
 .service-type.right {
     flex-direction: row-reverse;
+}
+
+/* Contenitore immagine */
+.service-type .service-image {
+    flex: 0 0 35%;
+    text-align: center;
+}
+
+.service-type img {
+    width: 260px; /* Reso più uniforme */
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Contenitore dei servizi */
+.service-type .services-list {
+    flex: 0 0 55%;
+    text-align: left;
+    padding: 15px;
 }
 
 /* Titoli dei servizi */
@@ -84,10 +103,10 @@ h1 {
 /* Elementi della lista servizi */
 .service-item {
     background: #f5f5f5;
-    padding: 8px;
-    margin-bottom: 8px;
+    padding: 10px;
     border-radius: 6px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px;
 }
 
 /* Titolo servizio */
@@ -103,11 +122,25 @@ h1 {
     color: #333;
 }
 
-/* Messaggio nessun servizio */
+/* Nessun servizio */
 .no-services {
     font-size: 18px;
     color: #666;
     margin-top: 30px;
+}
+
+/* Footer */
+footer {
+    background: #a2d9ff;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+}
+
+footer p {
+    font-family: 'Imperial Script', cursive;
+    color: #007DFF;
+    font-size: 36px;
 }
 
 /* Responsività */
@@ -127,7 +160,7 @@ h1 {
 
     .service-type .services-list {
         flex: 1;
-        width: 90%;
+        width: 100%;
         text-align: center;
         padding: 15px;
     }
