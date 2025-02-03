@@ -9,10 +9,10 @@ public class UtenteAcquirente {
     private String nome;
     private String cognome;
     private String citta;
-    private int prenotazioneID; //FK
+    private Integer prenotazioneID; //FK
     private String nCarta; //FK
 
-    public UtenteAcquirente(String username, String email, String password, String nome, String cognome, String citta, int prenotazioneID, String nCarta) {
+    public UtenteAcquirente(String username, String email, String password, String nome, String cognome, String citta, Integer prenotazioneID, String nCarta) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -35,8 +35,8 @@ public class UtenteAcquirente {
     public void setCognome(String cognome) { this.cognome = cognome; }
     public String getCitta() { return citta; }
     public void setCitta(String citta) { this.citta = citta; }
-    public int getPrenotazioneID() { return prenotazioneID; }
-    public void setPrenotazioneID(int prenotazioneID) { this.prenotazioneID = prenotazioneID; }
+    public Integer getPrenotazioneID() { return prenotazioneID; }
+    public void setPrenotazioneID(Integer prenotazioneID) { this.prenotazioneID = prenotazioneID; }
     public String getNCarta() { return nCarta; }
     public void setNCarta(String nCarta) { this.nCarta = nCarta; }
 
