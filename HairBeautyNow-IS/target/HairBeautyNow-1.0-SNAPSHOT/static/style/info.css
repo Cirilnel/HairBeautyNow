@@ -1,0 +1,151 @@
+/* Stile generale */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Contenitore principale */
+.account-info {
+    margin: 40px auto;
+    width: 80%;
+    position: relative; /* Necessario per posizionare la freccia */
+}
+
+/* Titolo */
+.account-info h1 {
+    font-family: 'Imperial Script', cursive;
+    font-size: 50px;
+    color: #87CEFA;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Icona indietro (abbassata di 100px) */
+.back-arrow {
+    position: absolute;
+    top: 120px; /* Sposta la freccia più in basso */
+    left: 20px;
+    font-size: 25px;
+    color: #87CEFA;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.back-arrow:hover {
+    transform: scale(1.1);
+}
+
+/* Sezione profilo */
+.profile-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    margin: 0 auto;
+    flex-wrap: wrap; /* Permette al layout di adattarsi sui dispositivi piccoli */
+}
+
+/* Icona o immagine del profilo */
+.profile-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #e6e6e6;
+}
+
+/* Immagine profilo (centrata perfettamente) */
+.profile-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Dettagli utente */
+.user-details {
+    text-align: left;
+    font-size: 18px;
+    color: #007DFF;
+    font-weight: bold;
+    line-height: 1.6;
+    max-width: 300px; /* Limita la larghezza per evitare allungamenti su schermi grandi */
+}
+
+.user-details p {
+    margin: 5px 0;
+}
+
+/* Stile password */
+.user-details span {
+    font-family: 'Courier New', monospace;
+    background: #e6e6e6;
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+/* RESPONSIVE DESIGN */
+@media screen and (max-width: 768px) {
+    .profile-section {
+        flex-direction: column; /* Dispone gli elementi in verticale sui dispositivi mobili */
+        width: 90%; /* Maggiore adattabilità */
+        padding: 15px;
+    }
+
+    .profile-icon {
+        width: 120px;
+        height: 120px;
+    }
+
+    .user-details {
+        text-align: center;
+        font-size: 16px;
+        max-width: 100%;
+    }
+
+    .account-info h1 {
+        font-size: 40px;
+    }
+
+    .back-arrow {
+        top: 90px; /* Avvicina la freccia al titolo */
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .account-info h1 {
+        font-size: 35px;
+    }
+
+    .profile-icon {
+        width: 100px;
+        height: 100px;
+    }
+
+    .user-details {
+        font-size: 14px;
+    }
+
+    .back-arrow {
+        top: 80px;
+        left: 15px;
+        font-size: 18px;
+    }
+}

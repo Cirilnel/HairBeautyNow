@@ -7,13 +7,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HairBeauty Now</title>
-    <link rel="stylesheet" href="static/style/login.css">
+    <link rel="stylesheet" href="static/style/info.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@5.5.0/dist/ionicons/ionicons.css">
     <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
 </head>
 <body>
 <%@ include file="header.jsp" %>
+
+<section class="auth-container">
+    <a href="javascript:history.back()" class="back-arrow">
+        <i class="fa fa-arrow-left"></i>
+    </a>
 
 <%
     // Recupera l'oggetto UtenteAcquirente dalla sessione
