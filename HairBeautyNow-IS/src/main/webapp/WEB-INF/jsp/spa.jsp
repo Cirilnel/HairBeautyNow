@@ -11,7 +11,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HairBeauty Now</title>
-  <link rel="stylesheet" href="static/style/spa.css">
+  <link rel="stylesheet" href="static/style/servizioSpecifico.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@5.5.0/dist/ionicons/ionicons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,11 +40,10 @@
         for (Map.Entry<String, List<Servizio>> entry : serviziPerTipo.entrySet()) {
           String tipo = entry.getKey();
           List<Servizio> servizi = entry.getValue();
-          if (tipo.equals("spa")) { // Verifica che il tipo sia "spa"
     %>
     <section class="service-type">
-      <h2><%= tipo %></h2>
       <div class="services-list">
+        <h2><%= tipo %></h2>
         <%
           for (Servizio servizio : servizi) {
             String nome = servizio.getNome();
@@ -55,17 +54,14 @@
             index++;
         %>
         <div class="service-item <%= layoutClass %>">
-          <div class="service-image">
-            <img src="<%= immagineTipo %>" alt="<%= nome %>">
-          </div>
           <div class="service-details">
             <h3><%= nome %></h3>
             <p><%= descrizione %></p>
             <p><strong>Prezzo:</strong> &euro;<%= prezzo %></p>
-            <form action="prenota" method="post">
-              <input type="hidden" name="servizio" value="<%= nome %>">
-              <button type="submit" class="book-button">Prenota ora</button>
-            </form>
+            <button class="book-button">Prenota ora</button>
+          </div>
+          <div class="service-image">
+            <img src="<%= immagineTipo %>" alt="<%= nome %>">
           </div>
         </div>
         <%
@@ -74,15 +70,13 @@
       </div>
     </section>
     <%
-        }
       }
     } else {
     %>
-    <p>Non ci sono servizi di spa disponibili al momento.</p>
+    <p>Non ci sono servizi di hair styling disponibili al momento.</p>
     <%
       }
     %>
-
   </div>
 </div>
 
