@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="it.unisa.application.model.entity.Sede" %>
 <%@ page import="jakarta.servlet.http.HttpSession" %>
+<!DOCTYPE html>
 <html>
 <head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -56,7 +57,7 @@
 <h2 class="sezioni-titolo">Sedi disponibili</h2>
 
 <% if (messaggio != null) { %>
-<p class="messaggio"><%= messaggio %></p>
+<p class="error"><%= messaggio %></p>
 <% } %>
 
 <% if (saloni != null && !saloni.isEmpty()) { %>
@@ -84,7 +85,10 @@
   <% } %>
 </div>
 <% } else { %>
-<p class="no-sedi">Nessuna sede disponibile per la città selezionata.</p>
+<p class="error" style="font-size: 16px; color: #FF0000 !important; background-color: #FFEDED !important; padding: 10px; border: 1px solid #FF0000; border-radius: 5px; max-width: 600px; margin: 20px auto;">
+  Nessuna sede disponibile per la città selezionata.
+</p>
+
 <% } %>
 
 <%@ include file="footer.jsp" %>
