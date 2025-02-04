@@ -12,16 +12,36 @@ public class PrenotazioneDAO {
     private static final String PASSWORD = "root";
 
     public void addPrenotazione(Prenotazione prenotazione) throws SQLException {
-        String query = "INSERT INTO Prenotazione (id, servizioName, professionistaId, data) VALUES (?, ?, ?, ?)";
+        // Stampa di debug per 'servizioName'
+        System.out.println("Debug: ServizioName - " + prenotazione.getServizioName());
+
+        // Verifica se il servizio esiste
+        String checkServizioQuery = "SELECT COUNT(*) FROM servizio WHERE nome = ?";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, prenotazione.getId());
-            stmt.setString(2, prenotazione.getServizioName());
-            stmt.setInt(3, prenotazione.getProfessionistaId());
-            stmt.setDate(4, new java.sql.Date(prenotazione.getData().getTime()));
-            stmt.executeUpdate();
+             PreparedStatement checkStmt = conn.prepareStatement(checkServizioQuery)) {
+
+            checkStmt.setString(1, prenotazione.getServizioName());
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                if (count == 0) {
+                    System.out.println("Debug: Il servizio " + prenotazione.getServizioName() + " non esiste.");
+                    throw new SQLException("Il servizio " + prenotazione.getServizioName() + " non esiste.");
+                }
+            }
+
+            // Inserisci la prenotazione
+            String query = "INSERT INTO Prenotazione (servizioName, professionistaId, data) VALUES (?, ?, ?)";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, prenotazione.getServizioName());
+                stmt.setInt(2, prenotazione.getProfessionistaId());
+                stmt.setDate(3, new java.sql.Date(prenotazione.getData().getTime()));
+
+                stmt.executeUpdate();
+            }
         }
     }
+
 
     public Prenotazione getPrenotazione(int id) throws SQLException {
         String query = "SELECT * FROM Prenotazione WHERE id = ?";

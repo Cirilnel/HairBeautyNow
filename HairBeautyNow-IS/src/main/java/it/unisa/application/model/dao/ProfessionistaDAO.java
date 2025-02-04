@@ -146,4 +146,48 @@ public class ProfessionistaDAO {
         return professionisti;
     }
 
+    public void updateFasciaOraria(FasciaOraria fascia) throws SQLException {
+        String query = "UPDATE fascia_oraria SET disponibile = ? WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setBoolean(1, fascia.isDisponibile());
+            stmt.setInt(2, fascia.getId());
+            stmt.executeUpdate();
+        }
+    }
+    public FasciaOraria getFasciaOraria(int professionistaId, String giorno, String fasciaOraria) throws SQLException {
+        String query = "SELECT id, professionista_id, giorno, fascia, disponibile FROM fascia_oraria " +
+                "WHERE professionista_id = ? AND giorno = ? AND fascia = ?";
+
+        FasciaOraria fascia = null;
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, professionistaId);
+            statement.setDate(2, Date.valueOf(giorno)); // Converti la stringa giorno in un oggetto Date
+            statement.setString(3, fasciaOraria);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                // Recupera i dati dal resultSet
+                int id = resultSet.getInt("id");
+                LocalDate giornoFascia = resultSet.getDate("giorno").toLocalDate(); // Assicurati della conversione
+                String fasciat = resultSet.getString("fascia");
+                boolean disponibile = resultSet.getBoolean("disponibile");
+
+                // Crea un oggetto FasciaOraria
+                fascia = new FasciaOraria(id, professionistaId, giornoFascia, fasciat, disponibile);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Errore durante il recupero della fascia oraria", e);
+        }
+
+        return fascia;  // Restituisce null se non trovata
+    }
+
+
 }
