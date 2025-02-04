@@ -22,8 +22,9 @@ h1 {
     object-fit: cover;
 }
 
-/* Introduzione */
+
 .intro h2 {
+    font-family: 'Imperial Script', cursive;
     font-size: 28px;
     color: #007DFF;
     margin-top: 20px;
@@ -98,6 +99,9 @@ h1 {
     flex: 1 1 50%; /* Ora occupa il 50% dello spazio */
     text-align: left;
     padding: 15px;
+}
+.services-list h2{
+    font-family: 'Imperial Script', cursive;
 }
 
 /* Titoli Servizi */
@@ -188,6 +192,7 @@ footer p {
 
     .intro h2 {
         font-size: 24px;
+
     }
 
     footer p {

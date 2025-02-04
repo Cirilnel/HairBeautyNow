@@ -44,7 +44,7 @@
         %>
         <section class="service-type">
             <div class="services-list">
-                <h2><%= tipo %></h2>
+                <h1><%= tipo %></h1>
                 <%
                     for (Servizio servizio : servizi) {
                         String nome = servizio.getNome();
