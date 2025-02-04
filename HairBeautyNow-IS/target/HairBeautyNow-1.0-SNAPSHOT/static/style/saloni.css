@@ -21,7 +21,6 @@ h2 {
 }
 
 h2.sezioni-titolo {
-    font-family: 'Imperial Script', cursive;
     font-size: 50px;
     color: #87CEFA;
     margin: 20px 0;
@@ -122,16 +121,17 @@ button:hover {
         text-align: center;
     }
 }
-p.error {
+body p.error {
     font-size: 16px;
-    color: #FF0000;
-    background-color: #FFEDED;
+    color: #FF0000 !important;
+    background-color: #FFEDED !important;
     padding: 10px;
     border: 1px solid #FF0000;
     border-radius: 5px;
     max-width: 600px;
     margin: 20px auto;
 }
+
 
 h1.prenotazione-titolo {
     font-family: 'Imperial Script', cursive;
@@ -149,17 +149,7 @@ h2.sezioni-titolo {
     letter-spacing: 1px;
 }
 
-/* Stile per il messaggio "Nessuna sede disponibile" */
-.no-sedi {
-    font-size: 18px;
-    color: #FF6347;
-    background-color: #FFE4E1;
-    padding: 15px 20px;
-    border-radius: 8px;
-    max-width: 600px;
-    margin: 20px auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+
 
 /* Stile per il form "Città selezionata" */
 .form-container {

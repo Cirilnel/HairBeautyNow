@@ -2,8 +2,14 @@
 <%@ page import="java.util.List" %>
 <%@ page import="it.unisa.application.model.entity.Sede" %>
 <%@ page import="jakarta.servlet.http.HttpSession" %>
+<!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@5.5.0/dist/ionicons/ionicons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/style/saloni.css">
   <title>Prenotazione</title>
   <script>
@@ -51,7 +57,7 @@
 <h2 class="sezioni-titolo">Sedi disponibili</h2>
 
 <% if (messaggio != null) { %>
-<p class="messaggio"><%= messaggio %></p>
+<p class="error"><%= messaggio %></p>
 <% } %>
 
 <% if (saloni != null && !saloni.isEmpty()) { %>
@@ -79,7 +85,10 @@
   <% } %>
 </div>
 <% } else { %>
-<p class="no-sedi">Nessuna sede disponibile per la città selezionata.</p>
+<p class="error" style="font-size: 16px; color: #FF0000 !important; background-color: #FFEDED !important; padding: 10px; border: 1px solid #FF0000; border-radius: 5px; max-width: 600px; margin: 20px auto;">
+  Nessuna sede disponibile per la città selezionata.
+</p>
+
 <% } %>
 
 <%@ include file="footer.jsp" %>
