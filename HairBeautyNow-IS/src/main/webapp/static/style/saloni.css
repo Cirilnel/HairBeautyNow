@@ -149,17 +149,7 @@ h2.sezioni-titolo {
     letter-spacing: 1px;
 }
 
-/* Stile per il messaggio "Nessuna sede disponibile" */
-.no-sedi {
-    font-size: 18px;
-    color: #FF6347;
-    background-color: #FFE4E1;
-    padding: 15px 20px;
-    border-radius: 8px;
-    max-width: 600px;
-    margin: 20px auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+
 
 /* Stile per il form "Città selezionata" */
 .form-container {
