@@ -10,14 +10,20 @@
 
 <html>
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@5.5.0/dist/ionicons/ionicons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
     <title>Prenotazione</title>
+    <link rel="stylesheet" href="static/style/professionisti.css">
 </head>
 <body>
 <%@ include file="header.jsp" %>
 <script src="static/js/prenotazioni.js"></script>
 
 <h1>Prenotazione Professionista</h1>
-
+<div class="prenotazione-container">
 <%
     List<Professionista> professionisti = (List<Professionista>) request.getAttribute("professionisti");
     if (professionisti == null || professionisti.isEmpty()) {
@@ -92,6 +98,8 @@
     fasceOrarieByDay["<%= giorno %>"] = [<%= fasceStr %>];
     <% } %>
 </script>
+
+</div>
 
 <%@ include file="footer.jsp" %>
 </body>
