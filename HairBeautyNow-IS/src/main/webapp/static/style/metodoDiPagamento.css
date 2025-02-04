@@ -1,0 +1,167 @@
+
+h1#titolo-prenotazione {
+    font-family: 'Imperial Script', cursive;
+    font-size: 3rem;
+    color: #333;
+    margin: 20px 0;
+}
+
+div#prenotazione-container {
+    max-width: 700px;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+}
+
+ul#lista-professionisti {
+    list-style-type: none;
+    padding: 0;
+}
+
+li.professionista-item {
+    background-color: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    text-align: left;
+}
+
+strong.professionista-nome {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+img.professionista-foto {
+    display: block;
+    margin: 10px auto;
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+}
+
+form.prenotazione-form {
+    margin-top: 10px;
+}
+
+label.label-prenotazione {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+select#data-prenotazione, select#orario-prenotazione, input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+p#error-message {
+    font-size: 16px;
+    color: #FF0000 !important;
+    background-color: #FFEDED !important;
+    padding: 10px;
+    border: 1px solid #FF0000;
+    border-radius: 5px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+@media (max-width: 768px) {
+    h1#titolo-prenotazione {
+        font-size: 2.5rem;
+    }
+    div#prenotazione-container {
+        max-width: 90%;
+    }
+    select#data-prenotazione, select#orario-prenotazione, input[type="submit"] {
+        font-size: 0.9rem;
+    }
+}
+
+body {
+    font-family: 'Abhaya Libre', serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+h1#titolo-pagamento {
+    font-family: 'Imperial Script', cursive;
+    font-size: 3rem;
+    color: #333;
+    margin: 20px 0;
+}
+
+.metodo-pagamento-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+}
+
+label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+select, input[type="text"], input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    h1#titolo-pagamento {
+        font-size: 2.5rem;
+    }
+    .metodo-pagamento-container {
+        max-width: 90%;
+    }
+    select, input[type="text"], input[type="submit"] {
+        font-size: 0.9rem;
+    }
+}
