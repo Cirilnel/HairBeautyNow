@@ -59,8 +59,10 @@
                         <h3><%= nome %></h3>
                         <p><%= descrizione %></p>
                         <p><strong>Prezzo:</strong> &euro;<%= prezzo %></p>
-                        <button class="book-button">Prenota ora</button>
-                    </div>
+                        <form action="prenota" method="post">
+                            <input type="hidden" name="servizio" value="<%= nome %>">
+                            <button type="submit" class="book-button">Prenota ora</button>
+                        </form>                    </div>
                     <div class="service-image">
                         <img src="<%= immagineTipo %>" alt="<%= nome %>">
                     </div>

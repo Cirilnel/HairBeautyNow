@@ -21,9 +21,11 @@
   // Recupera i dati dalla servlet
   HttpSession sessione = request.getSession();
   String servizioPrenotato = (String) sessione.getAttribute("servizioPrenotato"); // Servizio prenotato
-  String cittaUtente = (String) sessione.getAttribute("cittaUtente"); // Città selezionata
+  String cittaUtente = (user != null) ? user.getCitta() : "Seleziona una città"; // Città dell'utente
   List<String> cittaDisponibili = (List<String>) request.getAttribute("cittaDisponibili"); // Liste delle città disponibili
   List<Sede> saloni = (List<Sede>) request.getAttribute("saloni"); // Lista delle sedi
+  String messaggio = (String) request.getAttribute("messaggio"); // Messaggio da visualizzare
+  String cittaSelezionata = (String) request.getAttribute("cittaSelezionata"); // Città selezionata
 
   if (cittaDisponibili == null) {
     cittaDisponibili = List.of("Roma", "Milano", "Napoli"); // Fallback in caso di null
@@ -33,11 +35,11 @@
 <form id="selezioneCitta" action="prenota" method="post">
   <!-- Label per la selezione della città con l'attributo for che corrisponde all'id del select -->
   <label for="citta">Città selezionata: </label>
-  <strong><%= cittaUtente != null ? cittaUtente : "Seleziona una città" %></strong>
+  <strong><%= cittaSelezionata != null ? cittaSelezionata : cittaUtente %></strong>
 
   <select id="citta" name="citta" onchange="aggiornaSedi()">
     <% for (String citta : cittaDisponibili) { %>
-    <option value="<%= citta %>" <%= citta.equals(cittaUtente) ? "selected" : "" %>><%= citta %></option>
+    <option value="<%= citta %>" <%= citta.equals(cittaSelezionata) ? "selected" : "" %>><%= citta %></option>
     <% } %>
   </select>
 
@@ -49,15 +51,36 @@
 </form>
 
 <h2>Sedi disponibili</h2>
+
+<% if (messaggio != null) { %>
+<p><%= messaggio %></p>
+<% } %>
+
 <% if (saloni != null && !saloni.isEmpty()) { %>
 <ul>
   <% for (Sede salone : saloni) { %>
-  <li><strong><%= salone.getNome() %></strong> - <%= salone.getIndirizzo() %> (<%= salone.getCittà() %>)</li>
+  <li>
+    <strong><%= salone.getNome() %></strong> - <%= salone.getIndirizzo() %> (<%= salone.getCittà() %>)
+
+    <!-- Orari specifici per ciascun salone -->
+    <ul>
+      <li><strong>Orario di apertura:</strong> 8:00</li>
+      <li><strong>Orario di chiusura:</strong> 18:00</li>
+      <li><strong>Pausa:</strong> 12:00 - 14:00</li>
+    </ul>
+
+    <!-- Immagine del salone con nome dell'indirizzo -->
+    <%
+      String immagineTipo = "static/images/" + salone.getIndirizzo().toLowerCase().replaceAll("\\s+", "") + ".png";
+    %>
+    <img src="<%= immagineTipo %>" alt="Foto salone di <%= salone.getIndirizzo() %>" width="300" />
+  </li>
   <% } %>
 </ul>
 <% } else { %>
 <p>Nessuna sede disponibile per la città selezionata.</p>
 <% } %>
+
 
 <%@ include file="footer.jsp" %>
 </body>
