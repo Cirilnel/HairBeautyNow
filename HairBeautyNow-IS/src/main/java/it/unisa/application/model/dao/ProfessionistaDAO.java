@@ -1,102 +1,149 @@
 package it.unisa.application.model.dao;
-
+import it.unisa.application.model.entity.FasciaOraria;
 import it.unisa.application.model.entity.Professionista;
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProfessionistaDAO {
+
     private static final String URL = "jdbc:mysql://localhost:3306/HairBeautyNow";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
-    public void addProfessionista(Professionista professionista) throws SQLException {
-        String query = "INSERT INTO Professionista (id, nome) VALUES (?, ?)";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, professionista.getId());
-            stmt.setString(2, professionista.getNome());
-            stmt.executeUpdate();
-        }
-        saveFasciaOraria(professionista.getId(), professionista.getFasciaOraria());
+    // Connessione al database
+    private Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    public Professionista getProfessionista(int id) throws SQLException {
-        String query = "SELECT * FROM Professionista WHERE id = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new Professionista(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        loadFasciaOraria(id)
-                );
+    // Metodo per inserire un nuovo professionista
+    public void insertProfessionista(Professionista professionista) {
+        String query = "INSERT INTO professionista (id, nome, sedeId) VALUES (?, ?, ?)";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, professionista.getId());
+            statement.setString(2, professionista.getNome());
+            statement.setInt(3, professionista.getSedeId());
+
+            statement.executeUpdate();
+
+            // Inserisci le fasce orarie associate
+            for (FasciaOraria fascia : professionista.getFasceOrarie()) {
+                insertFasciaOraria(professionista.getId(), fascia, connection);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null;
     }
 
-    public void updateProfessionista(Professionista professionista) throws SQLException {
-        String query = "UPDATE Professionista SET nome = ? WHERE id = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, professionista.getNome());
-            stmt.setInt(2, professionista.getId());
-            stmt.executeUpdate();
+    // Metodo per inserire una fascia oraria
+    private void insertFasciaOraria(int professionistaId, FasciaOraria fascia, Connection connection) throws SQLException {
+        String query = "INSERT INTO fascia_oraria (professionista_id, giorno, fascia, disponibile) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, professionistaId);
+            statement.setDate(2, Date.valueOf(fascia.getGiorno())); // Usa Date.valueOf per la conversione
+            statement.setString(3, fascia.getFascia());
+            statement.setBoolean(4, fascia.isDisponibile());
+
+            statement.executeUpdate();
         }
-        saveFasciaOraria(professionista.getId(), professionista.getFasciaOraria());
     }
 
-    public void deleteProfessionista(int id) throws SQLException {
-        String query = "DELETE FROM Professionista WHERE id = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        }
-        deleteFasciaOraria(id);
-    }
 
-    private void saveFasciaOraria(int professionistaId, Map<String, Boolean> fasciaOraria) throws SQLException {
-        String deleteQuery = "DELETE FROM FasciaOraria WHERE professionistaId = ?";
-        String insertQuery = "INSERT INTO FasciaOraria (professionistaId, orario, disponibile) VALUES (?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement deleteStmt = conn.prepareStatement(deleteQuery);
-             PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
-            deleteStmt.setInt(1, professionistaId);
-            deleteStmt.executeUpdate();
+    // Metodo per ottenere un professionista per ID
+    public Professionista getProfessionistaById(int id) {
+        String query = "SELECT p.id, p.nome, p.sedeId, f.id as fasciaId, f.giorno, f.fascia, f.disponibile " +
+                "FROM professionista p " +
+                "JOIN fascia_oraria f ON p.id = f.professionista_id " +
+                "WHERE p.id = ?";
 
-            for (Map.Entry<String, Boolean> entry : fasciaOraria.entrySet()) {
-                insertStmt.setInt(1, professionistaId);
-                insertStmt.setString(2, entry.getKey());
-                insertStmt.setBoolean(3, entry.getValue());
-                insertStmt.executeUpdate();
+        Professionista professionista = null;
+        Map<Integer, Professionista> professionistiMap = new HashMap<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int professionistaId = resultSet.getInt("id");
+                String nome = resultSet.getString("nome");
+                int sedeId = resultSet.getInt("sedeId");
+                int fasciaId = resultSet.getInt("fasciaId");
+                LocalDate giorno = resultSet.getDate("giorno").toLocalDate(); // Convertito a LocalDate
+                String fascia = resultSet.getString("fascia");
+                boolean disponibile = resultSet.getBoolean("disponibile");
+
+                // Crea un oggetto FasciaOraria per ogni fascia, passando tutti i parametri
+                FasciaOraria fasciaOraria = new FasciaOraria(fasciaId, professionistaId, giorno, fascia, disponibile);
+
+                // Se il professionista non è ancora presente nella mappa, lo aggiungiamo
+                if (!professionistiMap.containsKey(professionistaId)) {
+                    professionista = new Professionista(professionistaId, nome, sedeId, new ArrayList<>());
+                    professionistiMap.put(professionistaId, professionista);
+                }
+
+                // Aggiungiamo la fascia oraria alla lista delle fasce orarie del professionista
+                professionistiMap.get(professionistaId).getFasceOrarie().add(fasciaOraria);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        return professionista;
     }
 
-    private Map<String, Boolean> loadFasciaOraria(int professionistaId) throws SQLException {
-        Map<String, Boolean> fasciaOraria = new HashMap<>();
-        String query = "SELECT orario, disponibile FROM FasciaOraria WHERE professionistaId = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, professionistaId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                fasciaOraria.put(rs.getString("orario"), rs.getBoolean("disponibile"));
+
+
+    // Metodo per ottenere tutti i professionisti di una sede
+    public List<Professionista> getProfessionistiBySede(int sedeId) {
+        String query = "SELECT p.id, p.nome, f.id as fasciaId, f.giorno, f.fascia, f.disponibile " +
+                "FROM professionista p " +
+                "JOIN fascia_oraria f ON p.id = f.professionista_id " +
+                "WHERE p.sedeId = ?";
+
+        List<Professionista> professionisti = new ArrayList<>();
+        Map<Integer, Professionista> professionistiMap = new HashMap<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, sedeId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int professionistaId = resultSet.getInt("id");
+                String nome = resultSet.getString("nome");
+                LocalDate giorno = resultSet.getDate("giorno").toLocalDate();
+                String fascia = resultSet.getString("fascia");
+                boolean disponibile = resultSet.getBoolean("disponibile");
+                int fasciaId = resultSet.getInt("fasciaId");
+
+                // Crea un oggetto FasciaOraria per ogni fascia, passando tutti i parametri
+                FasciaOraria fasciaOraria = new FasciaOraria(fasciaId, professionistaId, giorno, fascia, disponibile);
+
+                // Se il professionista non è ancora presente nella mappa, lo aggiungiamo
+                if (!professionistiMap.containsKey(professionistaId)) {
+                    Professionista professionista = new Professionista(professionistaId, nome, sedeId, new ArrayList<>());
+                    professionistiMap.put(professionistaId, professionista);
+                }
+
+                // Aggiungiamo la fascia oraria alla lista delle fasce orarie del professionista
+                professionistiMap.get(professionistaId).getFasceOrarie().add(fasciaOraria);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return fasciaOraria;
+
+        professionisti.addAll(professionistiMap.values());
+        return professionisti;
     }
 
-    private void deleteFasciaOraria(int professionistaId) throws SQLException {
-        String query = "DELETE FROM FasciaOraria WHERE professionistaId = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, professionistaId);
-            stmt.executeUpdate();
-        }
-    }
 }

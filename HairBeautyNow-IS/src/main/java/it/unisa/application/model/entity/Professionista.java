@@ -1,18 +1,19 @@
 package it.unisa.application.model.entity;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.util.List;
 
 public class Professionista {
-    private int id; //PK
+    private int id; // PK
     private String nome;
-    private Map<String, Boolean> fasciaOraria;
+    private int sedeId; // FK -> Sede
+    private List<FasciaOraria> fasceOrarie; // Lista di fasce orarie
 
     // Costruttore
-    public Professionista(int id, String nome, Map<String, Boolean> fasciaOraria) {
+    public Professionista(int id, String nome, int sedeId, List<FasciaOraria> fasceOrarie) {
         this.id = id;
         this.nome = nome;
-        this.fasciaOraria = fasciaOraria != null ? fasciaOraria : new HashMap<>();
+        this.sedeId = sedeId;
+        this.fasceOrarie = fasceOrarie;
     }
 
     // Getter e Setter
@@ -32,21 +33,29 @@ public class Professionista {
         this.nome = nome;
     }
 
-    public Map<String, Boolean> getFasciaOraria() {
-        return fasciaOraria;
+    public int getSedeId() {
+        return sedeId;
     }
 
-    public void setFasciaOraria(Map<String, Boolean> fasciaOraria) {
-        this.fasciaOraria = fasciaOraria;
+    public void setSedeId(int sedeId) {
+        this.sedeId = sedeId;
     }
 
-    // toString
+    public List<FasciaOraria> getFasceOrarie() {
+        return fasceOrarie;
+    }
+
+    public void setFasceOrarie(List<FasciaOraria> fasceOrarie) {
+        this.fasceOrarie = fasceOrarie;
+    }
+
     @Override
     public String toString() {
         return "Professionista{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
-                ", fasciaOraria=" + fasciaOraria +
+                ", sedeId=" + sedeId +
+                ", fasceOrarie=" + fasceOrarie +
                 '}';
     }
 }
