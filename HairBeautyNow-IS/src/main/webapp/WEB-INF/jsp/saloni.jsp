@@ -74,12 +74,19 @@
       String immagineTipo = "static/images/" + salone.getIndirizzo().toLowerCase().replaceAll("\\s+", "") + ".png";
     %>
     <img src="<%= immagineTipo %>" alt="Foto salone di <%= salone.getIndirizzo() %>" width="300" />
+
+    <!-- Bottone "Seleziona Salone" -->
+    <form action="saloneSelezionato" method="post">
+      <input type="hidden" name="saloneId" value="<%= salone.getId() %>"/>
+      <button type="submit">Seleziona Salone</button>
+    </form>
   </li>
   <% } %>
 </ul>
 <% } else { %>
 <p>Nessuna sede disponibile per la città selezionata.</p>
 <% } %>
+
 
 
 <%@ include file="footer.jsp" %>
