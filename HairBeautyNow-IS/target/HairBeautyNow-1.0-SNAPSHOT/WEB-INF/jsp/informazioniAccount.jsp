@@ -14,6 +14,7 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
+<script src="static/js/UserMenu.js"></script>
 
 <section class="auth-container">
     <a href="javascript:history.back()" class="back-arrow">

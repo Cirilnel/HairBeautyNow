@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
 </head>
 <body>
-
+<script src="static/js/UserMenu.js"></script>
 <%@ include file="header.jsp" %>
 
 <div class="main-content">

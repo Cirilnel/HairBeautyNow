@@ -17,6 +17,7 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
+<script src="static/js/UserMenu.js"></script>
 
 <h1>Registrazione</h1>
 

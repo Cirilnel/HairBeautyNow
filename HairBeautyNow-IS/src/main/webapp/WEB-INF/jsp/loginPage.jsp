@@ -17,6 +17,7 @@
 </head>
 <body class="login">
 <%@ include file="header.jsp" %>
+<script src="static/js/UserMenu.js"></script>
 
 <h1>Autenticazione</h1>
 

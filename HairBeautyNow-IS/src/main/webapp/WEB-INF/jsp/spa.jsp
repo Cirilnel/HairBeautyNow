@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
 </head>
 <body>
-
+<script src="static/js/UserMenu.js"></script>
 <%@ include file="header.jsp" %>
 
 <div class="main-content">
@@ -62,7 +62,10 @@
             <h3><%= nome %></h3>
             <p><%= descrizione %></p>
             <p><strong>Prezzo:</strong> &euro;<%= prezzo %></p>
-            <button class="book-button">Prenota ora</button>
+            <form action="prenota" method="post">
+              <input type="hidden" name="servizio" value="<%= nome %>">
+              <button type="submit" class="book-button">Prenota ora</button>
+            </form>
           </div>
         </div>
         <%
