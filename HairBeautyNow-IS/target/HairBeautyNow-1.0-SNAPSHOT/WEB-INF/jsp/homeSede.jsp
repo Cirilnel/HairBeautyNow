@@ -20,7 +20,7 @@
 </section>
 
 <section class="intro general">
-  <h2>Gestione Sede</h2>
+  <h1>Gestione Sede</h1>
 </section>
 
 <section class="services general">
