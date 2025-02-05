@@ -1,4 +1,14 @@
-/* Stile Generale */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@600&display=swap');
+
+h2.sezioni-titolo {
+    font-size: 50px;
+    color: #87CEFA;
+    margin: 20px 0;
+    font-family: 'Playfair Display', serif; /* Elegante e raffinato */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
 body {
     font-family: 'Abhaya Libre', serif;
     background-color: #f9f9f9;
@@ -24,6 +34,9 @@ h2.sezioni-titolo {
     font-size: 50px;
     color: #87CEFA;
     margin: 20px 0;
+    font-family: 'Playfair Display', serif; /* Elegante e raffinato */
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 /* Contenitore principale */
