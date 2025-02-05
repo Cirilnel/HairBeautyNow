@@ -20,7 +20,8 @@
 </section>
 
 <section class="intro general">
-    <h2>L'eleganza deriva dall'essere belli dentro come fuori</h2>
+    <h1>L'eleganza deriva dall'essere belli dentro come fuori</h1>
+    
 </section>
 
 <section class="services general">
