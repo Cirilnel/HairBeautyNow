@@ -20,7 +20,7 @@
                 <li>
                     <img src="static/images/logo.png" alt="Icona">
                 </li>
-                <li><a href="#" class="interactive-link">Promozioni</a></li>
+                <li><a href="<%= request.getContextPath() %>/promozioni" class="interactive-link">Promozioni</a></li>
                 <li><a href="<%= request.getContextPath() %>/storicoOrdini" class="interactive-link">Storico Ordini</a></li>
             </ul>
         </nav>
