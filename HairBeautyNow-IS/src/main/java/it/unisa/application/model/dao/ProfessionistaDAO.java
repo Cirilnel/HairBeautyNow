@@ -251,4 +251,21 @@ public class ProfessionistaDAO {
         }
         return false; // Se non ci sono prenotazioni
     }
+    public void insertProfessionista(Professionista professionista) {
+        String query = "INSERT INTO professionista (nome, sedeId) VALUES (?, ?)";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, professionista.getNome());
+            statement.setInt(2, professionista.getSedeId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

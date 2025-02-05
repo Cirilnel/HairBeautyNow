@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="it.unisa.application.model.entity.Sede" %>
+<%@ page import="it.unisa.application.model.entity.UtenteAcquirente" %> <!-- Importa la classe UtenteAcquirente -->
 <%@ page import="jakarta.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <html>
@@ -27,7 +28,11 @@
 <%
   HttpSession sessione = request.getSession();
   String servizioPrenotato = (String) sessione.getAttribute("servizioPrenotato");
-  String cittaUtente = (user != null) ? user.getCitta() : "Seleziona una città";
+
+  // Creiamo una variabile UtenteAcquirente per ottenere la città
+  UtenteAcquirente utenteAcquirente = (UtenteAcquirente) sessione.getAttribute("user");
+  String cittaUtente = (utenteAcquirente != null) ? utenteAcquirente.getCitta() : "Seleziona una città";
+
   List<String> cittaDisponibili = (List<String>) request.getAttribute("cittaDisponibili");
   List<Sede> saloni = (List<Sede>) request.getAttribute("saloni");
   String messaggio = (String) request.getAttribute("messaggio");
