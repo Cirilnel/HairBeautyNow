@@ -38,7 +38,9 @@
 
       <!-- Se c'è un messaggio di errore, mostralo -->
       <c:if test="${not empty errorMessage}">
-        <div class="error-message">${errorMessage}</div>
+        <div class="error-message" style="display: block;">
+            ${errorMessage}
+        </div>
       </c:if>
 
       <p class="register-prompt">Non sei ancora registrato?
