@@ -32,15 +32,18 @@ public class AssumiProfessionistaServlet extends HttpServlet {
         // Recuperiamo il nome del professionista dal form
         String nomeProfessionista = request.getParameter("nome");
 
-        // Recuperiamo l'ID della sede dalla sessione
+        // Recuperiamo l'oggetto Sede dalla sessione
         HttpSession session = request.getSession();
-        Integer sedeId = (Integer) session.getAttribute("sedeId");
+        Sede sede = (Sede) session.getAttribute("sede");
 
-        // Se l'ID della sede non è trovato nella sessione, gestisci l'errore
-        if (sedeId == null) {
+        // Se l'oggetto sede non è trovato nella sessione, gestisci l'errore
+        if (sede == null) {
             response.sendRedirect("erroreSede");  // Aggiungi una pagina di errore
             return;
         }
+
+        // Recuperiamo l'ID della sede dall'oggetto Sede
+        Integer sedeId = sede.getId();
 
         // Verifica che il nome del professionista non sia vuoto
         if (nomeProfessionista == null || nomeProfessionista.trim().isEmpty()) {
@@ -59,5 +62,6 @@ public class AssumiProfessionistaServlet extends HttpServlet {
         // Reindirizziamo alla pagina di successo o a una pagina che conferma l'assunzione
         response.sendRedirect(request.getContextPath() + "/successo");
     }
+
 }
 

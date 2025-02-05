@@ -1,3 +1,6 @@
+<%@ page import="it.unisa.application.model.entity.UtenteGestoreCatena" %>
+<%@ page import="it.unisa.application.model.entity.UtenteGestoreSede" %>
+<%@ page import="it.unisa.application.model.entity.UtenteAcquirente" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -23,43 +26,72 @@
     <h1 class="account-title">Informazioni sull'account</h1>
 </div>
 
-
-
 <%
-    // Recupera l'oggetto UtenteAcquirente dalla sessione
-    user = (UtenteAcquirente) session.getAttribute("user");
+    // Recupera l'oggetto Utente dalla sessione
+    Object loggedUser = request.getAttribute("user");
 
-    // Verifica se l'utente è loggato, altrimenti ridirigi alla pagina di login
-    if (user == null) {
-        response.sendRedirect("loginPage.jsp");
-        return;
-    }
-
-    // Ottieni la password e crea una stringa di asterischi
-    String password = user.getPassword(); // Assumendo che il metodo getPassword() restituisca la password
-    String maskedPassword = "*".repeat(password.length()); // Crea una stringa di asterischi lunga quanto la password
+    // Se l'utente è loggato, mostriamo le informazioni in base al tipo
+    if (loggedUser != null) {
+        if (loggedUser instanceof UtenteAcquirente) {
+            UtenteAcquirente acquirente = (UtenteAcquirente) loggedUser;
+            String password = acquirente.getPassword();
+            String maskedPassword = "*".repeat(password.length()); // Crea la stringa di asterischi per la password
 %>
-
 <div class="account-info">
-
     <div class="profile-section">
-        <!-- Icona profilo -->
         <div class="profile-icon">
             <i class="fas fa-user-circle" style="font-size: 100px; color: #007DFF;"></i>
         </div>
-
-        <!-- Dettagli utente -->
         <div class="user-details">
-            <p><strong>Nome e Cognome:</strong> <%= user.getNome() + " " + user.getCognome() %></p>
-            <p><strong>Username:</strong> <%= user.getUsername() %></p>
-            <p><strong>Città:</strong> <%= user.getCitta() %></p>
-            <p><strong>Email:</strong> <%= user.getEmail() %></p>
-            <p><strong>Password:</strong> <span><%= maskedPassword %></span></p> <!-- La password è nascosta, ma mantiene la lunghezza -->
+            <p><strong>Nome e Cognome:</strong> <%= acquirente.getNome() + " " + acquirente.getCognome() %></p>
+            <p><strong>Username:</strong> <%= acquirente.getUsername() %></p>
+            <p><strong>Città:</strong> <%= acquirente.getCitta() %></p>
+            <p><strong>Email:</strong> <%= acquirente.getEmail() %></p>
+            <p><strong>Password:</strong> <span><%= maskedPassword %></span></p>
         </div>
     </div>
-
 </div>
+<%
+} else if (loggedUser instanceof UtenteGestoreCatena) {
+    UtenteGestoreCatena gestoreCatena = (UtenteGestoreCatena) loggedUser;
+%>
+<div class="account-info">
+    <div class="profile-section">
+        <div class="profile-icon">
+            <i class="fas fa-user-circle" style="font-size: 100px; color: #007DFF;"></i>
+        </div>
+        <div class="user-details">
+            <p><strong>Username:</strong> <%= gestoreCatena.getUsername() %></p>
+            <p><strong>Sedi Gestite:</strong> <%= gestoreCatena.getN_SediGestite() %></p>
+            <p><strong>ID Sede:</strong> <%= gestoreCatena.getSedeID() %></p>
+            <p><strong>Gestore:</strong> <%= gestoreCatena.getUsernameUGS() %></p>
+        </div>
+    </div>
+</div>
+<%
+} else if (loggedUser instanceof UtenteGestoreSede) {
+    UtenteGestoreSede gestoreSede = (UtenteGestoreSede) loggedUser;
+%>
+<div class="account-info">
+    <div class="profile-section">
+        <div class="profile-icon">
+            <i class="fas fa-user-circle" style="font-size: 100px; color: #007DFF;"></i>
+        </div>
+        <div class="user-details">
+            <p><strong>Username:</strong> <%= gestoreSede.getUsernameUGS() %></p>
+            <p><strong>ID Sede:</strong> <%= gestoreSede.getSedeID() %></p>
+        </div>
+    </div>
+</div>
+<%
+} else {
+%>
+<p>Tipo di utente non riconosciuto.</p>
+<%
+        }
 
-<%@ include file="footer.jsp" %>
+    }
+%>
+
 </body>
 </html>
