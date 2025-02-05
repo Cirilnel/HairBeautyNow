@@ -16,10 +16,14 @@
 <%@ include file="header.jsp" %>
 <script src="static/js/UserMenu.js"></script>
 
-<section class="auth-container">
+<div class="auth-container">
     <a href="javascript:history.back()" class="back-arrow">
         <i class="fa fa-arrow-left"></i>
     </a>
+    <h1 class="account-title">Informazioni sull'account</h1>
+</div>
+
+
 
 <%
     // Recupera l'oggetto UtenteAcquirente dalla sessione
@@ -37,7 +41,6 @@
 %>
 
 <div class="account-info">
-    <h1>Informazioni sull'account</h1>
 
     <div class="profile-section">
         <!-- Icona profilo -->
