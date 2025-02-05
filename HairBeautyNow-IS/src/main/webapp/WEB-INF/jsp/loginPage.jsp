@@ -26,26 +26,28 @@
     <i class="fa fa-arrow-left"></i>
   </a>
 
-<section class="auth-container">
-  <form action="<%= request.getContextPath() %>/login" method="post" class="auth-form">
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" placeholder="Value" required>
+  <section class="auth-container">
+    <form action="<%= request.getContextPath() %>/login" method="post" class="auth-form">
+      <label for="username">Username</label> <!-- Cambiato da 'Email' a 'Username' -->
+      <input type="text" id="username" name="username" placeholder="Value" required> <!-- Cambiato da 'email' a 'username' -->
 
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" placeholder="Value" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Value" required>
 
-    <button type="submit" class="auth-button">Autenticazione</button>
+      <button type="submit" class="auth-button">Autenticazione</button>
 
-    <!-- Se c'è un messaggio di errore, mostralo -->
-    <c:if test="${not empty errorMessage}">
-      <div class="error-message">${errorMessage}</div>
-    </c:if>
+      <!-- Se c'è un messaggio di errore, mostralo -->
+      <c:if test="${not empty errorMessage}">
+        <div class="error-message">${errorMessage}</div>
+      </c:if>
 
-    <p class="register-prompt">Non sei ancora registrato?
-      <a href="<%= request.getContextPath() %>/registerPage" class="register-link">Registrati qui</a>
-    </p>
-  </form>
+      <p class="register-prompt">Non sei ancora registrato?
+        <a href="<%= request.getContextPath() %>/registerPage" class="register-link">Registrati qui</a>
+      </p>
+    </form>
+  </section>
 </section>
+
 <%@ include file="footer.jsp" %>
 
 </body>

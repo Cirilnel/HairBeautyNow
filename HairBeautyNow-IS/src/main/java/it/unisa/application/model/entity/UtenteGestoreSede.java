@@ -3,17 +3,14 @@ package it.unisa.application.model.entity;
 public class UtenteGestoreSede {
     private String usernameUGS; //PK
     private String password;
-    private int prenotazioneID; //FK
-    private int professionsitaID; //FK
+    private int sedeID; // FK referring to the Sede table
 
-
-    public UtenteGestoreSede(String username, String password, int professionsitaID, int prenotazioneID) {
-        this.usernameUGS = username;
+    // Constructor with updated parameters
+    public UtenteGestoreSede(String usernameUGS, String password, int sedeID) {
+        this.usernameUGS = usernameUGS;
         this.password = password;
-        this.professionsitaID = professionsitaID;
-        this.prenotazioneID = prenotazioneID;
+        this.sedeID = sedeID;
     }
-
 
     public String getUsernameUGS() {
         return usernameUGS;
@@ -31,29 +28,20 @@ public class UtenteGestoreSede {
         this.password = password;
     }
 
-    public int getPrenotazioneID() {
-        return prenotazioneID;
+    public int getSedeID() {
+        return sedeID;
     }
 
-    public void setPrenotazioneID(int prenotazioneID) {
-        this.prenotazioneID = prenotazioneID;
-    }
-
-    public int getProfessionsitaID() {
-        return professionsitaID;
-    }
-
-    public void setProfessionsitaID(int professionsitaID) {
-        this.professionsitaID = professionsitaID;
+    public void setSedeID(int sedeID) {
+        this.sedeID = sedeID;
     }
 
     @Override
     public String toString() {
         return "UtenteGestoreSede{" +
-                "username='" + usernameUGS + '\'' +
+                "usernameUGS='" + usernameUGS + '\'' +
                 ", password='" + password + '\'' +
-                ", prenotazioneID=" + prenotazioneID +
-                ", professionsitaID=" + professionsitaID +
+                ", sedeID=" + sedeID +
                 '}';
     }
 }

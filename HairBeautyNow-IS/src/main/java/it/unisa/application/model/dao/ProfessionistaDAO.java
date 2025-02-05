@@ -203,5 +203,26 @@ public class ProfessionistaDAO {
 
         return sedeId;
     }
+    public boolean rimuoviProfessionista(int professionistaId) {
+        String query = "DELETE FROM professionista WHERE id = ?"; // Query per rimuovere il professionista
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, professionistaId); // Imposta l'ID del professionista nel parametro
+
+            int rowsAffected = statement.executeUpdate(); // Esegui la query e ottieni il numero di righe affette
+
+            // Se rowsAffected è maggiore di 0, la rimozione è andata a buon fine
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore durante la rimozione del professionista", e);
+            return false; // In caso di errore, ritorna false
+        }
+    }
+
+
+
 
 }

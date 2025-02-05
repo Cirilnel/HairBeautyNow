@@ -1,4 +1,3 @@
-<%@ page import="it.unisa.application.model.entity.UtenteAcquirente" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <header class="header">
     <script src="static/js/UserMenu.js"></script>
@@ -25,11 +24,11 @@
             </ul>
         </nav>
 
-
         <div class="user-icons">
             <%
-                UtenteAcquirente user = (UtenteAcquirente) session.getAttribute("user");
-                if (user != null) {
+                // Controlla se l'utente è loggato, qualsiasi tipo di utente
+                Object user = session.getAttribute("user");
+                if (user != null) {  // Se l'utente è loggato
             %>
             <div class="user-menu">
                 <i class="fas fa-user" id="logged-user-icon" style="font-size: 30px; color: #007DFF; cursor: pointer;"></i>
@@ -41,7 +40,7 @@
                 </div>
             </div>
             <%
-            } else {
+            } else {  // Se non c'è un utente loggato
             %>
             <a href="<%= request.getContextPath() %>/loginPage">
                 <i class="fas fa-user" id="user-icon" style="font-size: 30px; color: #007DFF;"></i>
@@ -50,7 +49,6 @@
                 }
             %>
         </div>
-
 
     </div>
 </header>

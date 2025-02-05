@@ -58,4 +58,28 @@ public class UtenteAcquirenteDAO {
         }
         return null;  // Nessun utente trovato con queste credenziali
     }
+    // Metodo per recuperare un utente tramite username e password
+    public UtenteAcquirente getByUsernameAndPassword(String username, String password) {
+        String sql = "SELECT * FROM UtenteAcquirente WHERE username = ? AND password = ?";
+        try (Connection connection = ds.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, username);  // Usa il 'username' come parametro
+            preparedStatement.setString(2, password);  // Usa la 'password' come parametro
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String email = resultSet.getString("email");  // Recupera anche l'email
+                String nome = resultSet.getString("nome");
+                String cognome = resultSet.getString("cognome");
+                String citta = resultSet.getString("citta");
+
+                return new UtenteAcquirente(username, email, password, nome, cognome, citta);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;  // Nessun utente trovato con queste credenziali
+    }
+
 }

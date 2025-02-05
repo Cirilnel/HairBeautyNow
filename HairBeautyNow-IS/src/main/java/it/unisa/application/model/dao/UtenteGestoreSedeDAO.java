@@ -15,14 +15,13 @@ public class UtenteGestoreSedeDAO {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    // Inserimento di un nuovo utente gestore sede
+    // Insert a new user (UtenteGestoreSede)
     public void insert(UtenteGestoreSede utenteGestoreSede) {
-        String sql = "INSERT INTO UtentiGestoriSede (usernameUGS, password, prenotazioneID, professionsitaID) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO UtenteGestoreSede (usernameUGS, password, sedeID) VALUES (?, ?, ?)";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, utenteGestoreSede.getUsernameUGS());
             preparedStatement.setString(2, utenteGestoreSede.getPassword());
-            preparedStatement.setInt(3, utenteGestoreSede.getPrenotazioneID());
-            preparedStatement.setInt(4, utenteGestoreSede.getProfessionsitaID());
+            preparedStatement.setInt(3, utenteGestoreSede.getSedeID());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -30,19 +29,18 @@ public class UtenteGestoreSedeDAO {
         }
     }
 
-    // Recupero di un utente gestore sede tramite username
+    // Retrieve a user by username
     public UtenteGestoreSede getByUsername(String usernameUGS) {
-        String sql = "SELECT * FROM UtentiGestoriSede WHERE usernameUGS = ?";
+        String sql = "SELECT * FROM UtenteGestoreSede WHERE usernameUGS = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, usernameUGS);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 String password = resultSet.getString("password");
-                int prenotazioneID = resultSet.getInt("prenotazioneID");
-                int professionsitaID = resultSet.getInt("professionsitaID");
+                int sedeID = resultSet.getInt("sedeID");
 
-                return new UtenteGestoreSede(usernameUGS, password, professionsitaID, prenotazioneID);
+                return new UtenteGestoreSede(usernameUGS, password, sedeID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,19 +48,18 @@ public class UtenteGestoreSedeDAO {
         return null;  // Return null if no user found
     }
 
-    // Recupero di tutti gli utenti gestori sede
+    // Retrieve all users
     public List<UtenteGestoreSede> getAll() {
         List<UtenteGestoreSede> utenti = new ArrayList<>();
-        String sql = "SELECT * FROM UtentiGestoriSede";
+        String sql = "SELECT * FROM UtenteGestoreSede";
         try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 String usernameUGS = resultSet.getString("usernameUGS");
                 String password = resultSet.getString("password");
-                int prenotazioneID = resultSet.getInt("prenotazioneID");
-                int professionsitaID = resultSet.getInt("professionsitaID");
+                int sedeID = resultSet.getInt("sedeID");
 
-                utenti.add(new UtenteGestoreSede(usernameUGS, password, professionsitaID, prenotazioneID));
+                utenti.add(new UtenteGestoreSede(usernameUGS, password, sedeID));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,14 +67,13 @@ public class UtenteGestoreSedeDAO {
         return utenti;
     }
 
-    // Aggiornamento delle informazioni di un utente gestore sede
+    // Update a user's information
     public void update(UtenteGestoreSede utenteGestoreSede) {
-        String sql = "UPDATE UtentiGestoriSede SET password = ?, prenotazioneID = ?, professionsitaID = ? WHERE usernameUGS = ?";
+        String sql = "UPDATE UtenteGestoreSede SET password = ?, sedeID = ? WHERE usernameUGS = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, utenteGestoreSede.getPassword());
-            preparedStatement.setInt(2, utenteGestoreSede.getPrenotazioneID());
-            preparedStatement.setInt(3, utenteGestoreSede.getProfessionsitaID());
-            preparedStatement.setString(4, utenteGestoreSede.getUsernameUGS());
+            preparedStatement.setInt(2, utenteGestoreSede.getSedeID());
+            preparedStatement.setString(3, utenteGestoreSede.getUsernameUGS());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -85,9 +81,9 @@ public class UtenteGestoreSedeDAO {
         }
     }
 
-    // Eliminazione di un utente gestore sede
+    // Delete a user by username
     public void delete(String usernameUGS) {
-        String sql = "DELETE FROM UtentiGestoriSede WHERE usernameUGS = ?";
+        String sql = "DELETE FROM UtenteGestoreSede WHERE usernameUGS = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, usernameUGS);
             preparedStatement.executeUpdate();

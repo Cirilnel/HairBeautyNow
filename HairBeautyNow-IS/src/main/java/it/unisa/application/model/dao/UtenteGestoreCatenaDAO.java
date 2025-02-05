@@ -1,7 +1,6 @@
 package it.unisa.application.model.dao;
 
 import it.unisa.application.model.entity.UtenteGestoreCatena;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ public class UtenteGestoreCatenaDAO {
 
     // Inserimento di un nuovo utente gestore catena
     public void insert(UtenteGestoreCatena utenteGestoreCatena) {
-        String sql = "INSERT INTO UtentiGestoriCatena (username, password, n_SediGestite, sedeID, usernameUGS) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO UtenteGestoreCatena (username, password, n_SediGestite, sedeID, usernameUGS) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, utenteGestoreCatena.getUsername());
             preparedStatement.setString(2, utenteGestoreCatena.getPassword());
@@ -33,7 +32,7 @@ public class UtenteGestoreCatenaDAO {
 
     // Recupero di un utente gestore catena tramite username
     public UtenteGestoreCatena getByUsername(String username) {
-        String sql = "SELECT * FROM UtentiGestoriCatena WHERE username = ?";
+        String sql = "SELECT * FROM UtenteGestoreCatena WHERE username = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, username);
 
@@ -55,7 +54,7 @@ public class UtenteGestoreCatenaDAO {
     // Recupero di tutti gli utenti gestori catena
     public List<UtenteGestoreCatena> getAll() {
         List<UtenteGestoreCatena> utenti = new ArrayList<>();
-        String sql = "SELECT * FROM UtentiGestoriCatena";
+        String sql = "SELECT * FROM UtenteGestoreCatena";
         try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -75,7 +74,7 @@ public class UtenteGestoreCatenaDAO {
 
     // Aggiornamento delle informazioni di un utente gestore catena
     public void update(UtenteGestoreCatena utenteGestoreCatena) {
-        String sql = "UPDATE UtentiGestoriCatena SET password = ?, n_SediGestite = ?, sedeID = ?, usernameUGS = ? WHERE username = ?";
+        String sql = "UPDATE UtenteGestoreCatena SET password = ?, n_SediGestite = ?, sedeID = ?, usernameUGS = ? WHERE username = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, utenteGestoreCatena.getPassword());
             preparedStatement.setInt(2, utenteGestoreCatena.getN_SediGestite());
@@ -91,7 +90,7 @@ public class UtenteGestoreCatenaDAO {
 
     // Eliminazione di un utente gestore catena
     public void delete(String username) {
-        String sql = "DELETE FROM UtentiGestoriCatena WHERE username = ?";
+        String sql = "DELETE FROM UtenteGestoreCatena WHERE username = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, username);
             preparedStatement.executeUpdate();
