@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
   <title>Rimozione Professionisti</title>
+  <link rel="stylesheet" href="static/style/rimuoviProfessionista.css">
   <script src="static/js/rimuoviProfessionista.js"></script>
 </head>
 <body>
@@ -26,7 +27,7 @@
 
     if (professionisti == null || professionisti.isEmpty()) {
   %>
-  <p>Nessun professionista trovato.</p>
+  <p class="error">Nessun professionista trovato.</p>
   <%
   } else {
   %>
@@ -38,14 +39,12 @@
     <li id="professionista-<%= professionista.getId() %>">
       <img src="static/images/<%= professionista.getId() %>.png" alt="Foto di <%= professionista.getNome() %>" width="100" height="100" />
       <br>
-      <strong>Nome:</strong> <%= professionista.getNome() %>
+      <strong>Nome:</strong> <strong><%= professionista.getNome() %></strong>
       <br>
       <button onclick="rimuoviProfessionista(<%= professionista.getId() %>)">Rimuovi</button>
     </li>
 
-    <div id="sede-<%= professionista.getId() %>">
-      <h3>Sede: <%= sede.getIndirizzo() %>, <%= sede.getCittà() %></h3>
-    </div>
+
     <%
       }
     %>
