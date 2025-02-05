@@ -108,13 +108,6 @@ body {
     text-align: center;
 }
 
-h1#titolo-pagamento {
-    font-family: 'Imperial Script', cursive;
-    font-size: 3rem;
-    color: #333;
-    margin: 20px 0;
-}
-
 .metodo-pagamento-container {
     max-width: 500px;
     margin: 40px auto;
@@ -164,4 +157,11 @@ input[type="submit"]:hover {
     select, input[type="text"], input[type="submit"] {
         font-size: 0.9rem;
     }
+}
+h1.titolo-pagamento {
+    font-family: 'Imperial Script', cursive;
+    font-size: 50px;
+    color: #87CEFA;
+    margin: 20px 0;
+    text-align: center;
 }

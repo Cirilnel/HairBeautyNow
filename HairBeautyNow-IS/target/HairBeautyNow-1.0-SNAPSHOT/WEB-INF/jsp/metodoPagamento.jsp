@@ -14,8 +14,8 @@
 <body>
 <%@ include file="header.jsp" %>
 
-<h1>Metodo di Pagamento</h1>
-<div class="metodo-pagamento-container-container">
+<h1 class="titolo-pagamento">Metodo di Pagamento</h1>
+<div class="metodo-pagamento-container">
 <form action="completaPrenotazione" method="post" onsubmit="return validateForm()">
   <label for="metodoPagamento">Seleziona il metodo di pagamento:</label>
   <select name="metodoPagamento" id="metodoPagamento">
