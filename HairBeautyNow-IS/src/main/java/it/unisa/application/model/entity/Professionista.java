@@ -16,6 +16,10 @@ public class Professionista {
         this.fasceOrarie = fasceOrarie;
     }
 
+    public Professionista() {
+
+    }
+
     // Getter e Setter
     public int getId() {
         return id;

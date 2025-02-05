@@ -9,10 +9,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import javax.sql.DataSource;
+
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +24,13 @@ public class SaloneSelezionatoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String saloneId = request.getParameter("saloneId");
 
+        // Aggiunta validazione per saloneId
+        if (saloneId == null || !saloneId.matches("\\d+")) {
+            request.setAttribute("errorMessage", "Invalid salon ID.");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            return;
+        }
+
         HttpSession session = request.getSession();
         session.setAttribute("saloneSelezionato", saloneId);
 
@@ -38,13 +43,21 @@ public class SaloneSelezionatoServlet extends HttpServlet {
             return;
         }
 
+        // Carica le fasce orarie per ciascun professionista
+        for (Professionista professionista : professionisti) {
+            List<FasciaOraria> fasceOrarie = professionistaDAO.getFasceOrarieByProfessionista(professionista.getId());
+            professionista.setFasceOrarie(fasceOrarie);  // Imposta le fasce orarie del professionista
+        }
+
         // Creiamo una mappa che associa il giorno alle fasce orarie disponibili
         Map<LocalDate, List<String>> fasceOrarieByDay = new HashMap<>();
         for (Professionista professionista : professionisti) {
-            for (FasciaOraria fascia : professionista.getFasceOrarie()) {
-                if (fascia.isDisponibile()) {
-                    fasceOrarieByDay.putIfAbsent(fascia.getGiorno(), new ArrayList<>());
-                    fasceOrarieByDay.get(fascia.getGiorno()).add(fascia.getFascia());
+            if (professionista.getFasceOrarie() != null) {
+                for (FasciaOraria fascia : professionista.getFasceOrarie()) {
+                    if (fascia.isDisponibile()) {
+                        fasceOrarieByDay.putIfAbsent(fascia.getGiorno(), new ArrayList<>());
+                        fasceOrarieByDay.get(fascia.getGiorno()).add(fascia.getFascia());
+                    }
                 }
             }
         }
@@ -58,6 +71,4 @@ public class SaloneSelezionatoServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/jsp/professionista.jsp").forward(request, response);
     }
 }
-
-
 

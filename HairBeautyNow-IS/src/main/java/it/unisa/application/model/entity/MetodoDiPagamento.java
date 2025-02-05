@@ -8,27 +8,28 @@ public class MetodoDiPagamento {
     private String nomeIntestatario;
     private int cvv;
     private String indirizzo;
+    private String username; // FK (associato all'utente che possiede il metodo di pagamento)
 
-
-    @Override
-    public String toString() {
-        return "MetodoDiPagamento{" +
-                "nCarta='" + nCarta + '\'' +
-                ", dataScadenza=" + dataScadenza +
-                ", nomeIntestatario='" + nomeIntestatario + '\'' +
-                ", cvv=" + cvv +
-                ", indirizzo='" + indirizzo + '\'' +
-                '}';
-    }
-
-    public MetodoDiPagamento(Date dataScadenza, String nCarta, String nomeIntestatario, String indirizzo, int cvv) {
-        this.dataScadenza = dataScadenza;
+    // Costruttore aggiornato
+    public MetodoDiPagamento(String nCarta, Date dataScadenza, String nomeIntestatario, String indirizzo, int cvv, String username) {
         this.nCarta = nCarta;
+        this.dataScadenza = dataScadenza;
         this.nomeIntestatario = nomeIntestatario;
         this.indirizzo = indirizzo;
         this.cvv = cvv;
+        this.username = username; // Assegna l'utente associato
     }
 
+    // Getter e Setter per username
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    // Getter e Setter per gli altri attributi
     public String getnCarta() {
         return nCarta;
     }
@@ -67,5 +68,18 @@ public class MetodoDiPagamento {
 
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
+    }
+
+    // Metodo toString
+    @Override
+    public String toString() {
+        return "MetodoDiPagamento{" +
+                "nCarta='" + nCarta + '\'' +
+                ", dataScadenza=" + dataScadenza +
+                ", nomeIntestatario='" + nomeIntestatario + '\'' +
+                ", cvv=" + cvv +
+                ", indirizzo='" + indirizzo + '\'' +
+                ", username='" + username + '\'' +
+                '}';
     }
 }

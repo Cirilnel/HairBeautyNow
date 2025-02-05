@@ -90,4 +90,18 @@ public class ServizioDAO {
             e.printStackTrace();
         }
     }
+    public double getPrezzoByNome(String nome) {
+        String sql = "SELECT prezzo FROM Servizio WHERE nome = ?";
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, nome);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getDouble("prezzo");  // Restituisce il prezzo
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;  // Se il servizio non è trovato, restituisce 0.0 come valore di default
+    }
 }
