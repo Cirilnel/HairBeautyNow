@@ -13,7 +13,7 @@
 </head>
 <body>
 <script src="static/js/UserMenu.js"></script>
-<%@ include file="header.jsp" %>
+<%@ include file="headerSede.jsp" %>
 <h1 class="general">HairBeauty Now</h1>
 <section class="hero general">
   <img src="static/images/hero-image.png" alt="Parrucchiera con vista panoramica">

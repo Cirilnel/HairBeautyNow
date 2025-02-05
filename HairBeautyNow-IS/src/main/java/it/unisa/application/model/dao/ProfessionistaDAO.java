@@ -87,7 +87,6 @@ public class ProfessionistaDAO {
         return prezzo;
     }
 
-
     // Metodo per ottenere una fascia oraria per un professionista, giorno e orario
     public FasciaOraria getFasciaOraria(int professionistaId, LocalDate giorno, String fascia) {
         String query = "SELECT * FROM fascia_oraria WHERE professionista_id = ? AND giorno = ? AND fascia = ?";
@@ -203,26 +202,53 @@ public class ProfessionistaDAO {
 
         return sedeId;
     }
+
+    // Metodo per rimuovere un professionista
     public boolean rimuoviProfessionista(int professionistaId) {
-        String query = "DELETE FROM professionista WHERE id = ?"; // Query per rimuovere il professionista
+        // Prima rimuovi le fasce orarie associate
+        String deleteFasceQuery = "DELETE FROM fascia_oraria WHERE professionista_id = ?";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement deleteFasceStatement = connection.prepareStatement(deleteFasceQuery)) {
 
-            statement.setInt(1, professionistaId); // Imposta l'ID del professionista nel parametro
+            // Elimina le fasce orarie
+            deleteFasceStatement.setInt(1, professionistaId);
+            int rowsAffected = deleteFasceStatement.executeUpdate();
 
-            int rowsAffected = statement.executeUpdate(); // Esegui la query e ottieni il numero di righe affette
+            // Se sono state rimosse delle fasce orarie, ora puoi rimuovere il professionista
+            if (rowsAffected > 0) {
+                String deleteProfessionistaQuery = "DELETE FROM professionista WHERE id = ?";
+                try (PreparedStatement deleteProfessionistaStatement = connection.prepareStatement(deleteProfessionistaQuery)) {
+                    deleteProfessionistaStatement.setInt(1, professionistaId);
+                    int professionistaRowsAffected = deleteProfessionistaStatement.executeUpdate();
 
-            // Se rowsAffected è maggiore di 0, la rimozione è andata a buon fine
-            return rowsAffected > 0;
-
+                    // Se la rimozione del professionista ha successo
+                    return professionistaRowsAffected > 0;
+                }
+            }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Errore durante la rimozione del professionista", e);
-            return false; // In caso di errore, ritorna false
+            LOGGER.log(Level.SEVERE, "Errore durante la rimozione del professionista e delle fasce orarie", e);
         }
+
+        return false; // Se qualcosa è andato storto
     }
 
 
+    // Metodo per verificare se un professionista ha prenotazioni
+    public boolean hasPrenotazioni(int professionistaId) {
+        String query = "SELECT COUNT(*) FROM Prenotazione WHERE professionistaId = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
+            statement.setInt(1, professionistaId);
+            ResultSet resultSet = statement.executeQuery();
 
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0; // Se ci sono prenotazioni
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error while checking if professionista has prenotazioni", e);
+        }
+        return false; // Se non ci sono prenotazioni
+    }
 }

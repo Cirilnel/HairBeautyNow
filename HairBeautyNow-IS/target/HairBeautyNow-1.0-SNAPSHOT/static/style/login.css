@@ -254,3 +254,10 @@ h2 {
         font-size: 24px;
     }
 }
+.error-message{
+    font-size: 16px;
+    color: #FF0000 !important;
+    background-color: #FFEDED !important;
+
+
+}

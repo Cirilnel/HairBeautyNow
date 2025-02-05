@@ -11,18 +11,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
   <title>Rimozione Professionisti</title>
-  <link rel="stylesheet" href="static/style/rimozioneProfessionisti.css">
+  <script src="static/js/rimuoviProfessionista.js"></script>
 </head>
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="headerSede.jsp" %>
+<script src="static/js/UserMenu.js"></script>
 
 <h1>Rimozione Professionisti</h1>
 <div class="rimozione-container">
 
   <%
-    // Recupero i professionisti dalla request
     List<Professionista> professionisti = (List<Professionista>) request.getAttribute("professionisti");
-    // Recupero la sede dalla request
     Sede sede = (Sede) request.getAttribute("sede");
 
     if (professionisti == null || professionisti.isEmpty()) {
@@ -32,29 +31,35 @@
   } else {
   %>
   <h3>Professionisti nella sede: <%= sede.getIndirizzo() %>, <%= sede.getCittà() %></h3>
-  <ul>
+  <ul id="professionisti-list">
     <%
-      // Ciclo attraverso i professionisti per mostrarli
       for (Professionista professionista : professionisti) {
     %>
-    <li>
-      <strong>ID:</strong> <%= professionista.getId() %> - <strong>Nome:</strong> <%= professionista.getNome() %>
+    <li id="professionista-<%= professionista.getId() %>">
+      <img src="static/images/<%= professionista.getId() %>.png" alt="Foto di <%= professionista.getNome() %>" width="100" height="100" />
       <br>
-      <form action="rimuoviProfessionista" method="post">
-        <!-- Aggiungi ID professionista da rimuovere -->
-        <input type="hidden" name="professionistaId" value="<%= professionista.getId() %>" />
-        <input type="submit" value="Rimuovi" />
-      </form>
+      <strong>Nome:</strong> <%= professionista.getNome() %>
+      <br>
+      <button onclick="rimuoviProfessionista(<%= professionista.getId() %>)">Rimuovi</button>
     </li>
+
+    <div id="sede-<%= professionista.getId() %>">
+      <h3>Sede: <%= sede.getIndirizzo() %>, <%= sede.getCittà() %></h3>
+    </div>
     <%
       }
     %>
+
   </ul>
   <%
     }
   %>
 
 </div>
+
+<script>
+  var contextPath = "<%= request.getContextPath() %>";
+</script>
 
 <%@ include file="footer.jsp" %>
 </body>
