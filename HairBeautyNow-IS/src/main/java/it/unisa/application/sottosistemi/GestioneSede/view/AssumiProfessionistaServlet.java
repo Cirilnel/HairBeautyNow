@@ -4,6 +4,7 @@ import it.unisa.application.model.dao.ProfessionistaDAO;
 import it.unisa.application.model.dao.SedeDAO;
 import it.unisa.application.model.entity.Professionista;
 import it.unisa.application.model.entity.Sede;
+import it.unisa.application.model.entity.UtenteGestoreSede; // Import UtenteGestoreSede
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,7 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/assumiprofessionista")
 public class AssumiProfessionistaServlet extends HttpServlet {
@@ -32,22 +32,35 @@ public class AssumiProfessionistaServlet extends HttpServlet {
         // Recuperiamo il nome del professionista dal form
         String nomeProfessionista = request.getParameter("nome");
 
-        // Recuperiamo l'oggetto Sede dalla sessione
+        // Recuperiamo l'utente loggato dalla sessione
         HttpSession session = request.getSession();
-        Sede sede = (Sede) session.getAttribute("sede");
+        UtenteGestoreSede utente = (UtenteGestoreSede) session.getAttribute("user");
 
-        // Se l'oggetto sede non è trovato nella sessione, gestisci l'errore
-        if (sede == null) {
-            response.sendRedirect("erroreSede");  // Aggiungi una pagina di errore
+        // Verifica se l'utente è un GestoreSede
+        if (utente == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\":\"Errore: Utente non trovato\"}");
             return;
         }
 
-        // Recuperiamo l'ID della sede dall'oggetto Sede
-        Integer sedeId = sede.getId();
+        // Otteniamo l'ID della sede dal gestore
+        Integer sedeId = utente.getSedeID();
+
+        // Recuperiamo la sede utilizzando l'ID
+        SedeDAO sedeDAO = new SedeDAO();
+        Sede sede = sedeDAO.findSedeById(sedeId);
+
+        // Se la sede non esiste o è nulla, gestisci l'errore
+        if (sede == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\":\"Errore: Sede non trovata\"}");
+            return;
+        }
 
         // Verifica che il nome del professionista non sia vuoto
         if (nomeProfessionista == null || nomeProfessionista.trim().isEmpty()) {
-            response.sendRedirect("erroreNome");  // Puoi reindirizzare a una pagina di errore
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\":\"Errore: Nome professionista non valido\"}");
             return;
         }
 
@@ -59,9 +72,9 @@ public class AssumiProfessionistaServlet extends HttpServlet {
         // Salviamo il professionista nel database
         professionistaDAO.insertProfessionista(professionista);
 
-        // Reindirizziamo alla pagina di successo o a una pagina che conferma l'assunzione
-        response.sendRedirect(request.getContextPath() + "/successo");
+        // Return success response as JSON
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().write("{\"message\":\"Professionista assunto con successo!\"}");
     }
-
 }
 

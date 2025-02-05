@@ -113,4 +113,28 @@ public class SedeDAO {
             e.printStackTrace();
         }
     }
+
+    // Metodo per ottenere una sede per ID (utile per l'utente loggato, esempio di utente Gestore Sede)
+    public Sede findSedeById(int sedeId) {
+        String query = "SELECT * FROM sede WHERE id = ?";
+        Sede sede = null;
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, sedeId);  // Passiamo il SedeID del Gestore Sede
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String indirizzo = resultSet.getString("indirizzo");
+                String nome = resultSet.getString("nome");
+                String città = resultSet.getString("città");
+
+                sede = new Sede(indirizzo, nome, città, sedeId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sede;
+    }
 }
