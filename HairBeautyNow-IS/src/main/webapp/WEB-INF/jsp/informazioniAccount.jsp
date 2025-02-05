@@ -16,7 +16,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
 </head>
 <body>
-<%@ include file="header.jsp" %>
+
+<%
+    // Recupera l'oggetto Utente dalla sessione
+    Object loggedUser = request.getAttribute("user");
+
+    // Se l'utente è loggato, mostriamo l'header in base al tipo
+    if (loggedUser != null) {
+        if (loggedUser instanceof UtenteAcquirente) {
+            // Static include for Acquirente user
+%><%@ include file="header.jsp" %><%
+} else if (loggedUser instanceof UtenteGestoreCatena) {
+    // Static include for GestoreCatena user
+%><%@ include file="headerCatena.jsp" %><%
+} else if (loggedUser instanceof UtenteGestoreSede) {
+    // Static include for GestoreSede user
+%><%@ include file="headerSede.jsp" %><%
+        }
+    }
+%>
+
 <script src="static/js/UserMenu.js"></script>
 
 <div class="auth-container">
@@ -27,9 +46,6 @@
 </div>
 
 <%
-    // Recupera l'oggetto Utente dalla sessione
-    Object loggedUser = request.getAttribute("user");
-
     // Se l'utente è loggato, mostriamo le informazioni in base al tipo
     if (loggedUser != null) {
         if (loggedUser instanceof UtenteAcquirente) {
@@ -89,9 +105,10 @@
 <p>Tipo di utente non riconosciuto.</p>
 <%
         }
-
     }
 %>
+
+<%@ include file="footer.jsp" %>
 
 </body>
 </html>
