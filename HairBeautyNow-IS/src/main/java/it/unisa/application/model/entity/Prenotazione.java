@@ -10,8 +10,18 @@ public class Prenotazione {
     private String username; // FK associato all'utente che ha fatto la prenotazione
     private double prezzo; // Prezzo della prenotazione
 
-    // Costruttore aggiornato con LocalDateTime
+    // Costruttore senza l'ID (per quando crei un oggetto da inserire)
     public Prenotazione(String servizioName, int professionistaId, LocalDateTime data, String username, double prezzo) {
+        this.servizioName = servizioName;
+        this.professionistaId = professionistaId;
+        this.data = data;
+        this.username = username;
+        this.prezzo = prezzo;
+    }
+
+    // Costruttore con ID (usato quando recuperi l'oggetto dal DB)
+    public Prenotazione(int id, String servizioName, int professionistaId, LocalDateTime data, String username, double prezzo) {
+        this.id = id;
         this.servizioName = servizioName;
         this.professionistaId = professionistaId;
         this.data = data;

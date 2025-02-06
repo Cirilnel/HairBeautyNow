@@ -1,5 +1,6 @@
 package it.unisa.application.sottosistemi.GestionePrenotazioni.view;
 
+import it.unisa.application.model.dao.FasciaOrariaDAO;
 import it.unisa.application.model.dao.ProfessionistaDAO;
 import it.unisa.application.model.entity.FasciaOraria;
 import it.unisa.application.model.entity.Professionista;
@@ -20,6 +21,7 @@ import java.util.Map;
 @WebServlet("/saloneSelezionato")
 public class SaloneSelezionatoServlet extends HttpServlet {
     private final ProfessionistaDAO professionistaDAO = new ProfessionistaDAO();
+    private final FasciaOrariaDAO fasciaOrariaDAO = new FasciaOrariaDAO();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String saloneId = request.getParameter("saloneId");
@@ -45,8 +47,25 @@ public class SaloneSelezionatoServlet extends HttpServlet {
 
         // Carica le fasce orarie per ciascun professionista
         for (Professionista professionista : professionisti) {
-            List<FasciaOraria> fasceOrarie = professionistaDAO.getFasceOrarieByProfessionista(professionista.getId());
-            professionista.setFasceOrarie(fasceOrarie);  // Imposta le fasce orarie del professionista
+            try {
+                if (professionista.getId() != 0) {  // Verifica che l'ID del professionista sia valido
+                    List<FasciaOraria> fasceOrarie = fasciaOrariaDAO.getFasceOrarieByProfessionista(professionista.getId());
+                    if (fasceOrarie != null && !fasceOrarie.isEmpty()) {
+                        professionista.setFasceOrarie(fasceOrarie);  // Imposta le fasce orarie del professionista
+                    } else {
+                        // Se non ci sono fasce orarie, logghiamo il problema
+                        System.out.println("Nessuna fascia oraria trovata per il professionista ID: " + professionista.getId());
+                    }
+                } else {
+                    System.out.println("ID professionista non valido: " + professionista.getId());
+                }
+            } catch (Exception e) {
+                // Log degli errori
+                e.printStackTrace();
+                request.setAttribute("errorMessage", "Errore nel caricamento delle fasce orarie.");
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+                return;
+            }
         }
 
         // Creiamo una mappa che associa il giorno alle fasce orarie disponibili
@@ -71,4 +90,5 @@ public class SaloneSelezionatoServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/jsp/professionista.jsp").forward(request, response);
     }
 }
+
 

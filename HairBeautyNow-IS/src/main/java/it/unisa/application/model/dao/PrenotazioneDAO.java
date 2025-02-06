@@ -56,72 +56,7 @@ public class PrenotazioneDAO {
         }
     }
 
-    // Recupera una prenotazione dato l'ID
-    public Prenotazione getPrenotazione(int id) throws SQLException {
-        String query = "SELECT * FROM Prenotazione WHERE id = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new Prenotazione(
-                        rs.getString("servizioName"),
-                        rs.getInt("professionistaId"),
-                        rs.getTimestamp("data").toLocalDateTime(),  // Converte Timestamp in LocalDateTime
-                        rs.getString("username"),
-                        rs.getDouble("prezzo")
-                );
-            }
-        }
-        return null;
-    }
 
-    // Recupera tutte le prenotazioni
-    public List<Prenotazione> getAllPrenotazioni() throws SQLException {
-        List<Prenotazione> lista = new ArrayList<>();
-        String query = "SELECT * FROM Prenotazione";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
-            while (rs.next()) {
-                lista.add(new Prenotazione(
-                        rs.getString("servizioName"),
-                        rs.getInt("professionistaId"),
-                        rs.getTimestamp("data").toLocalDateTime(),  // Converte Timestamp in LocalDateTime
-                        rs.getString("username"),
-                        rs.getDouble("prezzo")
-                ));
-            }
-        }
-        return lista;
-    }
-
-    // Aggiorna una prenotazione
-    public void updatePrenotazione(Prenotazione prenotazione) throws SQLException {
-        String query = "UPDATE Prenotazione SET servizioName = ?, professionistaId = ?, data = ?, username = ?, prezzo = ? WHERE id = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, prenotazione.getServizioName());
-            stmt.setInt(2, prenotazione.getProfessionistaId());
-
-            // Conversione di LocalDateTime a Timestamp per aggiornare nel DB
-            stmt.setTimestamp(3, Timestamp.valueOf(prenotazione.getData()));  // Usa Timestamp.valueOf per convertire LocalDateTime in Timestamp
-            stmt.setString(4, prenotazione.getUsername());
-            stmt.setDouble(5, prenotazione.getPrezzo());
-            stmt.setInt(6, prenotazione.getId());
-            stmt.executeUpdate();
-        }
-    }
-
-    // Elimina una prenotazione
-    public void deletePrenotazione(int id) throws SQLException {
-        String query = "DELETE FROM Prenotazione WHERE id = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        }
-    }
 
     // Recupera prenotazioni per un determinato username
     public List<Prenotazione> getPrenotazioniByUsername(String username) throws SQLException {
@@ -136,12 +71,14 @@ public class PrenotazioneDAO {
 
             while (rs.next()) {
                 lista.add(new Prenotazione(
+                        rs.getInt("id"),  // Aggiungi l'ID recuperato dal DB
                         rs.getString("servizioName"),
                         rs.getInt("professionistaId"),
-                        rs.getTimestamp("data").toLocalDateTime(),  // Converte Timestamp in LocalDateTime
+                        rs.getTimestamp("data").toLocalDateTime(),
                         rs.getString("username"),
                         rs.getDouble("prezzo")
                 ));
+
             }
         }
         return lista;
@@ -170,6 +107,7 @@ public class PrenotazioneDAO {
 
             while (rs.next()) {
                 lista.add(new Prenotazione(
+                        rs.getInt("id"),  // Aggiungi l'ID recuperato dal DB
                         rs.getString("servizioName"),
                         rs.getInt("professionistaId"),
                         rs.getTimestamp("data").toLocalDateTime(),
@@ -182,4 +120,44 @@ public class PrenotazioneDAO {
         return lista;
     }
 
+    // Rimuovi una prenotazione dato l'ID
+    // Rimuovi una prenotazione e restituisci un valore booleano di successo
+    public boolean rimuoviPrenotazione(int id) throws SQLException {
+        String query = "DELETE FROM Prenotazione WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0; // Se sono state rimosse righe, restituisci true
+        }
+    }
+    // Recupera una prenotazione per un determinato ID
+    public Prenotazione getPrenotazioneById(int id) throws SQLException {
+        Prenotazione prenotazione = null;
+        String query = "SELECT * FROM Prenotazione WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                prenotazione = new Prenotazione(
+                        rs.getInt("id"),  // Aggiungi l'ID recuperato dal DB
+                        rs.getString("servizioName"),
+                        rs.getInt("professionistaId"),
+                        rs.getTimestamp("data").toLocalDateTime(),
+                        rs.getString("username"),
+                        rs.getDouble("prezzo")
+                );
+            }
+        }
+        return prenotazione;
+    }
+
 }
+
+
+
+

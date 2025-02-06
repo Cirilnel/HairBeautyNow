@@ -1,10 +1,8 @@
-<%@ page import="java.util.List" %>
-<%@ page import="it.unisa.application.model.entity.Prenotazione" %>
-<%@ page import="it.unisa.application.model.dao.ProfessionistaDAO" %>
-<%@ page import="java.time.LocalTime" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ page import="it.unisa.application.model.entity.Prenotazione" %>
+<%@ page import="java.time.LocalTime" %>
+<%@ page import="it.unisa.application.model.dao.ProfessionistaDAO" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -12,9 +10,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prenotazioni Attive</title>
   <link rel="stylesheet" href="static/style.css">
+  <script src="static/js/rimuoviPrenotazione.js"></script> <!-- Aggiungi il tuo file JS -->
 </head>
 <body>
-
+<script src="static/js/UserMenu.js"></script>
+<%@ include file="headerSede.jsp" %>
 <h1>Prenotazioni Attive</h1>
 
 <%
@@ -34,6 +34,7 @@
     <th>Prezzo</th>
     <th>Data</th>
     <th>Fascia Oraria</th>
+    <th>Azioni</th>
   </tr>
   </thead>
   <tbody>
@@ -57,18 +58,23 @@
       // Ottieni la data in formato leggibile
       String dataFormattata = prenotazione.getData().toLocalDate().format(dateFormatter);
   %>
-  <tr>
+  <tr id="prenotazione-<%= prenotazione.getId() %>">
     <td><%= prenotazione.getServizioName() %></td>
     <td><%= nomeProfessionista != null ? nomeProfessionista : "N/A" %></td>
     <td><%= indirizzo != null ? indirizzo : "N/A" %></td>
     <td><%= prenotazione.getPrezzo() %>€</td>
     <td><%= dataFormattata %></td>
     <td><%= fasciaFormattata %></td>
+    <td>
+      <!-- Modificato il bottone per chiamare la funzione rimuoviPrenotazione() -->
+      <button onclick="rimuoviPrenotazione(<%= prenotazione.getId() %>)" style="background-color:red;color:white;">Rimuovi</button>
+    </td>
   </tr>
   <% } %>
   </tbody>
 </table>
 <% } %>
+<%@ include file="footer.jsp" %>
 
 </body>
 </html>

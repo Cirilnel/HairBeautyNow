@@ -1,7 +1,7 @@
 package it.unisa.application.sottosistemi.GestionePrenotazioni.view;
 
 import it.unisa.application.model.dao.PrenotazioneDAO;
-import it.unisa.application.model.dao.ProfessionistaDAO;
+import it.unisa.application.model.dao.FasciaOrariaDAO;
 import it.unisa.application.model.dao.ServizioDAO;  // Aggiungi il DAO per Servizio
 import it.unisa.application.model.entity.Prenotazione;
 import it.unisa.application.model.entity.FasciaOraria;
@@ -87,16 +87,16 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
         Prenotazione prenotazione = new Prenotazione(servizioName, professionistaId, localDateTime, utente.getUsername(), prezzo);
 
         PrenotazioneDAO prenotazioneDAO = new PrenotazioneDAO();
-        ProfessionistaDAO professionistaDAO = new ProfessionistaDAO(); // Aggiunto DAO per la fascia oraria
+        FasciaOrariaDAO fasciaOrariaDAO = new FasciaOrariaDAO(); // Aggiunto DAO per la fascia oraria
 
         try {
             prenotazioneDAO.addPrenotazione(prenotazione);
 
             // Recupera la fascia oraria selezionata
-            FasciaOraria fasciaOraria = professionistaDAO.getFasciaOraria(professionistaId, giorno, orario);
+            FasciaOraria fasciaOraria = fasciaOrariaDAO.getFasciaOraria(professionistaId, giorno, orario);
             if (fasciaOraria != null) {
                 fasciaOraria.setDisponibile(false); // Imposta disponibile a false
-                professionistaDAO.updateFasciaOraria(fasciaOraria); // Aggiorna nel database
+                fasciaOrariaDAO.updateFasciaOraria(fasciaOraria); // Aggiorna nel database
             }
 
         } catch (SQLException e) {

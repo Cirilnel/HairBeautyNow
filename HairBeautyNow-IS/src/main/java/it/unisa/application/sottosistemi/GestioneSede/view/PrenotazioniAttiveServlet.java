@@ -16,7 +16,9 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet("/prenotazioniAttive")
 public class PrenotazioniAttiveServlet extends HttpServlet {
@@ -53,8 +55,15 @@ public class PrenotazioniAttiveServlet extends HttpServlet {
         // Aggiungiamo le prenotazioni attive alla richiesta
         request.setAttribute("prenotazioniAttive", prenotazioniAttive);
 
+        // Salva gli ID delle prenotazioni in sessione per usarli nelle operazioni successive
+        session.setAttribute("prenotazioneIds", prenotazioniAttive.stream().map(Prenotazione::getId).collect(Collectors.toList()));
+
         // Forward alla pagina JSP per visualizzare le prenotazioni
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/prenotazioniAttive.jsp");
         dispatcher.forward(request, response);
     }
 }
+
+
+
+
