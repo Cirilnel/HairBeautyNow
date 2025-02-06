@@ -1,0 +1,78 @@
+/* Stile generale del contenitore */
+.form-container {
+    font-family: 'Abhaya Libre', serif;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    text-align: center;
+    max-width: 900px;
+}
+
+/* Stile per il titolo principale */
+h1.general {
+    font-family: 'Imperial Script', cursive;
+    font-size: 50px;
+    color: #87CEFA;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Stile del form */
+form {
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 700px;
+    border-radius: 10px;
+    text-align: left;
+}
+
+/* Stile delle etichette del form */
+form label {
+    font-size: 1.5rem;
+    color: #333;
+    display: block;
+    text-align: center;
+}
+
+/* Stile degli input */
+form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Stile del pulsante */
+form button {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    margin: 10px auto;
+}
+
+form button:hover {
+    background-color: #218838;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    h1.general {
+        font-size: 2.5rem;
+    }
+    form {
+        max-width: 90%;
+    }
+    form button {
+        font-size: 0.9rem;
+    }
+}
