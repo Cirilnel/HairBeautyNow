@@ -2,10 +2,16 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+    <link rel="stylesheet" href="static/style/assumiProfessionista.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@5.5.0/dist/ionicons/ionicons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assumi Professionista</title>
-    <link rel="stylesheet" href="static/style.css">
+
 
     <!-- Add jQuery for simplicity (can use pure JavaScript too) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -30,7 +36,7 @@
 </div>
 
 <!-- Error Message Placeholder -->
-<div id="errorMessage" style="display:none; color: red;">
+<div id="error" style="display:none; color: red;">
     Errore nell'assumere il professionista. Riprovare!
 </div>
 
