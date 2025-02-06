@@ -53,6 +53,14 @@
 </section>
 
 <%@ include file="footer.jsp" %>
+<script>
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('successo')) {
+            alert("Sede creata con successo e gestore assegnato!");
+        }
+    };
+</script>
 
 </body>
 </html>

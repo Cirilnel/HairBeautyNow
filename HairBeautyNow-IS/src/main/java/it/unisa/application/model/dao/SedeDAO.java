@@ -137,4 +137,28 @@ public class SedeDAO {
         }
         return sede;
     }
+    public int insertSedeAndReturnID(Sede sede) {
+        String query = "INSERT INTO sede (indirizzo, nome, città) VALUES (?, ?, ?)";
+        int generatedID = -1;
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setString(1, sede.getIndirizzo());
+            statement.setString(2, sede.getNome());
+            statement.setString(3, sede.getCitta());
+
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows > 0) {
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    generatedID = generatedKeys.getInt(1); // Ottiene l'ID della nuova sede
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return generatedID;
+    }
+
 }
