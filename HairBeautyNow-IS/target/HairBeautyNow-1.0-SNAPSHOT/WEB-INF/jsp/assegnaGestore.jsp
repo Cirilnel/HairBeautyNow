@@ -1,15 +1,22 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.List, it.unisa.application.model.entity.UtenteGestoreSede" %>
 <!DOCTYPE html>
 <html lang="it">
 <head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@5.5.0/dist/ionicons/ionicons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/style/assegnaGestore.css">
+  <script src="static/js/UserMenu.js"></script>
   <meta charset="UTF-8">
   <title>Assegna Gestore</title>
 </head>
 <body>
-<h2>Assegna un gestore a una sede</h2>
+<%@ include file="headerCatena.jsp" %>
+<h1>Assegna un gestore a una sede</h1>
 
-<table border="1">
+<table>
   <tr>
     <th>Immagine</th>
     <th>Username</th>
@@ -45,5 +52,6 @@
   </tr>
   <% } %>
 </table>
+<%@ include file="footer.jsp" %>
 </body>
 </html>
