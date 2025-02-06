@@ -25,7 +25,7 @@ public class SedeDAO {
 
             statement.setString(1, sede.getIndirizzo());
             statement.setString(2, sede.getNome());
-            statement.setString(3, sede.getCittà());
+            statement.setString(3, sede.getCitta());
             statement.setInt(4, sede.getId());
 
             statement.executeUpdate();
@@ -91,7 +91,7 @@ public class SedeDAO {
 
             statement.setString(1, sede.getIndirizzo());
             statement.setString(2, sede.getNome());
-            statement.setString(3, sede.getCittà());
+            statement.setString(3, sede.getCitta());
             statement.setInt(4, sede.getId());
 
             statement.executeUpdate();

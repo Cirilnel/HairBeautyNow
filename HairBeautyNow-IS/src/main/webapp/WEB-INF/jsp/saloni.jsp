@@ -73,7 +73,7 @@
          alt="Foto salone di <%= salone.getIndirizzo() %>" />
     <div class="salon-card-content">
       <h3><%= salone.getNome() %></h3>
-      <p><strong>Indirizzo:</strong> <%= salone.getIndirizzo() %> (<%= salone.getCittà() %>)</p>
+      <p><strong>Indirizzo:</strong> <%= salone.getIndirizzo() %> (<%= salone.getCitta() %>)</p>
       <div class="salon-details">
         <ul>
           <li><strong>Orario di apertura:</strong> 8:00</li>

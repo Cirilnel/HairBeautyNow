@@ -14,13 +14,13 @@
     <!-- Navigation Bar -->
     <nav>
       <ul>
-        <li><a href="<%= request.getContextPath() %>/homeSede" class="interactive-link">Home</a></li>
-        <li>  <a href="<%= request.getContextPath() %>/rimuoviProfessionista"> Rimuovi Professionista</a></li>
+        <li><a href="<%= request.getContextPath() %>/homeCatena" class="interactive-link">Home</a></li>
+        <li>  <a href="<%= request.getContextPath() %>/aggiungiSede"> Aggiungi Sede</a></li>
         <li>
           <img src="static/images/logo.png" alt="Icona">
         </li>
-        <li><a href="<%= request.getContextPath() %>/assumiprofessionista">Assumi Professionista</a></li>
-        <li> <a href="<%= request.getContextPath() %>/prenotazioniAttive">Prenotazioni Attive</a></li>
+        <li><a href="<%= request.getContextPath() %>/creaGestore">Crea gestore</a></li>
+        <li> <a href="<%= request.getContextPath() %>/rimuoviGestore">Rimuovi gestore</a></li>
       </ul>
     </nav>
 

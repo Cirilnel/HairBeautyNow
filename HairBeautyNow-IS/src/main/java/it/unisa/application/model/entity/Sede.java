@@ -4,7 +4,7 @@ public class Sede {
 
     private String indirizzo;
     private String nome;
-    private String città;
+    private String citta;
     private int id; //PK
 
     public String getIndirizzo() {
@@ -23,12 +23,12 @@ public class Sede {
         this.nome = nome;
     }
 
-    public String getCittà() {
-        return città;
+    public String getCitta() {
+        return citta;
     }
 
-    public void setCittà(String città) {
-        this.città = città;
+    public void setCitta(String citta) {
+        this.citta = citta;
     }
 
     public int getId() {
@@ -44,7 +44,7 @@ public class Sede {
         return "Sede{" +
                 "indirizzo='" + indirizzo + '\'' +
                 ", nome='" + nome + '\'' +
-                ", città='" + città + '\'' +
+                ", città='" + citta + '\'' +
                 ", id=" + id +
                 '}';
     }
@@ -52,7 +52,7 @@ public class Sede {
     public Sede(String indirizzo, String nome, String città, int id) {
         this.indirizzo = indirizzo;
         this.nome = nome;
-        this.città = città;
+        this.citta = città;
         this.id = id;
     }
 }

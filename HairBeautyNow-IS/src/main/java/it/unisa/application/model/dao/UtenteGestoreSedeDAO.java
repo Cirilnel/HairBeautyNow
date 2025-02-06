@@ -91,4 +91,33 @@ public class UtenteGestoreSedeDAO {
             e.printStackTrace();
         }
     }
+    // Recupera tutti i gestori che non hanno una sede assegnata (sedeID NULL o 0)
+    public List<UtenteGestoreSede> getGestoriSenzaSede() {
+        List<UtenteGestoreSede> gestori = new ArrayList<>();
+        String sql = "SELECT * FROM UtenteGestoreSede WHERE sedeID IS NULL OR sedeID = 0";
+        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String usernameUGS = resultSet.getString("usernameUGS");
+                String password = resultSet.getString("password");
+                gestori.add(new UtenteGestoreSede(usernameUGS, password, 0)); // sedeID 0 perché non assegnato
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return gestori;
+    }
+
+    // Assegna una sede a un gestore
+    public void assegnaSede(String usernameUGS, int sedeID) {
+        String sql = "UPDATE UtenteGestoreSede SET sedeID = ? WHERE usernameUGS = ?";
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, sedeID);
+            preparedStatement.setString(2, usernameUGS);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

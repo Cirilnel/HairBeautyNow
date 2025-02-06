@@ -40,7 +40,7 @@ public class PrenotazioneServlet extends HttpServlet {
         // Estrai le città disponibili senza duplicati
         Set<String> cittaSet = new HashSet<>();
         for (Sede sede : sedi) {
-            cittaSet.add(sede.getCittà());
+            cittaSet.add(sede.getCitta());
         }
 
         // Usa una lista mutabile per aggiungere "Nessuna selezione"
@@ -53,7 +53,7 @@ public class PrenotazioneServlet extends HttpServlet {
         if (cittaSelezionata != null && !cittaSelezionata.equals("Nessuna selezione") && !cittaSelezionata.isEmpty()) {
             final String cittaFinale = cittaSelezionata; // Variabile finale per l'uso nella lambda
             sedi = sedi.stream()
-                    .filter(sede -> sede.getCittà() != null && sede.getCittà().equalsIgnoreCase(cittaFinale)) // Uso della variabile finale
+                    .filter(sede -> sede.getCitta() != null && sede.getCitta().equalsIgnoreCase(cittaFinale)) // Uso della variabile finale
                     .collect(Collectors.toList());
         }
 

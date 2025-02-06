@@ -39,7 +39,6 @@ public class FasciaOrariaDAO {
                         rs.getString("fascia"),
                         rs.getBoolean("disponibile")
                 );
-                System.out.println("Fascia oraria trovata: " + fasciaOraria);
                 return fasciaOraria;
             } else {
                 System.out.println("Fascia oraria non trovata per professionista: " + professionistaId + ", giorno: " + giorno + ", fascia: " + fascia);

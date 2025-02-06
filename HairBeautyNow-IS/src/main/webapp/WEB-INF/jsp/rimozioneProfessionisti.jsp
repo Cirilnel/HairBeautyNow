@@ -31,7 +31,7 @@
   <%
   } else {
   %>
-  <h3>Professionisti nella sede: <%= sede.getIndirizzo() %>, <%= sede.getCittà() %></h3>
+  <h3>Professionisti nella sede: <%= sede.getIndirizzo() %>, <%= sede.getCitta() %></h3>
   <ul id="professionisti-list">
     <%
       for (Professionista professionista : professionisti) {
