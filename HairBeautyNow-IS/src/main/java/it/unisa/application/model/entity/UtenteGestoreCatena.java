@@ -5,14 +5,12 @@ public class UtenteGestoreCatena {
     private String password;
     private int n_SediGestite;
     private int sedeID; //FK
-    private String usernameUGS; //FK
 
-    public UtenteGestoreCatena(String password, int n_SediGestite, String username, int sedeID, String usernameUGS) {
+    public UtenteGestoreCatena(String password, int n_SediGestite, String username, int sedeID) {
         this.password = password;
         this.n_SediGestite = n_SediGestite;
         this.username = username;
         this.sedeID = sedeID;
-        this.usernameUGS = usernameUGS;
     }
 
 
@@ -23,7 +21,6 @@ public class UtenteGestoreCatena {
                 ", password='" + password + '\'' +
                 ", n_SediGestite=" + n_SediGestite +
                 ", sedeID=" + sedeID +
-                ", usernameUGS='" + usernameUGS + '\'' +
                 '}';
     }
 
@@ -59,11 +56,4 @@ public class UtenteGestoreCatena {
         this.sedeID = sedeID;
     }
 
-    public String getUsernameUGS() {
-        return usernameUGS;
-    }
-
-    public void setUsernameUGS(String usernameUGS) {
-        this.usernameUGS = usernameUGS;
-    }
 }

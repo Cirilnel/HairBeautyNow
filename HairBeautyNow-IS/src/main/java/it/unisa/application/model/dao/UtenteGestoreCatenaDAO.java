@@ -22,7 +22,6 @@ public class UtenteGestoreCatenaDAO {
             preparedStatement.setString(2, utenteGestoreCatena.getPassword());
             preparedStatement.setInt(3, utenteGestoreCatena.getN_SediGestite());
             preparedStatement.setInt(4, utenteGestoreCatena.getSedeID());
-            preparedStatement.setString(5, utenteGestoreCatena.getUsernameUGS());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -41,9 +40,8 @@ public class UtenteGestoreCatenaDAO {
                 String password = resultSet.getString("password");
                 int n_SediGestite = resultSet.getInt("n_SediGestite");
                 int sedeID = resultSet.getInt("sedeID");
-                String usernameUGS = resultSet.getString("usernameUGS");
 
-                return new UtenteGestoreCatena(password, n_SediGestite, username, sedeID, usernameUGS);
+                return new UtenteGestoreCatena(password, n_SediGestite, username, sedeID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,9 +60,8 @@ public class UtenteGestoreCatenaDAO {
                 String password = resultSet.getString("password");
                 int n_SediGestite = resultSet.getInt("n_SediGestite");
                 int sedeID = resultSet.getInt("sedeID");
-                String usernameUGS = resultSet.getString("usernameUGS");
 
-                utenti.add(new UtenteGestoreCatena(password, n_SediGestite, username, sedeID, usernameUGS));
+                utenti.add(new UtenteGestoreCatena(password, n_SediGestite, username, sedeID));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,12 +71,11 @@ public class UtenteGestoreCatenaDAO {
 
     // Aggiornamento delle informazioni di un utente gestore catena
     public void update(UtenteGestoreCatena utenteGestoreCatena) {
-        String sql = "UPDATE UtenteGestoreCatena SET password = ?, n_SediGestite = ?, sedeID = ?, usernameUGS = ? WHERE username = ?";
+        String sql = "UPDATE UtenteGestoreCatena SET password = ?, n_SediGestite = ?, sedeID = ? WHERE username = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, utenteGestoreCatena.getPassword());
             preparedStatement.setInt(2, utenteGestoreCatena.getN_SediGestite());
             preparedStatement.setInt(3, utenteGestoreCatena.getSedeID());
-            preparedStatement.setString(4, utenteGestoreCatena.getUsernameUGS());
             preparedStatement.setString(5, utenteGestoreCatena.getUsername());
 
             preparedStatement.executeUpdate();
