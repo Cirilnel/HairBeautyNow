@@ -1,11 +1,13 @@
 package it.unisa.application.model.dao;
 
 import it.unisa.application.model.entity.Prenotazione;
+import it.unisa.application.model.entity.Professionista;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PrenotazioneDAO {
     private static final String URL = "jdbc:mysql://localhost:3306/HairBeautyNow";
@@ -144,4 +146,40 @@ public class PrenotazioneDAO {
         }
         return lista;
     }
+    public List<Prenotazione> getPrenotazioniByProfessionisti(List<Professionista> professionisti) throws SQLException {
+        List<Prenotazione> lista = new ArrayList<>();
+
+        // Estrai gli ID dei professionisti dalla lista di Professionista
+        List<Integer> professionistaIds = professionisti.stream()
+                .map(Professionista::getId)  // Assuming Professionista has getId() method
+                .collect(Collectors.toList());
+
+        // Se la lista è vuota, ritorna una lista vuota
+        if (professionistaIds.isEmpty()) {
+            return lista;
+        }
+
+        // Crea una query con IN per cercare più professionisti
+        String query = "SELECT * FROM Prenotazione WHERE professionistaId IN (" +
+                professionistaIds.stream().map(String::valueOf).collect(Collectors.joining(", ")) + ")";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Prenotazione(
+                        rs.getString("servizioName"),
+                        rs.getInt("professionistaId"),
+                        rs.getTimestamp("data").toLocalDateTime(),
+                        rs.getString("username"),
+                        rs.getDouble("prezzo")
+                ));
+            }
+        }
+
+        return lista;
+    }
+
 }
