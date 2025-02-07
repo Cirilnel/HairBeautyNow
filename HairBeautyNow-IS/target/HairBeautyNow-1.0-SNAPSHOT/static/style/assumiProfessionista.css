@@ -105,3 +105,18 @@ h1 {
         font-size: 0.9rem;
     }
 }
+
+.back-arrow {
+    position: absolute;
+    top: 110px;    left: 20px;
+    font-size: 30px;
+    color: #87CEFA;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    z-index: 10;
+}
+
+.back-arrow:hover {
+    color: #5daedb;
+}
+

@@ -20,6 +20,9 @@
 <body>
 <script src="static/js/UserMenu.js"></script>
 <%@ include file="headerSede.jsp" %>
+<a href="javascript:history.back()" class="back-arrow">
+  <i class="fa fa-arrow-left"></i>
+</a>
 <h1>Prenotazioni Attive</h1>
 
 <%
