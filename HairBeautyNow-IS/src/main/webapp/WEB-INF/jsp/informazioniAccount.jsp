@@ -78,9 +78,6 @@
         </div>
         <div class="user-details">
             <p><strong>Username:</strong> <%= gestoreCatena.getUsername() %></p>
-            <p><strong>Sedi Gestite:</strong> <%= gestoreCatena.getN_SediGestite() %></p>
-            <p><strong>ID Sede:</strong> <%= gestoreCatena.getSedeID() %></p>
-            <p><strong>Gestore:</strong> <%= gestoreCatena.getUsernameUGS() %></p>
         </div>
     </div>
 </div>
