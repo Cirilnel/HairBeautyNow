@@ -15,50 +15,86 @@ public class UtenteGestoreSedeDAO {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    // Insert a new user (UtenteGestoreSede)
-    public void insert(UtenteGestoreSede utenteGestoreSede) {
-        String sql = "INSERT INTO UtenteGestoreSede (usernameUGS, password, sedeID) VALUES (?, ?, ?)";
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, utenteGestoreSede.getUsernameUGS());
-            preparedStatement.setString(2, utenteGestoreSede.getPassword());
-            preparedStatement.setInt(3, utenteGestoreSede.getSedeID());
+    // Controlla se lo username esiste già
+    public boolean existsByUsername(String usernameUGS) {
+        String sql = "SELECT COUNT(*) FROM UtenteGestoreSede WHERE usernameUGS = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            preparedStatement.executeUpdate();
+            preparedStatement.setString(1, usernameUGS);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0; // Se il conteggio è > 0, lo username esiste già
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
-    // Retrieve a user by username
+    // Inserisce un nuovo utente gestore sede
+    public boolean insert(UtenteGestoreSede utenteGestoreSede) {
+        if (existsByUsername(utenteGestoreSede.getUsernameUGS())) {
+            System.err.println("Errore: username già esistente nel database.");
+            return false;
+        }
+
+        String sql = "INSERT INTO UtenteGestoreSede (usernameUGS, password, sedeID) VALUES (?, ?, ?)";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, utenteGestoreSede.getUsernameUGS());
+            preparedStatement.setString(2, utenteGestoreSede.getPassword());
+
+            // Se sedeID è NULL, setta il parametro come NULL nel PreparedStatement
+            if (utenteGestoreSede.getSedeID() == null || utenteGestoreSede.getSedeID() == 0) {
+                preparedStatement.setNull(3, Types.INTEGER);
+            } else {
+                preparedStatement.setInt(3, utenteGestoreSede.getSedeID());
+            }
+
+            int rowsInserted = preparedStatement.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Ottiene un utente dal suo username
     public UtenteGestoreSede getByUsername(String usernameUGS) {
         String sql = "SELECT * FROM UtenteGestoreSede WHERE usernameUGS = ?";
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, usernameUGS);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
+            preparedStatement.setString(1, usernameUGS);
             ResultSet resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next()) {
                 String password = resultSet.getString("password");
                 int sedeID = resultSet.getInt("sedeID");
-
                 return new UtenteGestoreSede(usernameUGS, password, sedeID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;  // Return null if no user found
+        return null;
     }
 
-    // Retrieve all users
+    // Ottiene tutti gli utenti
     public List<UtenteGestoreSede> getAll() {
         List<UtenteGestoreSede> utenti = new ArrayList<>();
         String sql = "SELECT * FROM UtenteGestoreSede";
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
+
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 String usernameUGS = resultSet.getString("usernameUGS");
                 String password = resultSet.getString("password");
                 int sedeID = resultSet.getInt("sedeID");
-
                 utenti.add(new UtenteGestoreSede(usernameUGS, password, sedeID));
             }
         } catch (SQLException e) {
@@ -67,40 +103,38 @@ public class UtenteGestoreSedeDAO {
         return utenti;
     }
 
-    // Update a user's information
-    public void update(UtenteGestoreSede utenteGestoreSede) {
-        String sql = "UPDATE UtenteGestoreSede SET password = ?, sedeID = ? WHERE usernameUGS = ?";
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, utenteGestoreSede.getPassword());
-            preparedStatement.setInt(2, utenteGestoreSede.getSedeID());
-            preparedStatement.setString(3, utenteGestoreSede.getUsernameUGS());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Delete a user by username
-    public void delete(String usernameUGS) {
-        String sql = "DELETE FROM UtenteGestoreSede WHERE usernameUGS = ?";
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, usernameUGS);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    // Recupera tutti i gestori che non hanno una sede assegnata (sedeID NULL o 0)
+    // Recupera tutti i gestori che non hanno una sede assegnata
     public List<UtenteGestoreSede> getGestoriSenzaSede() {
         List<UtenteGestoreSede> gestori = new ArrayList<>();
         String sql = "SELECT * FROM UtenteGestoreSede WHERE sedeID IS NULL OR sedeID = 0";
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
+
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 String usernameUGS = resultSet.getString("usernameUGS");
                 String password = resultSet.getString("password");
-                gestori.add(new UtenteGestoreSede(usernameUGS, password, 0)); // sedeID 0 perché non assegnato
+                gestori.add(new UtenteGestoreSede(usernameUGS, password, 0));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return gestori;
+    }
+
+    // Recupera tutti i gestori che hanno una sede assegnata (sedeID != null o 0)
+    public List<UtenteGestoreSede> getGestoriConSede() {
+        List<UtenteGestoreSede> gestori = new ArrayList<>();
+        String sql = "SELECT * FROM UtenteGestoreSede WHERE sedeID IS NOT NULL AND sedeID != 0";
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String usernameUGS = resultSet.getString("usernameUGS");
+                String password = resultSet.getString("password");
+                int sedeID = resultSet.getInt("sedeID");
+                gestori.add(new UtenteGestoreSede(usernameUGS, password, sedeID));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,7 +145,9 @@ public class UtenteGestoreSedeDAO {
     // Assegna una sede a un gestore
     public void assegnaSede(String usernameUGS, int sedeID) {
         String sql = "UPDATE UtenteGestoreSede SET sedeID = ? WHERE usernameUGS = ?";
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setInt(1, sedeID);
             preparedStatement.setString(2, usernameUGS);
             preparedStatement.executeUpdate();
@@ -120,4 +156,16 @@ public class UtenteGestoreSedeDAO {
         }
     }
 
+    // Licenzia un gestore (rimuove la sede assegnata senza eliminarlo dal DB)
+    public void licenziaGestore(String usernameUGS) {
+        String sql = "UPDATE UtenteGestoreSede SET sedeID = NULL WHERE usernameUGS = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, usernameUGS);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -42,25 +42,49 @@
     </div>
 
     <div class="service-card general">
-        <a href="<%= request.getContextPath() %>/prenotazioniAttive">
+        <a href="<%= request.getContextPath() %>/rimuoviGestore">
             <img src="static/images/remove.png" alt="Nail Care">
             <div class="service-item">
                 <p>Rimuovi Gestore </p>
             </div>
         </a>
     </div>
-
 </section>
 
 <%@ include file="footer.jsp" %>
+
 <script>
     window.onload = function() {
+        const gestoreCreato = "<%= session.getAttribute("gestoreCreato") %>";
+        const gestoreRimosso = "<%= session.getAttribute("gestoreRimosso") %>";
+
+        if (gestoreCreato === "ok") {
+            alert("Gestore creato con successo!");
+
+            // Rimuovi l'attributo dalla sessione sul server tramite una richiesta GET
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "<%= request.getContextPath() %>/creaGestore?removeGestoreCreato=true", true);
+            xhr.send();
+        }
+
+        if (gestoreRimosso === "ok") {
+            alert("Gestore rimosso con successo!");
+
+            // Rimuoviamo l'attributo dalla sessione sul server tramite una richiesta GET
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "<%= request.getContextPath() %>/rimuoviGestore?removeGestoreRimosso=true", true);
+            xhr.send();
+        }
+
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('successo')) {
             alert("Sede creata con successo e gestore assegnato!");
         }
     };
+
 </script>
+
+
 
 </body>
 </html>

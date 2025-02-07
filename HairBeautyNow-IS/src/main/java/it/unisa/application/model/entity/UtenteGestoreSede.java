@@ -3,7 +3,7 @@ package it.unisa.application.model.entity;
 public class UtenteGestoreSede {
     private String usernameUGS; //PK
     private String password;
-    private int sedeID; // FK referring to the Sede table
+    private Integer sedeID; // FK referring to the Sede table
 
     // Constructor with updated parameters
     public UtenteGestoreSede(String usernameUGS, String password, int sedeID) {
@@ -28,11 +28,11 @@ public class UtenteGestoreSede {
         this.password = password;
     }
 
-    public int getSedeID() {
+    public Integer getSedeID() {
         return sedeID;
     }
 
-    public void setSedeID(int sedeID) {
+    public void setSedeID(Integer sedeID) {
         this.sedeID = sedeID;
     }
 

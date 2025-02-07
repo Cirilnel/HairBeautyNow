@@ -24,8 +24,6 @@ public class AssegnaGestoreServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Recupera tutti i gestori che non hanno una sede assegnata
         List<UtenteGestoreSede> gestoriSenzaSede = utenteGestoreSedeDAO.getGestoriSenzaSede();
-
-        // Passa la lista alla pagina JSP
         request.setAttribute("gestoriSenzaSede", gestoriSenzaSede);
         request.getRequestDispatcher("/WEB-INF/jsp/assegnaGestore.jsp").forward(request, response);
     }
@@ -34,32 +32,69 @@ public class AssegnaGestoreServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        // Recupera l'oggetto Sede dalla sessione
+        // Recupera sedeID e username del gestore licenziato, se presenti nella sessione
+        Integer sedeIDLicenziato = (Integer) session.getAttribute("sedeIDLicenziato");
+        String usernameLicenziato = (String) session.getAttribute("usernameLicenziato");
+
+        // Aggiungi un log per verificare che i dati siano stati correttamente letti dalla sessione
+        System.out.println("sedeIDLicenziato: " + sedeIDLicenziato + ", usernameLicenziato: " + usernameLicenziato);
+
+        // Recupera l'oggetto Sede dalla sessione (se presente)
         Sede nuovaSede = (Sede) session.getAttribute("nuovaSede");
 
+        // Caso 1: Nuova sede creata
         if (nuovaSede != null) {
-            // Inserisce la sede nel database e ottiene il suo ID generato automaticamente
             int sedeID = sedeDAO.insertSedeAndReturnID(nuovaSede);
 
             if (sedeID > 0) {
                 // Recupera il gestore selezionato dal form
                 String usernameUGS = request.getParameter("usernameUGS");
 
-                // Assegna la sede al gestore nel database
+                // Assegna la sede al nuovo gestore
                 utenteGestoreSedeDAO.assegnaSede(usernameUGS, sedeID);
 
-                // Rimuove la sede dalla sessione per evitare duplicazioni future
+                // Rimuove la sede dalla sessione
                 session.removeAttribute("nuovaSede");
 
-                // Reindirizza alla stessa pagina per vedere l'aggiornamento
+                // Caso 2: Se c'è un gestore licenziato, rimuovi la sua sede
+                if (sedeIDLicenziato != null && sedeIDLicenziato > 0 && usernameLicenziato != null) {
+                    utenteGestoreSedeDAO.licenziaGestore(usernameLicenziato);  // Imposta sedeID a null per il licenziato
+                    System.out.println("Licenziato il gestore: " + usernameLicenziato);
+
+                    // Aggiungi l'attributo alla sessione per notificare che il gestore è stato rimosso
+                }
+
+                // Successo: Reindirizza alla home della catena con un messaggio di successo
                 response.sendRedirect(request.getContextPath() + "/homeCatena?successo=ok");
                 return;
             } else {
+                // Errore: Creazione sede fallita
                 response.sendRedirect(request.getContextPath() + "/assegnaGestore?errore=Creazione sede fallita");
                 return;
             }
         }
 
-        response.sendRedirect(request.getContextPath() + "/assegnaGestore?errore=Nessuna sede in sessione");
+        // Caso 2: Nessuna nuova sede (licenzia il vecchio gestore e assegna la sede al nuovo)
+        if (sedeIDLicenziato != null && sedeIDLicenziato > 0 && usernameLicenziato != null) {
+            // Recupera il gestore selezionato dal form
+            String usernameUGS = request.getParameter("usernameUGS");
+
+            // Licenzia il vecchio gestore
+            utenteGestoreSedeDAO.licenziaGestore(usernameLicenziato);  // Imposta sedeID a null per il licenziato
+
+            // Assegna la sede al nuovo gestore
+            utenteGestoreSedeDAO.assegnaSede(usernameUGS, sedeIDLicenziato);
+
+            // Aggiungi l'attributo alla sessione per notificare che il gestore è stato rimosso
+            session.setAttribute("gestoreRimosso", "ok");
+
+            // Successo: Reindirizza alla home della catena con un messaggio di successo
+            response.sendRedirect(request.getContextPath() + "/homeCatena");
+        } else {
+            // Errore: Non ci sono informazioni sui gestori da licenziare
+            response.sendRedirect(request.getContextPath() + "/assegnaGestore?errore=Nessun gestore licenziato");
+        }
     }
+
 }
+
