@@ -17,6 +17,9 @@
 <body>
 <%@ include file="headerSede.jsp" %>
 <script src="static/js/UserMenu.js"></script>
+<a href="javascript:history.back()" class="back-arrow">
+  <i class="fa fa-arrow-left"></i>
+</a>
 
 <h1>Rimozione Professionisti</h1>
 <div class="rimozione-container">
