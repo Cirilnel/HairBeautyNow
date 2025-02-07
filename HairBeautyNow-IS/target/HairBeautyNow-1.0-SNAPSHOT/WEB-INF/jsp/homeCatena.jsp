@@ -20,7 +20,7 @@
 </section>
 
 <section class="intro general">
-    <h1>Gestione Sede</h1>
+    <h1>Gestione Catena</h1>
 </section>
 <section class="services general">
     <div class="service-card general">

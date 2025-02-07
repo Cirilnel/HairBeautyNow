@@ -20,7 +20,7 @@
 
 <section class="form-container">
   <form action="<%= request.getContextPath() %>/aggiungiSede" method="post">
-    <label for="indirizzo">Indirizzo:</label>
+    <label for="indirizzo">Indirizzo:</label><!--Via Senato 156 Via Giovanni 56-->
     <input type="text" id="indirizzo" name="indirizzo" required>
 
     <label for="citta">Citt&agrave;:</label>

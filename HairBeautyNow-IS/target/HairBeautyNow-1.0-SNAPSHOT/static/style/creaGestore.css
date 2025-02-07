@@ -38,13 +38,23 @@ form label {
 }
 
 /* Stile degli input */
-form input[type="text"] {
+form input[type="text"],
+form input[type="password"] {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1rem;
+    display: block;
+}
+
+/* Stile del messaggio di errore */
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 /* Stile del pulsante */
@@ -58,7 +68,8 @@ form button {
     cursor: pointer;
     transition: background-color 0.3s;
     display: block;
-    margin: 10px auto;
+    margin: 20px auto;
+    font-size: 1.2rem;
 }
 
 form button:hover {
@@ -71,9 +82,9 @@ form button:hover {
         font-size: 2.5rem;
     }
     form {
-        max-width: 90%;
+        max-width: 95%;
     }
     form button {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 }
