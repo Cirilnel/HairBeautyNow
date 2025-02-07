@@ -19,6 +19,7 @@
       document.getElementById("form-citta").submit();
     }
   </script>
+  <script src="static/js/UserMenu.js"></script>
 </head>
 <body>
 <%@ include file="header.jsp" %>

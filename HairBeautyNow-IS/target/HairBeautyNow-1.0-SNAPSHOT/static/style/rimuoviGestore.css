@@ -106,3 +106,17 @@ table td form button:hover {
         font-size: 0.9rem;
     }
 }
+.back-arrow {
+    position: absolute;
+    top: 70px; /* Modifica questo valore se l'header è più alto o più basso */
+    left: 20px;
+    font-size: 30px;
+    color: #87CEFA;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    z-index: 10; /* Inferiore all'header se ha un valore più alto */
+}
+
+.back-arrow:hover {
+    color: #5daedb;
+}

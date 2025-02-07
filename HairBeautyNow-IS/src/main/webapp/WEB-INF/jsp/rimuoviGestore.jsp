@@ -15,6 +15,10 @@
 </head>
 <body>
 <%@ include file="headerCatena.jsp" %>
+
+<a href="javascript:history.back()" class="back-arrow">
+  <i class="fa fa-arrow-left"></i>
+</a>
 <h1>Rimuovi Gestore</h1>
 
 <% if (request.getParameter("errore") != null) { %>
