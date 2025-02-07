@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+        <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="it.unisa.application.model.entity.Professionista" %>
 <%@ page import="it.unisa.application.model.entity.FasciaOraria" %>
@@ -6,7 +6,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.stream.Collectors" %>
-<%@ page import="java.time.format.DateTimeFormatter" %> <!-- Importa il formatter -->
+<%@ page import="java.time.format.DateTimeFormatter" %>
 
 <html>
 <head>
@@ -24,80 +24,112 @@
 
 <h1>Prenotazione Professionista</h1>
 <div class="prenotazione-container">
-<%
-    List<Professionista> professionisti = (List<Professionista>) request.getAttribute("professionisti");
-    if (professionisti == null || professionisti.isEmpty()) {
-%>
-<p>Nessun professionista trovato.</p>
-<%
-} else {
-%>
-<p>Numero di professionisti: <%= professionisti.size() %></p>
-<% } %>
-
-<% if (professionisti == null || professionisti.isEmpty()) { %>
-<p>Nessun professionista disponibile.</p>
-<% } else { %>
-<ul>
-    <% for (Professionista professionista : professionisti) { %>
-    <li>
-        <strong><%= professionista.getNome() %></strong>
-
-        <!-- Immagine del professionista -->
-        <img src="static/images/<%= professionista.getId() %>.png" alt="Foto di <%= professionista.getNome() %>" width="150" />
-
-        <!-- Form per la selezione -->
-        <form action="prenotazione" method="post">
-            <input type="hidden" name="professionistaId" value="<%= professionista.getId() %>" />
-
-            <!-- Selezione giorno -->
-            <label for="data">Seleziona il giorno:</label>
-
-            <select name="data" id="data" onchange="aggiornaOrari()">
-                <%
-                    Map<LocalDate, List<String>> fasceOrarieByDay = (Map<LocalDate, List<String>>) request.getAttribute("fasceOrarieByDay");
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Crea il formatter
-                    for (LocalDate giorno : fasceOrarieByDay.keySet()) {
-                        String giornoFormattato = giorno.format(formatter); // Formatta la data
-                %>
-                <option value="<%= giornoFormattato %>"><%= giornoFormattato %></option>
-                <% } %>
-            </select>
-
-            <br><br>
-
-            <!-- Selezione orario -->
-            <label for="orario">Seleziona l'orario:</label>
-            <select name="orario" id="orario">
-                <!-- Gli orari saranno aggiornati dinamicamente in base al giorno -->
-            </select>
-
-            <br><br>
-
-            <input type="submit" value="Prenota">
-        </form>
-    </li>
-    <% } %>
-</ul>
-<% } %>
-
-<!-- Creiamo la variabile JavaScript fasceOrarieByDay con i dati dal server -->
-<script>
-    var fasceOrarieByDay = {};
-
     <%
-        Map<LocalDate, List<String>> fasceOrarieByDay = (Map<LocalDate, List<String>>) request.getAttribute("fasceOrarieByDay");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        // Ciclo sui giorni per costruire la struttura JavaScript
-        for (Map.Entry<LocalDate, List<String>> entry : fasceOrarieByDay.entrySet()) {
-            String giorno = entry.getKey().format(formatter);  // Formattiamo il giorno
-            List<String> fasce = entry.getValue();
-            String fasceStr = fasce.stream().map(f -> "\"" + f + "\"").collect(Collectors.joining(","));
+        List<Professionista> professionisti = (List<Professionista>) request.getAttribute("professionisti");
+        if (professionisti == null || professionisti.isEmpty()) {
     %>
-    fasceOrarieByDay["<%= giorno %>"] = [<%= fasceStr %>];
+    <p>Nessun professionista trovato.</p>
+    <%
+    } else {
+    %>
+    <p>Numero di professionisti: <%=professionisti.size()%></p>
     <% } %>
-</script>
+
+    <% Map<Integer, Map<LocalDate, List<String>>> fasceOrarieByProfessionista = null;
+        if (professionisti == null || professionisti.isEmpty()) { %>
+    <p>Nessun professionista disponibile.</p>
+    <% } else { %>
+    <ul>
+        <%
+            // Recupera le fasce orarie specifiche per ogni professionista
+            fasceOrarieByProfessionista = (Map<Integer, Map<LocalDate, List<String>>>) request.getAttribute("fasceOrarieByProfessionista");
+        %>
+        <% for (Professionista professionista : professionisti) { %>
+        <li>
+            <strong><%=professionista.getNome()%></strong>
+
+            <!-- Stampa l'ID del professionista per debug -->
+            <p>ID Professionista: <%=professionista.getId()%></p>
+
+            <!-- Immagine del professionista -->
+            <img src="static/images/<%=professionista.getId()%>.png" alt="Foto di <%=professionista.getNome()%>" width="150" />
+
+            <!-- Form per la selezione -->
+            <form action="prenotazione" method="post">
+                <input type="hidden" name="professionistaId" value="<%=professionista.getId()%>" />
+
+                <!-- Selezione giorno -->
+                <label for="data<%=professionista.getId()%>">Seleziona il giorno:</label>
+
+                <select name="data" id="data<%=professionista.getId()%>" onchange="aggiornaOrari(
+                    <%=professionista.getId()%>)">
+                    <%
+                        Map<LocalDate, List<String>> fasceOrarieForProfessionista = fasceOrarieByProfessionista.get(professionista.getId());
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        for (LocalDate giorno : fasceOrarieForProfessionista.keySet()) {
+                            String giornoFormattato = giorno.format(formatter);
+                    %>
+                    <option value="<%=giornoFormattato%>"><%=giornoFormattato%></option>
+                    <% } %>
+                </select>
+
+                <br><br>
+
+                <!-- Selezione orario -->
+                <label for="orario<%=professionista.getId()%>">Seleziona l'orario:</label>
+                <select name="orario" id="orario<%=professionista.getId()%>">
+                    <!-- Gli orari saranno aggiornati dinamicamente in base al giorno -->
+                </select>
+
+                <br><br>
+
+                <input type="submit" value="Prenota">
+            </form>
+        </li>
+        <% } %>
+    </ul>
+    <% } %>
+
+    <!-- Creiamo la variabile JavaScript fasceOrarieByDay con i dati dal server -->
+    <script>
+        var fasceOrarieByProfessionista = {};
+
+        <%
+                // Passa i dati delle fasce orarie per ogni professionista
+                for (Map.Entry<Integer, Map<LocalDate, List<String>>> entry : fasceOrarieByProfessionista.entrySet()) {
+                    Integer professionistaId = entry.getKey();
+                    Map<LocalDate, List<String>> fasceOrarie = entry.getValue();
+                    String fasceStr = fasceOrarie.entrySet().stream()
+                            .map(e -> "\"" + e.getKey().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "\":[" + e.getValue().stream().map(f -> "\"" + f + "\"").collect(Collectors.joining(",")) + "]")
+                            .collect(Collectors.joining(","));
+                    %>
+        fasceOrarieByProfessionista["<%=professionistaId%>"] = {<%=fasceStr%>};
+        <% } %>
+
+        // Funzione per aggiornare gli orari per ogni professionista
+        function aggiornaOrari(professionistaId) {
+            var selezioneGiorno = document.getElementById("data" + professionistaId);
+            var selezioneOrario = document.getElementById("orario" + professionistaId);
+
+            // Pulisce le opzioni esistenti
+            selezioneOrario.innerHTML = "<option value=''>Caricamento...</option>";
+
+            var selectedDate = selezioneGiorno.value;
+            if (fasceOrarieByProfessionista[professionistaId] && fasceOrarieByProfessionista[professionistaId][selectedDate]) {
+                // Aggiungi le fasce orarie disponibili per il giorno selezionato
+                fasceOrarieByProfessionista[professionistaId][selectedDate].forEach(function(fascia) {
+                    var option = document.createElement("option");
+                    option.value = fascia;
+                    option.text = fascia;
+                    selezioneOrario.appendChild(option);
+                });
+            } else {
+                var option = document.createElement("option");
+                option.text = "Nessun orario disponibile";
+                selezioneOrario.appendChild(option);
+            }
+        }
+    </script>
 
 </div>
 

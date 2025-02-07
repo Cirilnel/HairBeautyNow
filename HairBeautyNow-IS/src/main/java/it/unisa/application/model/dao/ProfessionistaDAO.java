@@ -133,19 +133,64 @@ public class ProfessionistaDAO {
 
     // Metodo per inserire un nuovo professionista
     public void insertProfessionista(Professionista professionista) {
-        String query = "INSERT INTO professionista (nome, sedeId) VALUES (?, ?)";
+        // Query per inserire il professionista
+        String queryProfessionista = "INSERT INTO professionista (nome, sedeId) VALUES (?, ?)";
+
+        // Query per inserire la fascia oraria
+        String queryFasceOrarie = "INSERT INTO fascia_oraria (professionista_id, giorno, fascia, disponibile) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statementProfessionista = connection.prepareStatement(queryProfessionista, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, professionista.getNome());
-            statement.setInt(2, professionista.getSedeId());
+            // Inserisce il professionista
+            statementProfessionista.setString(1, professionista.getNome());
+            statementProfessionista.setInt(2, professionista.getSedeId());
+            statementProfessionista.executeUpdate();
 
-            statement.executeUpdate();
+            // Ottieni l'ID generato del nuovo professionista
+            ResultSet generatedKeys = statementProfessionista.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int professionistaId = generatedKeys.getInt(1); // Ottieni l'ID del professionista appena inserito
+
+                // Preparare la query per inserire le fasce orarie
+                try (PreparedStatement statementFasceOrarie = connection.prepareStatement(queryFasceOrarie)) {
+
+                    // Fasce orarie
+                    String[] fasce = {
+                            "08:00-08:30", "08:30-09:00", "09:00-09:30", "09:30-10:00", "10:00-10:30",
+                            "10:30-11:00", "11:00-11:30", "11:30-12:00", "14:00-14:30", "14:30-15:00",
+                            "15:00-15:30", "15:30-16:00", "16:00-16:30", "16:30-17:00", "17:00-17:30",
+                            "17:30-18:00"
+                    };
+
+                    // Inserimento delle fasce orarie per ogni giorno dal 4 al 28 febbraio 2025
+                    for (int day = 4; day <= 28; day++) {
+                        // Costruisci la data per ogni giorno dal 4 al 28 febbraio
+                        String data = String.format("2025-02-%02d", day);
+
+                        // Inserimento delle fasce orarie per ogni data
+                        for (String fascia : fasce) {
+                            // Imposta i valori della query per ogni fascia oraria
+                            statementFasceOrarie.setInt(1, professionistaId); // professionista_id
+                            statementFasceOrarie.setString(2, data);         // giorno
+                            statementFasceOrarie.setString(3, fascia);       // fascia
+                            statementFasceOrarie.setBoolean(4, true);        // disponibile (true = libero)
+                            statementFasceOrarie.addBatch();                 // Aggiungi la query al batch
+                        }
+                    }
+
+                    // Esegui il batch per inserire tutte le fasce orarie
+                    statementFasceOrarie.executeBatch();
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+
+
     public double getPrezzoByServizio(String servizioName) {
         String query = "SELECT prezzo FROM Servizio WHERE nome = ?";
         double prezzo = 0.0;

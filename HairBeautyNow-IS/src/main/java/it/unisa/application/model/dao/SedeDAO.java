@@ -17,22 +17,6 @@ public class SedeDAO {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    // Metodo per inserire una nuova sede
-    public void insertSede(Sede sede) {
-        String query = "INSERT INTO sede (indirizzo, nome, città, id) VALUES (?, ?, ?, ?)";
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setString(1, sede.getIndirizzo());
-            statement.setString(2, sede.getNome());
-            statement.setString(3, sede.getCitta());
-            statement.setInt(4, sede.getId());
-
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     // Metodo per ottenere una sede per ID
     public Sede getSedeById(int id) {
@@ -82,37 +66,7 @@ public class SedeDAO {
         return sedi;
     }
 
-    // Metodo per aggiornare una sede
-    public void updateSede(Sede sede) {
-        String query = "UPDATE sede SET indirizzo = ?, nome = ?, città = ? WHERE id = ?";
 
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setString(1, sede.getIndirizzo());
-            statement.setString(2, sede.getNome());
-            statement.setString(3, sede.getCitta());
-            statement.setInt(4, sede.getId());
-
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Metodo per eliminare una sede
-    public void deleteSede(int id) {
-        String query = "DELETE FROM sede WHERE id = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setInt(1, id);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     // Metodo per ottenere una sede per ID (utile per l'utente loggato, esempio di utente Gestore Sede)
     public Sede findSedeById(int sedeId) {
@@ -122,7 +76,7 @@ public class SedeDAO {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setInt(1, sedeId);  // Passiamo il SedeID del Gestore Sede
+            statement.setInt(1, sedeId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -137,6 +91,7 @@ public class SedeDAO {
         }
         return sede;
     }
+
     public int insertSedeAndReturnID(Sede sede) {
         String query = "INSERT INTO sede (indirizzo, nome, città) VALUES (?, ?, ?)";
         int generatedID = -1;
@@ -152,7 +107,7 @@ public class SedeDAO {
             if (affectedRows > 0) {
                 ResultSet generatedKeys = statement.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    generatedID = generatedKeys.getInt(1); // Ottiene l'ID della nuova sede
+                    generatedID = generatedKeys.getInt(1);
                 }
             }
         } catch (SQLException e) {
@@ -161,4 +116,27 @@ public class SedeDAO {
         return generatedID;
     }
 
+    // Metodo per ottenere le sedi di una specifica città
+    public List<Sede> getSediByCitta(String citta) {
+        List<Sede> sedi = new ArrayList<>();
+        String query = "SELECT * FROM sede WHERE città = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, citta);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String indirizzo = resultSet.getString("indirizzo");
+                String nome = resultSet.getString("nome");
+
+                sedi.add(new Sede(indirizzo, nome, citta, id));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sedi;
+    }
 }

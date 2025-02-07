@@ -53,7 +53,7 @@
             // Send the form data via AJAX
             $.ajax({
                 type: "POST",
-                url: "<%= request.getContextPath() %>/assumiprofessionista",
+                url: "<%= request.getContextPath() %>/assumiProfessionista",
                 data: formData,
                 success: function(response) {
                     // Show the success message if the professionista was added successfully

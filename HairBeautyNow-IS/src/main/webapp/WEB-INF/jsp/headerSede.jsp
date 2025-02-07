@@ -19,7 +19,7 @@
         <li>
           <img src="static/images/logo.png" alt="Icona">
         </li>
-        <li><a href="<%= request.getContextPath() %>/assumiprofessionista">Assumi Professionista</a></li>
+        <li><a href="<%= request.getContextPath() %>/assumiProfessionista">Assumi Professionista</a></li>
         <li> <a href="<%= request.getContextPath() %>/prenotazioniAttive">Prenotazioni Attive</a></li>
       </ul>
     </nav>

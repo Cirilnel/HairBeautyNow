@@ -1,9 +1,8 @@
 package it.unisa.application.sottosistemi.GestioneSede.view;
 
-import it.unisa.application.model.dao.ProfessionistaDAO;
-import it.unisa.application.model.dao.SedeDAO;
 import it.unisa.application.model.entity.Professionista;
 import it.unisa.application.model.entity.Sede;
+import it.unisa.application.sottosistemi.GestioneSede.service.GestioneProfessionistaService;
 import it.unisa.application.model.entity.UtenteGestoreSede; // Import UtenteGestoreSede
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -15,10 +14,10 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/assumiprofessionista")
+@WebServlet("/assumiProfessionista")
 public class AssumiProfessionistaServlet extends HttpServlet {
 
-    private ProfessionistaDAO professionistaDAO = new ProfessionistaDAO();
+    private final GestioneProfessionistaService gestioneProfessionistaService = new GestioneProfessionistaService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,11 +44,7 @@ public class AssumiProfessionistaServlet extends HttpServlet {
 
         // Otteniamo l'ID della sede dal gestore
         Integer sedeId = utente.getSedeID();
-
-        // Recuperiamo la sede utilizzando l'ID
-        SedeDAO sedeDAO = new SedeDAO();
-        Sede sede = sedeDAO.findSedeById(sedeId);
-
+        Sede sede = gestioneProfessionistaService.getSedeById(sedeId);
         // Se la sede non esiste o è nulla, gestisci l'errore
         if (sede == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -63,18 +58,14 @@ public class AssumiProfessionistaServlet extends HttpServlet {
             response.getWriter().write("{\"message\":\"Errore: Nome professionista non valido\"}");
             return;
         }
-
-        // Creiamo il professionista e associamo la sede
+        // Delegare la logica al service
         Professionista professionista = new Professionista();
         professionista.setNome(nomeProfessionista);
         professionista.setSedeId(sedeId);
-
-        // Salviamo il professionista nel database
-        professionistaDAO.insertProfessionista(professionista);
-
-        // Return success response as JSON
+        // Gestire la risposta in base al risultato
+        gestioneProfessionistaService.assumiProfessionista(professionista);
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().write("{\"message\":\"Professionista assunto con successo!\"}");
+
     }
 }
-

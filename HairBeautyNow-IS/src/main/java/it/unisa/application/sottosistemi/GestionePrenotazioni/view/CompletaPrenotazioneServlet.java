@@ -1,18 +1,17 @@
 package it.unisa.application.sottosistemi.GestionePrenotazioni.view;
 
-import it.unisa.application.model.dao.PrenotazioneDAO;
-import it.unisa.application.model.dao.FasciaOrariaDAO;
-import it.unisa.application.model.dao.ServizioDAO;  // Aggiungi il DAO per Servizio
+import it.unisa.application.sottosistemi.GestionePrenotazioni.service.FasciaOrariaService;
+import it.unisa.application.sottosistemi.GestionePrenotazioni.service.PrenotazioneService;
 import it.unisa.application.model.entity.Prenotazione;
 import it.unisa.application.model.entity.FasciaOraria;
 import it.unisa.application.model.entity.UtenteAcquirente;
+import it.unisa.application.sottosistemi.GestioneServizi.service.ServizioService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,89 +21,50 @@ import java.sql.SQLException;
 
 @WebServlet("/completaPrenotazione")
 public class CompletaPrenotazioneServlet extends HttpServlet {
+    private final PrenotazioneService prenotazioneService = new PrenotazioneService();
+    private final FasciaOrariaService fasciaOrariaService = new FasciaOrariaService();
+    private final ServizioService servizioService = new ServizioService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        String giornoString = (String) session.getAttribute("giorno");
-        if (giornoString == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Giorno non trovato nella sessione.");
-            return;
-        }
-
-        LocalDate giorno;
         try {
-            giorno = LocalDate.parse(giornoString, DateTimeFormatter.ISO_LOCAL_DATE);
-        } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato data non valido.");
-            return;
-        }
+            // Ottieni i dati dalla sessione
+            String giornoString = (String) session.getAttribute("giorno");
+            LocalDate giorno = LocalDate.parse(giornoString, DateTimeFormatter.ISO_LOCAL_DATE);
+            String orario = (String) session.getAttribute("orario");
+            String[] orari = orario.split("-");
+            LocalTime time = LocalTime.parse(orari[0], DateTimeFormatter.ofPattern("HH:mm"));
+            int professionistaId = Integer.parseInt((String) session.getAttribute("professionistaId"));
+            String servizioName = (String) session.getAttribute("servizioPrenotato");
 
-        String orario = (String) session.getAttribute("orario");
-        if (orario == null || orario.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Orario non trovato nella sessione.");
-            return;
-        }
+            // Recupero del prezzo del servizio
+            double prezzo = servizioService.getPrezzoByNome(servizioName);
 
-        String[] orari = orario.split("-");
-        if (orari.length != 2) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato orario non valido.");
-            return;
-        }
+            // Recupera l'utente dalla sessione
+            UtenteAcquirente utente = (UtenteAcquirente) session.getAttribute("user");
 
-        LocalTime time;
-        try {
-            time = LocalTime.parse(orari[0], DateTimeFormatter.ofPattern("HH:mm"));
-        } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato orario non valido.");
-            return;
-        }
+            // Crea l'oggetto Prenotazione
+            LocalDateTime localDateTime = LocalDateTime.of(giorno, time);
+            Prenotazione prenotazione = new Prenotazione(servizioName, professionistaId, localDateTime, utente.getUsername(), prezzo);
 
-        String professionistaIdStr = (String) session.getAttribute("professionistaId");
-        if (professionistaIdStr == null || professionistaIdStr.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID del professionista mancante.");
-            return;
-        }
+            // Aggiungi la prenotazione tramite il service
+            prenotazioneService.addPrenotazione(prenotazione);
 
-        int professionistaId = Integer.parseInt(professionistaIdStr);
+            // Ottieni la fascia oraria dal service
+            FasciaOraria fasciaOraria = fasciaOrariaService.getFasciaOraria(professionistaId, giorno, orario);
 
-        String servizioName = (String) session.getAttribute("servizioPrenotato");
-        if (servizioName == null || servizioName.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Nome del servizio mancante.");
-            return;
-        }
-
-        ServizioDAO servizioDAO = new ServizioDAO();
-        double prezzo = servizioDAO.getPrezzoByNome(servizioName);
-
-        UtenteAcquirente utente = (UtenteAcquirente) session.getAttribute("user");
-        if (utente == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Utente non trovato nella sessione.");
-            return;
-        }
-
-        LocalDateTime localDateTime = LocalDateTime.of(giorno, time);
-        Prenotazione prenotazione = new Prenotazione(servizioName, professionistaId, localDateTime, utente.getUsername(), prezzo);
-
-        PrenotazioneDAO prenotazioneDAO = new PrenotazioneDAO();
-        FasciaOrariaDAO fasciaOrariaDAO = new FasciaOrariaDAO(); // Aggiunto DAO per la fascia oraria
-
-        try {
-            prenotazioneDAO.addPrenotazione(prenotazione);
-
-            // Recupera la fascia oraria selezionata
-            FasciaOraria fasciaOraria = fasciaOrariaDAO.getFasciaOraria(professionistaId, giorno, orario);
+            // Se la fascia oraria esiste, aggiorna la sua disponibilità
             if (fasciaOraria != null) {
-                fasciaOraria.setDisponibile(false); // Imposta disponibile a false
-                fasciaOrariaDAO.updateFasciaOraria(fasciaOraria); // Aggiorna nel database
+                fasciaOraria.setDisponibile(false);
+                fasciaOrariaService.updateFasciaOraria(fasciaOraria);
             }
 
-        } catch (SQLException e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore nel salvataggio della prenotazione.");
-            return;
+            // Redirect alla home
+            response.sendRedirect("index.jsp");
+        } catch (SQLException | NullPointerException | IllegalArgumentException e) {
+            // Gestione degli errori
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore durante la prenotazione: " + e.getMessage());
         }
-
-        response.sendRedirect("index.jsp");
     }
 }
-

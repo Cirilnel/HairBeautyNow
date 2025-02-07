@@ -34,7 +34,7 @@
   </div>
 
   <div class="service-card general">
-    <a href="<%= request.getContextPath() %>/assumiprofessionista">
+    <a href="<%= request.getContextPath() %>/assumiProfessionista">
       <img src="static/images/card2.png" alt="Hair Styling">
       <div class="service-item">
         <p>Assumi Professionista</p>

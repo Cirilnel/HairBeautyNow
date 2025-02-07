@@ -1,7 +1,6 @@
 package it.unisa.application.sottosistemi.GestioneServizi.service;
 
 import it.unisa.application.model.entity.Servizio;
-
 import java.sql.*;
 import java.util.*;
 
@@ -51,6 +50,17 @@ public class ServizioService {
             e.printStackTrace(); // Stampa l'errore per un'analisi più dettagliata
         }
         return servizi;
+    }
+
+    // Metodo per ottenere il prezzo di un servizio dato il nome
+    public double getPrezzoByNome(String nomeServizio) {
+        List<Servizio> servizi = getAllServizi();
+        for (Servizio servizio : servizi) {
+            if (servizio.getNome().equalsIgnoreCase(nomeServizio)) {
+                return servizio.getPrezzo();
+            }
+        }
+        return 0.0; // Se il servizio non viene trovato
     }
 
     // Metodo per ottenere i servizi raggruppati per tipo

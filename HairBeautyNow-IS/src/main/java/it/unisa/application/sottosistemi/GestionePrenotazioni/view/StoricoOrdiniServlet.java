@@ -1,9 +1,8 @@
 package it.unisa.application.sottosistemi.GestionePrenotazioni.view;
 
-import it.unisa.application.model.dao.PrenotazioneDAO;
-import it.unisa.application.model.dao.ProfessionistaDAO;
 import it.unisa.application.model.entity.Prenotazione;
 import it.unisa.application.model.entity.UtenteAcquirente;
+import it.unisa.application.sottosistemi.GestionePrenotazioni.service.StoricoOrdiniService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +16,8 @@ import java.util.List;
 
 @WebServlet("/storicoOrdini")
 public class StoricoOrdiniServlet extends HttpServlet {
+
+    private final StoricoOrdiniService storicoOrdiniService = new StoricoOrdiniService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -34,24 +35,16 @@ public class StoricoOrdiniServlet extends HttpServlet {
             return;
         }
 
-        PrenotazioneDAO prenotazioneDAO = new PrenotazioneDAO();
-        ProfessionistaDAO professionistaDAO = new ProfessionistaDAO();
-
         try {
-            List<Prenotazione> prenotazioni = prenotazioneDAO.getPrenotazioniByUsername(username);
+            List<Prenotazione> prenotazioni = storicoOrdiniService.getPrenotazioniByUsername(username);
             if (prenotazioni.isEmpty()) {
                 request.setAttribute("errorMessage", "Nessuna prenotazione trovata.");
             } else {
-                // Recuperiamo il prezzo e l'indirizzo per ogni prenotazione
                 for (Prenotazione p : prenotazioni) {
-                    // Recuperiamo il prezzo del servizio
-                    double prezzo = professionistaDAO.getPrezzoByServizio(p.getServizioName());
+                    double prezzo = storicoOrdiniService.getPrezzoByServizio(p.getServizioName());
                     p.setPrezzo(prezzo);
 
-                    // Recuperiamo l'indirizzo del professionista
-                    String indirizzo = professionistaDAO.getIndirizzoBySedeId(p.getProfessionistaId());
-
-                    // Aggiungiamo l'indirizzo e il prezzo come attributi
+                    String indirizzo = storicoOrdiniService.getIndirizzoBySedeId(p.getProfessionistaId());
                     request.setAttribute("indirizzo", indirizzo);
                 }
                 request.setAttribute("prenotazioni", prenotazioni);
@@ -63,5 +56,3 @@ public class StoricoOrdiniServlet extends HttpServlet {
         }
     }
 }
-
-

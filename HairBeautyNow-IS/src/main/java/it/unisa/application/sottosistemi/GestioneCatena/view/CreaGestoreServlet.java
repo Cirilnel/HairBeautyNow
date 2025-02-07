@@ -1,6 +1,6 @@
 package it.unisa.application.sottosistemi.GestioneCatena.view;
 
-import it.unisa.application.model.dao.UtenteGestoreSedeDAO;
+import it.unisa.application.sottosistemi.GestioneCatena.service.GestioneGestoreService;
 import it.unisa.application.model.entity.UtenteGestoreSede;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,15 +12,14 @@ import java.io.IOException;
 
 @WebServlet("/creaGestore")
 public class CreaGestoreServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    private final UtenteGestoreSedeDAO gestoreDAO = new UtenteGestoreSedeDAO();
+
+    private GestioneGestoreService gestioneGestoreService = new GestioneGestoreService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Controlla se è stato richiesto di rimuovere l'attributo 'gestoreCreato'
         if (request.getParameter("removeGestoreCreato") != null) {
             request.getSession().removeAttribute("gestoreCreato");
-            response.setStatus(HttpServletResponse.SC_OK); // Risponde con un 200 OK per la richiesta AJAX
+            response.setStatus(HttpServletResponse.SC_OK);
             return;
         }
 
@@ -38,14 +37,13 @@ public class CreaGestoreServlet extends HttpServlet {
         }
 
         UtenteGestoreSede nuovoGestore = new UtenteGestoreSede(username, password, 0);
-        boolean success = gestoreDAO.insert(nuovoGestore);
+        boolean success = gestioneGestoreService.creaGestore(nuovoGestore);
 
         if (success) {
             request.getSession().setAttribute("gestoreCreato", "ok");
             response.sendRedirect(request.getContextPath() + "/homeCatena");
         } else {
-            response.sendRedirect(request.getContextPath() + "/creaGestore?errore=Username già in uso");
+            response.sendRedirect(request.getContextPath() + "/creaGestore?errore=Username gi&agrave; in uso");
         }
     }
 }
-

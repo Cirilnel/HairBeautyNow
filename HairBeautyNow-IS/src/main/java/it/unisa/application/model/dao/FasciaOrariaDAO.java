@@ -58,14 +58,20 @@ public class FasciaOrariaDAO {
             stmt.setInt(1, professionistaId);
             ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
+            if (!rs.next()) {
+                System.out.println("Nessuna fascia oraria trovata per il professionista con ID: " + professionistaId);
+            }
+
+            do {
                 FasciaOraria fascia = new FasciaOraria();
                 fascia.setGiorno(rs.getDate("giorno").toLocalDate());
                 fascia.setFascia(rs.getString("fascia"));
                 fascia.setDisponibile(rs.getBoolean("disponibile"));
+
+                System.out.println("Fascia oraria trovata: Giorno = " + fascia.getGiorno() + ", Fascia = " + fascia.getFascia() + ", Disponibile = " + fascia.isDisponibile());
                 fasceOrarie.add(fascia);
-                System.out.println("Fascia oraria trovata: " + fascia);
-            }
+            } while (rs.next());
+
         } catch (SQLException e) {
             System.out.println("Errore durante la ricerca delle fasce orarie per il professionista con ID: " + professionistaId);
             throw e;
@@ -73,6 +79,7 @@ public class FasciaOrariaDAO {
 
         return fasceOrarie;
     }
+
 
     // Metodo per aggiornare una fascia oraria
     public boolean aggiornaFasciaOraria(FasciaOraria fasciaOraria) throws SQLException {

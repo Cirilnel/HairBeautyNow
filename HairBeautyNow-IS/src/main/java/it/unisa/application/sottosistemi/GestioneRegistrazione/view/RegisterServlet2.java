@@ -1,6 +1,6 @@
 package it.unisa.application.sottosistemi.GestioneRegistrazione.view;
 
-import it.unisa.application.model.dao.UtenteAcquirenteDAO;
+import it.unisa.application.sottosistemi.GestioneRegistrazione.service.UtenteAcquirenteService;
 import it.unisa.application.model.entity.UtenteAcquirente;
 
 import jakarta.servlet.RequestDispatcher;
@@ -13,6 +13,9 @@ import java.io.IOException;
 
 @WebServlet("/register")
 public class RegisterServlet2 extends HttpServlet {
+
+    // Inizializza il servizio UtenteAcquirenteService
+    private UtenteAcquirenteService utenteAcquirenteService = new UtenteAcquirenteService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Raccogli i dati dal form di registrazione
@@ -38,9 +41,8 @@ public class RegisterServlet2 extends HttpServlet {
         // Debug: stampa l'oggetto utente che sta per essere inserito
         System.out.println("Utente creato: " + utente);
 
-        // Usa il DAO per inserire l'utente
-        UtenteAcquirenteDAO utenteDAO = new UtenteAcquirenteDAO();
-        boolean result = utenteDAO.insert(utente);
+        // Usa il servizio per inserire l'utente
+        boolean result = utenteAcquirenteService.createUser(utente);
 
         // Debug: stampa il risultato dell'operazione di creazione dell'utente
         System.out.println("Risultato della creazione dell'utente: " + result);
