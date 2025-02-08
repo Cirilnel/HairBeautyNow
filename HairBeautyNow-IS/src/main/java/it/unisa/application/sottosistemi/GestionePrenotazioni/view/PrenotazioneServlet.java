@@ -38,7 +38,7 @@ public class PrenotazioneServlet extends HttpServlet {
         List<Sede> sedi = prenotazioneService.getSediByCitta(cittaSelezionata);
 
         // Ottieni tutte le città disponibili senza duplicati
-        Set<String> cittaSet = prenotazioneService.getCittaDisponibili(sedi);
+        Set<String> cittaSet = prenotazioneService.getCittaDisponibili(prenotazioneService.getAllSedi());
 
         // Aggiungi "Nessuna selezione" come prima opzione nel menu delle città
         List<String> cittaDisponibili = new ArrayList<>(cittaSet);

@@ -29,7 +29,9 @@ public class PrenotazioneService {
     public Set<String> getCittaDisponibili(List<Sede> sedi) {
         return sedi.stream().map(Sede::getCitta).collect(Collectors.toSet());
     }
-
+    public List<Sede> getAllSedi() {
+        return sedeDAO.getAllSedi();
+    }
     public String getCittaUtente(UtenteAcquirente user) {
         return user != null ? user.getCitta() : null;
     }
