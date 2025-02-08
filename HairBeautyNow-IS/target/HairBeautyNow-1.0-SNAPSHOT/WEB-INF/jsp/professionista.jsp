@@ -11,8 +11,16 @@
     <title>Prenotazione</title>
     <link rel="stylesheet" href="static/style/professionisti.css">
     <script src="static/js/prenotazioni.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@5.5.0/dist/ionicons/ionicons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="static/js/UserMenu.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&display=swap" rel="stylesheet">
 </head>
+
 <body>
+
 <%@ include file="header.jsp" %>
 
 <h1>Prenotazione Professionista</h1>
@@ -116,6 +124,7 @@
         }
     </script>
 </div>
+
 
 <%@ include file="footer.jsp" %>
 </body>
