@@ -68,7 +68,6 @@ public class FasciaOrariaDAO {
                 fascia.setFascia(rs.getString("fascia"));
                 fascia.setDisponibile(rs.getBoolean("disponibile"));
 
-                System.out.println("Fascia oraria trovata: Giorno = " + fascia.getGiorno() + ", Fascia = " + fascia.getFascia() + ", Disponibile = " + fascia.isDisponibile());
                 fasceOrarie.add(fascia);
             } while (rs.next());
 
