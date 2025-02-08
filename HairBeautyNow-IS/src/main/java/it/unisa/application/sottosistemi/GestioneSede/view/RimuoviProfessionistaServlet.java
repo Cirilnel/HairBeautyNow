@@ -44,7 +44,7 @@ public class RimuoviProfessionistaServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/rimozioneProfessionisti.jsp");
             dispatcher.forward(request, response);
         } else {
-            // Se l'utente non è trovato nella sessione, mostra un errore
+            // Se l'utente non Ã¨ trovato nella sessione, mostra un errore
             response.getWriter().println("Utente Gestore Sede non trovato nella sessione!");
         }
     }
@@ -58,8 +58,19 @@ public class RimuoviProfessionistaServlet extends HttpServlet {
             try {
                 int professionistaId = Integer.parseInt(professionistaIdStr);
                 String result = gestioneRimozioneProfessionistaService.rimuoviProfessionista(professionistaId);
-                response.getWriter().write(result);
-                response.setStatus(result.contains("successo") ? HttpServletResponse.SC_OK : HttpServletResponse.SC_BAD_REQUEST);
+
+                // Verifica il risultato del servizio di rimozione
+                if (result.equals("successo")) {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getWriter().write("Professionista rimosso con successo.");
+                } else if (result.equals("Errore durante la rimozione del professionista o ci sono prenotazioni attive.")) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);  // Risposta con errore 400
+                    response.getWriter().write("Ci sono prenotazioni attive su questo professionista, non è possibile eliminarlo al momento.");
+                } else {
+                    // Invia il risultato dell'errore generico se nessuna delle condizioni è soddisfatta
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write(result);
+                }
             } catch (NumberFormatException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("ID professionista non valido");
@@ -69,4 +80,8 @@ public class RimuoviProfessionistaServlet extends HttpServlet {
             response.getWriter().write("ID professionista mancante");
         }
     }
+
+
+
+
 }

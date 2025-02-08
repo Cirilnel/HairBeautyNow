@@ -112,24 +112,51 @@ public class ProfessionistaDAO {
     }
 
     // Metodo per rimuovere un professionista
-    public boolean rimuoviProfessionista(int professionistaId) {
-        String deleteProfessionistaQuery = "DELETE FROM professionista WHERE id = ?";
+    // Metodo per rimuovere le fasce orarie di un professionista
+    public boolean rimuoviFasceOrarie(int professionistaId) {
+        String deleteFasceOrarieQuery = "DELETE FROM fascia_oraria WHERE professionista_id = ?";
 
         try (Connection connection = getConnection();
-             PreparedStatement deleteProfessionistaStatement = connection.prepareStatement(deleteProfessionistaQuery)) {
+             PreparedStatement deleteFasceOrarieStatement = connection.prepareStatement(deleteFasceOrarieQuery)) {
 
-            // Elimina il professionista
-            deleteProfessionistaStatement.setInt(1, professionistaId);
-            int rowsAffected = deleteProfessionistaStatement.executeUpdate();
+            // Elimina le fasce orarie
+            deleteFasceOrarieStatement.setInt(1, professionistaId);
+            int rowsAffected = deleteFasceOrarieStatement.executeUpdate();
 
             return rowsAffected > 0;
 
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error while removing professionista", e);
+            LOGGER.log(Level.SEVERE, "Error while removing fasce orarie", e);
         }
 
         return false; // Se qualcosa è andato storto
     }
+
+    // Metodo per rimuovere un professionista
+    public boolean rimuoviProfessionista(int professionistaId) {
+        if (!hasPrenotazioni(professionistaId)) {
+            // Rimuovi prima le fasce orarie se il professionista non ha prenotazioni
+            if (rimuoviFasceOrarie(professionistaId)) {
+                // Ora possiamo rimuovere il professionista
+                String deleteProfessionistaQuery = "DELETE FROM professionista WHERE id = ?";
+
+                try (Connection connection = getConnection();
+                     PreparedStatement deleteProfessionistaStatement = connection.prepareStatement(deleteProfessionistaQuery)) {
+
+                    // Elimina il professionista
+                    deleteProfessionistaStatement.setInt(1, professionistaId);
+                    int rowsAffected = deleteProfessionistaStatement.executeUpdate();
+
+                    return rowsAffected > 0;
+
+                } catch (SQLException e) {
+                    LOGGER.log(Level.SEVERE, "Error while removing professionista", e);
+                }
+            }
+        }
+        return false; // Se non ci sono prenotazioni o se c'è un errore
+    }
+
 
     // Metodo per inserire un nuovo professionista
     public void insertProfessionista(Professionista professionista) {

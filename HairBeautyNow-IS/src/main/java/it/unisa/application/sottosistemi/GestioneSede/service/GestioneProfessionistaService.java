@@ -21,12 +21,18 @@ public class GestioneProfessionistaService {
         professionistaDAO.insertProfessionista(professionista);
     }
     public String rimuoviProfessionista(int professionistaId) {
-        if (professionistaDAO.hasPrenotazioni(professionistaId)) {
-            return "Prenotazioni esistenti per questo professionista.";
+        ProfessionistaDAO professionistaDAO = new ProfessionistaDAO();
+
+        // Rimuovi il professionista, che a sua volta rimuove le fasce orarie se non ci sono prenotazioni
+        boolean successo = professionistaDAO.rimuoviProfessionista(professionistaId);
+
+        if (successo) {
+            return "successo";
+        } else {
+            return "Errore durante la rimozione del professionista o ci sono prenotazioni attive.";
         }
-        boolean success = professionistaDAO.rimuoviProfessionista(professionistaId);
-        return success ? "Professionista rimosso con successo!" : "Errore durante la rimozione del professionista.";
     }
+
     public List<Professionista> getProfessionistiBySede(int sedeId) {
         return professionistaDAO.getProfessionistiBySede(sedeId);
     }
