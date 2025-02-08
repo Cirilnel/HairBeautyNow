@@ -10,6 +10,7 @@
   <title>Prenotazione</title>
   <link rel="stylesheet" href="static/style/metodoDiPagamento.css">
     <script src="static/js/metodoPagamento.js"></script>
+  <script src="static/js/UserMenu.js"></script>
 </head>
 <body>
 <%@ include file="header.jsp" %>
