@@ -8,6 +8,10 @@ import it.unisa.application.model.entity.Prenotazione;
 import it.unisa.application.model.entity.FasciaOraria;
 import it.unisa.application.model.entity.UtenteAcquirente;
 import it.unisa.application.sottosistemi.GestioneServizi.service.ServizioService;
+import it.unisa.application.sottosistemi.utilities.MasterCardStrategy;
+import it.unisa.application.sottosistemi.utilities.PagamentoStrategy;
+import it.unisa.application.sottosistemi.utilities.PayPalStrategy;
+import it.unisa.application.sottosistemi.utilities.VisaStrategy;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +24,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.sql.SQLException;
-
 @WebServlet("/completaPrenotazione")
 public class CompletaPrenotazioneServlet extends HttpServlet {
     private final PrenotazioneService prenotazioneService = new PrenotazioneService();
@@ -55,28 +58,90 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
             prenotazioneService.addPrenotazione(prenotazione);
 
             // Aggiungi il metodo di pagamento se non esiste già
+            String metodoPagamento = request.getParameter("metodoPagamento");
             String numeroCarta = request.getParameter("numeroCarta");
             String cvv = request.getParameter("cvv");
             String scadenza = request.getParameter("scadenza");
             String indirizzo = request.getParameter("indirizzo");
-            String metodoPagamento = request.getParameter("metodoPagamento");
 
-            if (numeroCarta != null && !numeroCarta.isEmpty() && metodoPagamento != null) {
-                MetodoDiPagamento metodo = new MetodoDiPagamento(
-                        numeroCarta,  // nCarta
-                        java.sql.Date.valueOf("20" + scadenza.split("/")[1] + "-" + scadenza.split("/")[0] + "-01"),  // dataScadenza (formatto MM/YY in un oggetto java.sql.Date)
-                        utente.getNome() + " " + utente.getCognome(),  // nomeIntestatario
-                        indirizzo,  // indirizzo
-                        Integer.parseInt(cvv),  // cvv
-                        utente.getUsername(),  // username
-                        metodoPagamento  // metodoPagamento (Visa, MasterCard, PayPal)
-                );
+            if (metodoPagamento != null) {
+                // Debug: Verifica i dati ricevuti
+                System.out.println("Metodo di pagamento selezionato: " + metodoPagamento);
+                System.out.println("Numero carta: " + numeroCarta);
+                System.out.println("CVV: " + cvv);
+                System.out.println("Data di scadenza: " + scadenza);
+                System.out.println("Indirizzo di fatturazione: " + indirizzo);
 
-                // Aggiungi il metodo di pagamento al database
-                metodoDiPagamentoDAO.addMetodoDiPagamento(metodo);
+                // Se il metodo di pagamento è PayPal
+                if ("paypal".equals(metodoPagamento)) {
+                    String email = request.getParameter("emailPaypal");
+                    System.out.println("Email PayPal: " + email);  // Debug: Mostra l'email PayPal ricevuta
+
+                    // Crea il metodo di pagamento PayPal (senza carta, scadenza o CVV)
+                    MetodoDiPagamento metodo = new MetodoDiPagamento(
+                            null,  // nCarta è null per PayPal
+                            null,  // dataScadenza non necessaria per PayPal
+                            utente.getNome() + " " + utente.getCognome(),
+                            indirizzo,
+                            0,  // cvv non necessario per PayPal
+                            utente.getUsername(),
+                            metodoPagamento,
+                            email
+                    );
+
+                    // Aggiungi il metodo di pagamento al database
+                    metodoDiPagamentoDAO.addMetodoDiPagamento(metodo);
+                    System.out.println("Metodo di pagamento PayPal aggiunto al database");
+
+                    // Scegli la strategia PayPal
+                    PagamentoStrategy pagamentoStrategy = new PayPalStrategy();
+                    pagamentoStrategy.effettuaPagamento(metodo, prezzo);
+                    System.out.println("Pagamento PayPal effettuato con successo.");
+                } else {
+                    // Elaborazione della data di scadenza per Visa, MasterCard, ecc.
+                    if (scadenza != null && !scadenza.isEmpty()) {
+                        String[] scadenzaArray = scadenza.split("/");
+                        LocalDate dataScadenza = LocalDate.of(2000 + Integer.parseInt(scadenzaArray[1]), Integer.parseInt(scadenzaArray[0]), 1);
+                        System.out.println("Data di scadenza elaborata: " + dataScadenza);
+
+                        // Crea il metodo di pagamento per carta di credito
+                        MetodoDiPagamento metodo = new MetodoDiPagamento(
+                                numeroCarta,  // nCarta
+                                java.sql.Date.valueOf(dataScadenza),  // dataScadenza
+                                utente.getNome() + " " + utente.getCognome(),  // nomeIntestatario
+                                indirizzo,  // indirizzo
+                                Integer.parseInt(cvv),  // cvv
+                                utente.getUsername(),  // username
+                                metodoPagamento,  // metodoPagamento
+                                null  // PayPal ha email, carte no
+                        );
+
+                        // Aggiungi il metodo di pagamento al database
+                        metodoDiPagamentoDAO.addMetodoDiPagamento(metodo);
+                        System.out.println("Metodo di pagamento aggiunto al database");
+
+                        // Seleziona la strategia di pagamento
+                        PagamentoStrategy pagamentoStrategy = null;
+                        if ("visa".equals(metodoPagamento)) {
+                            pagamentoStrategy = new VisaStrategy();
+                            System.out.println("Strategia VISA selezionata.");
+                        } else if ("mastercard".equals(metodoPagamento)) {
+                            pagamentoStrategy = new MasterCardStrategy();
+                            System.out.println("Strategia Mastercard selezionata.");
+                        }
+
+                        // Verifica se la strategia di pagamento è stata selezionata correttamente
+                        if (pagamentoStrategy != null) {
+                            pagamentoStrategy.effettuaPagamento(metodo, prezzo);
+                            System.out.println("Pagamento effettuato con successo.");
+                        }
+                    } else {
+                        // Gestione dell'errore se la data di scadenza non è valida
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Data di scadenza mancante o non valida.");
+                        return;
+                    }
+                }
             }
-
-
 
             // Ottieni la fascia oraria dal service
             FasciaOraria fasciaOraria = fasciaOrariaService.getFasciaOraria(professionistaId, giorno, orario);
@@ -119,4 +184,3 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
         }
     }
 }
-

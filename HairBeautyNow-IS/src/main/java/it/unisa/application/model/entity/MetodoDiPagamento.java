@@ -1,7 +1,6 @@
 package it.unisa.application.model.entity;
 
 import java.util.Date;
-
 public class MetodoDiPagamento {
     private String nCarta; // PK
     private Date dataScadenza;
@@ -10,9 +9,10 @@ public class MetodoDiPagamento {
     private String indirizzo;
     private String username; // FK (associato all'utente che possiede il metodo di pagamento)
     private String metodoPagamento; // Nuovo campo per tipo di metodo di pagamento (PayPal, VISA, etc.)
+    private String email; // Campo email per PayPal (può essere null)
 
     // Costruttore aggiornato
-    public MetodoDiPagamento(String nCarta, Date dataScadenza, String nomeIntestatario, String indirizzo, int cvv, String username, String metodoPagamento) {
+    public MetodoDiPagamento(String nCarta, Date dataScadenza, String nomeIntestatario, String indirizzo, int cvv, String username, String metodoPagamento, String email) {
         this.nCarta = nCarta;
         this.dataScadenza = dataScadenza;
         this.nomeIntestatario = nomeIntestatario;
@@ -20,69 +20,76 @@ public class MetodoDiPagamento {
         this.cvv = cvv;
         this.username = username; // Assegna l'utente associato
         this.metodoPagamento = metodoPagamento; // Assegna il tipo di metodo di pagamento
+        this.email = email; // Assegna l'email se presente
     }
 
-
-    // Getter e Setter per username
-    public String getUsername() {
-        return username;
+    // Getter e Setter per email
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    // Getter e Setter per metodoPagamento
-    public String getMetodoPagamento() {
-        return metodoPagamento;
-    }
-
-    public void setMetodoPagamento(String metodoPagamento) {
-        this.metodoPagamento = metodoPagamento;
-    }
-
-    // Getter e Setter per gli altri attributi
-    public String getnCarta() {
-        return nCarta;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setnCarta(String nCarta) {
         this.nCarta = nCarta;
     }
 
-    public Date getDataScadenza() {
-        return dataScadenza;
-    }
-
     public void setDataScadenza(Date dataScadenza) {
         this.dataScadenza = dataScadenza;
-    }
-
-    public String getNomeIntestatario() {
-        return nomeIntestatario;
-    }
-
-    public void setNomeIntestatario(String nomeIntestatario) {
-        this.nomeIntestatario = nomeIntestatario;
-    }
-
-    public int getCvv() {
-        return cvv;
     }
 
     public void setCvv(int cvv) {
         this.cvv = cvv;
     }
 
-    public String getIndirizzo() {
-        return indirizzo;
+    public void setNomeIntestatario(String nomeIntestatario) {
+        this.nomeIntestatario = nomeIntestatario;
     }
 
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
     }
 
-    // Metodo toString
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setMetodoPagamento(String metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
+
+    public String getnCarta() {
+        return nCarta;
+    }
+
+    public Date getDataScadenza() {
+        return dataScadenza;
+    }
+
+    public String getNomeIntestatario() {
+        return nomeIntestatario;
+    }
+
+    public int getCvv() {
+        return cvv;
+    }
+
+    public String getIndirizzo() {
+        return indirizzo;
+    }
+
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+// Getter e Setter per gli altri attributi
+    // [Inserisci qui i metodi getter e setter per gli altri campi...]
+
     @Override
     public String toString() {
         return "MetodoDiPagamento{" +
@@ -93,6 +100,7 @@ public class MetodoDiPagamento {
                 ", indirizzo='" + indirizzo + '\'' +
                 ", username='" + username + '\'' +
                 ", metodoPagamento='" + metodoPagamento + '\'' +
+                ", email='" + email + '\'' +  // Aggiungi l'email alla stampa
                 '}';
     }
 }
