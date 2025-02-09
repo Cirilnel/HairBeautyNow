@@ -1,4 +1,4 @@
-package it.unisa.application.sottosistemi.utilities;
+package it.unisa.application.sottosistemi.GestioneAccesso.view;
 
 import it.unisa.application.model.entity.UtenteAcquirente;
 import it.unisa.application.model.entity.UtenteGestoreSede;
