@@ -1,29 +1,30 @@
 package it.unisa.application.model.dao;
 
+import it.unisa.application.database_connection.DataSourceSingleton;
 import it.unisa.application.model.entity.Sede;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SedeDAO {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/HairBeautyNow";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private static final Logger LOGGER = Logger.getLogger(SedeDAO.class.getName());
+    private final DataSource ds;
 
-    // Connessione al database
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+    public SedeDAO() {
+        this.ds = DataSourceSingleton.getInstance();
     }
-
 
     // Metodo per ottenere una sede per ID
     public Sede getSedeById(int id) {
         String query = "SELECT * FROM sede WHERE id = ?";
         Sede sede = null;
 
-        try (Connection connection = getConnection();
+        try (Connection connection = ds.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setInt(1, id);
@@ -37,7 +38,7 @@ public class SedeDAO {
                 sede = new Sede(indirizzo, nome, città, id);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error while fetching sede by ID", e);
         }
         return sede;
     }
@@ -47,7 +48,7 @@ public class SedeDAO {
         List<Sede> sedi = new ArrayList<>();
         String query = "SELECT * FROM sede";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = ds.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             ResultSet resultSet = statement.executeQuery();
@@ -61,42 +62,21 @@ public class SedeDAO {
                 sedi.add(new Sede(indirizzo, nome, città, id));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error while fetching all sedi", e);
         }
         return sedi;
     }
 
-
-
-    // Metodo per ottenere una sede per ID (utile per l'utente loggato, esempio di utente Gestore Sede)
+    // Metodo per ottenere una sede per ID (utile per l'utente loggato)
     public Sede findSedeById(int sedeId) {
-        String query = "SELECT * FROM sede WHERE id = ?";
-        Sede sede = null;
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setInt(1, sedeId);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                String indirizzo = resultSet.getString("indirizzo");
-                String nome = resultSet.getString("nome");
-                String città = resultSet.getString("città");
-
-                sede = new Sede(indirizzo, nome, città, sedeId);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return sede;
+        return getSedeById(sedeId);
     }
 
     public int insertSedeAndReturnID(Sede sede) {
         String query = "INSERT INTO sede (indirizzo, nome, città) VALUES (?, ?, ?)";
         int generatedID = -1;
 
-        try (Connection connection = getConnection();
+        try (Connection connection = ds.getConnection();
              PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setString(1, sede.getIndirizzo());
@@ -111,7 +91,7 @@ public class SedeDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error while inserting sede", e);
         }
         return generatedID;
     }
@@ -121,7 +101,7 @@ public class SedeDAO {
         List<Sede> sedi = new ArrayList<>();
         String query = "SELECT * FROM sede WHERE città = ?";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = ds.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, citta);
@@ -135,7 +115,7 @@ public class SedeDAO {
                 sedi.add(new Sede(indirizzo, nome, citta, id));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error while fetching sedi by città", e);
         }
         return sedi;
     }

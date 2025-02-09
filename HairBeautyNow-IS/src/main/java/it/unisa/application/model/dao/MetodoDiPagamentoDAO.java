@@ -1,19 +1,23 @@
 package it.unisa.application.model.dao;
 
+import it.unisa.application.database_connection.DataSourceSingleton;
 import it.unisa.application.model.entity.MetodoDiPagamento;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MetodoDiPagamentoDAO {
-    private static final String URL = "jdbc:mysql://localhost:3306/HairBeautyNow";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private DataSource ds;
+
+    public MetodoDiPagamentoDAO() {
+        this.ds = DataSourceSingleton.getInstance();
+    }
 
     // Aggiungi un metodo di pagamento per un utente specifico
     public void addMetodoDiPagamento(MetodoDiPagamento metodo) throws SQLException {
         String query = "INSERT INTO MetodoDiPagamento (nCarta, dataScadenza, nomeIntestatario, cvv, indirizzo, username) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, metodo.getnCarta());
             stmt.setDate(2, new java.sql.Date(metodo.getDataScadenza().getTime()));
@@ -28,7 +32,7 @@ public class MetodoDiPagamentoDAO {
     // Recupera il metodo di pagamento dato il numero della carta
     public MetodoDiPagamento getMetodoDiPagamento(String nCarta) throws SQLException {
         String query = "SELECT * FROM MetodoDiPagamento WHERE nCarta = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nCarta);
             ResultSet rs = stmt.executeQuery();
@@ -50,7 +54,7 @@ public class MetodoDiPagamentoDAO {
     public List<MetodoDiPagamento> getAllMetodiDiPagamento() throws SQLException {
         List<MetodoDiPagamento> lista = new ArrayList<>();
         String query = "SELECT * FROM MetodoDiPagamento";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ds.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
@@ -70,7 +74,7 @@ public class MetodoDiPagamentoDAO {
     // Aggiorna un metodo di pagamento esistente
     public void updateMetodoDiPagamento(MetodoDiPagamento metodo) throws SQLException {
         String query = "UPDATE MetodoDiPagamento SET dataScadenza = ?, nomeIntestatario = ?, cvv = ?, indirizzo = ?, username = ? WHERE nCarta = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setDate(1, new java.sql.Date(metodo.getDataScadenza().getTime()));
             stmt.setString(2, metodo.getNomeIntestatario());
@@ -85,7 +89,7 @@ public class MetodoDiPagamentoDAO {
     // Elimina un metodo di pagamento
     public void deleteMetodoDiPagamento(String nCarta) throws SQLException {
         String query = "DELETE FROM MetodoDiPagamento WHERE nCarta = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nCarta);
             stmt.executeUpdate();

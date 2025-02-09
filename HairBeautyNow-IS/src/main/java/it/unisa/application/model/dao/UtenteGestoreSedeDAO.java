@@ -1,18 +1,23 @@
 package it.unisa.application.model.dao;
 
+import it.unisa.application.database_connection.DataSourceSingleton;
 import it.unisa.application.model.entity.UtenteGestoreSede;
-
+import it.unisa.application.sottosistemi.utilities.PasswordUtils; // Importa PasswordUtils
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UtenteGestoreSedeDAO {
-    private static final String URL = "jdbc:mysql://localhost:3306/HairBeautyNow";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private DataSource ds;
 
+    public UtenteGestoreSedeDAO() {
+        this.ds = DataSourceSingleton.getInstance();
+    }
+
+    // Get a connection from the DataSource
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return ds.getConnection();
     }
 
     // Controlla se lo username esiste già
@@ -32,12 +37,14 @@ public class UtenteGestoreSedeDAO {
         return false;
     }
 
-    // Inserisce un nuovo utente gestore sede
+    // Inserisce un nuovo utente gestore sede (con password hashata)
     public boolean insert(UtenteGestoreSede utenteGestoreSede) {
         if (existsByUsername(utenteGestoreSede.getUsernameUGS())) {
             System.err.println("Errore: username già esistente nel database.");
             return false;
         }
+
+        String hashedPassword = PasswordUtils.hashPassword(utenteGestoreSede.getPassword()); // Hash della password
 
         String sql = "INSERT INTO UtenteGestoreSede (usernameUGS, password, sedeID) VALUES (?, ?, ?)";
 
@@ -45,7 +52,7 @@ public class UtenteGestoreSedeDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, utenteGestoreSede.getUsernameUGS());
-            preparedStatement.setString(2, utenteGestoreSede.getPassword());
+            preparedStatement.setString(2, hashedPassword); // Salva la password hashata
 
             // Se sedeID è NULL, setta il parametro come NULL nel PreparedStatement
             if (utenteGestoreSede.getSedeID() == null || utenteGestoreSede.getSedeID() == 0) {
@@ -64,24 +71,29 @@ public class UtenteGestoreSedeDAO {
     }
 
     // Ottiene un utente dal suo username
-    public UtenteGestoreSede getByUsername(String usernameUGS) {
+    // Metodo per recuperare un utente tramite username e password
+    public UtenteGestoreSede getByUsername(String usernameUGS, String password) {
         String sql = "SELECT * FROM UtenteGestoreSede WHERE usernameUGS = ?";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, usernameUGS);
+            preparedStatement.setString(1, usernameUGS);  // Usa il 'username' come parametro
             ResultSet resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
-                String password = resultSet.getString("password");
+                String storedHashedPassword = resultSet.getString("password");
                 int sedeID = resultSet.getInt("sedeID");
-                return new UtenteGestoreSede(usernameUGS, password, sedeID);
+
+                // Hash la password fornita e confronta con l'hash salvato
+                if (storedHashedPassword.equals(PasswordUtils.hashPassword(password))) {
+                    return new UtenteGestoreSede(usernameUGS, password, sedeID);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return null;  // Nessun utente trovato con queste credenziali
     }
+
 
     // Ottiene tutti gli utenti
     public List<UtenteGestoreSede> getAll() {

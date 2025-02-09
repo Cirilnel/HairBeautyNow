@@ -42,9 +42,17 @@ public class AssumiProfessionistaServlet extends HttpServlet {
             return;
         }
 
-        // Otteniamo l'ID della sede dal gestore
+        // Controlla se l'utente ha una sede assegnata (sedeID non può essere null o 0)
         Integer sedeId = utente.getSedeID();
+        if (sedeId == null || sedeId == 0) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\":\"L'utente al momento non è assegnato a nessuna sede quindi non può assumere nessuno.\"}");
+            return;
+        }
+
+        // Otteniamo l'oggetto Sede
         Sede sede = gestioneProfessionistaService.getSedeById(sedeId);
+
         // Se la sede non esiste o è nulla, gestisci l'errore
         if (sede == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -58,14 +66,18 @@ public class AssumiProfessionistaServlet extends HttpServlet {
             response.getWriter().write("{\"message\":\"Errore: Nome professionista non valido\"}");
             return;
         }
-        // Delegare la logica al service
+
+        // Delegare la logica al service per assumere il professionista
         Professionista professionista = new Professionista();
         professionista.setNome(nomeProfessionista);
         professionista.setSedeId(sedeId);
+
         // Gestire la risposta in base al risultato
         gestioneProfessionistaService.assumiProfessionista(professionista);
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().write("{\"message\":\"Professionista assunto con successo!\"}");
-
     }
 }
+
+
+

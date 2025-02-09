@@ -1,74 +1,69 @@
 package it.unisa.application.model.dao;
 
+import it.unisa.application.database_connection.DataSourceSingleton;
 import it.unisa.application.model.entity.UtenteGestoreCatena;
+import it.unisa.application.sottosistemi.utilities.PasswordUtils; // Importa PasswordUtils
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UtenteGestoreCatenaDAO {
-    private static final String URL = "jdbc:mysql://localhost:3306/HairBeautyNow";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private DataSource ds;
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+    public UtenteGestoreCatenaDAO() {
+        this.ds = DataSourceSingleton.getInstance();
     }
 
-    // Inserimento di un nuovo utente gestore catena
+    // Get a connection from the DataSource
+    private Connection getConnection() throws SQLException {
+        return ds.getConnection();
+    }
+
+    // Insert a new utente gestore catena (with hashed password)
     public void insert(UtenteGestoreCatena utenteGestoreCatena) {
-        String sql = "INSERT INTO UtenteGestoreCatena (username, password) VALUES (?, ?, ?, ?, ?)";
+        String hashedPassword = PasswordUtils.hashPassword(utenteGestoreCatena.getPassword()); // Hash della password
+        String sql = "INSERT INTO UtenteGestoreCatena (username, password) VALUES (?, ?)";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, utenteGestoreCatena.getUsername());
-            preparedStatement.setString(2, utenteGestoreCatena.getPassword());
+            preparedStatement.setString(2, hashedPassword); // Salva la password hashata
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Recupero di un utente gestore catena tramite username
-    public UtenteGestoreCatena getByUsername(String username) {
+    // Retrieve an utente gestore catena by username
+    public UtenteGestoreCatena getByUsername(String username, String password) {
         String sql = "SELECT * FROM UtenteGestoreCatena WHERE username = ?";
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, username);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
+            preparedStatement.setString(1, username);  // Usa il 'username' come parametro
             ResultSet resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next()) {
-                String password = resultSet.getString("password");
+                String storedHashedPassword = resultSet.getString("password");
 
-
-                return new UtenteGestoreCatena(password, username);
+                // Confronta la password fornita con quella salvata (hashata)
+                if (storedHashedPassword.equals(PasswordUtils.hashPassword(password))) {
+                    // Se la password è corretta, restituisci l'oggetto UtenteGestoreCatena
+                    return new UtenteGestoreCatena(resultSet.getString("password"), username);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;  // Return null if no user found
+        return null;  // Nessun utente trovato o password non corretta
     }
 
-    // Recupero di tutti gli utenti gestori catena
-    public List<UtenteGestoreCatena> getAll() {
-        List<UtenteGestoreCatena> utenti = new ArrayList<>();
-        String sql = "SELECT * FROM UtenteGestoreCatena";
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                String username = resultSet.getString("username");
-                String password = resultSet.getString("password");
-
-                utenti.add(new UtenteGestoreCatena(password, username));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return utenti;
-    }
-
-    // Aggiornamento delle informazioni di un utente gestore catena
+    // Update an utente gestore catena's information (with hashed password)
     public void update(UtenteGestoreCatena utenteGestoreCatena) {
+        String hashedPassword = PasswordUtils.hashPassword(utenteGestoreCatena.getPassword()); // Hash della password
         String sql = "UPDATE UtenteGestoreCatena SET password = ? WHERE username = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, utenteGestoreCatena.getPassword());
-            preparedStatement.setString(5, utenteGestoreCatena.getUsername());
+            preparedStatement.setString(1, hashedPassword); // Usa la password hashata
+            preparedStatement.setString(2, utenteGestoreCatena.getUsername());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -76,7 +71,7 @@ public class UtenteGestoreCatenaDAO {
         }
     }
 
-    // Eliminazione di un utente gestore catena
+    // Delete an utente gestore catena by username
     public void delete(String username) {
         String sql = "DELETE FROM UtenteGestoreCatena WHERE username = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

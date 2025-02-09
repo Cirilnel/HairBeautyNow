@@ -1,20 +1,25 @@
 package it.unisa.application.model.dao;
 
+import it.unisa.application.database_connection.DataSourceSingleton;
 import it.unisa.application.model.entity.Servizio;
-
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServizioDAO {
-    private static final String URL = "jdbc:mysql://localhost:3306/HairBeautyNow";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private DataSource ds;
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+    public ServizioDAO() {
+        this.ds = DataSourceSingleton.getInstance();
     }
 
+    // Get a connection from the DataSource
+    private Connection getConnection() throws SQLException {
+        return ds.getConnection();
+    }
+
+    // Insert a new servizio
     public void insert(Servizio servizio) {
         String sql = "INSERT INTO Servizi (nome, descrizione, tipo, durata, prezzo) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -29,6 +34,7 @@ public class ServizioDAO {
         }
     }
 
+    // Get a servizio by nome
     public Servizio getByNome(String nome) {
         String sql = "SELECT * FROM Servizi WHERE nome = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -48,6 +54,7 @@ public class ServizioDAO {
         return null;  // Return null if no service is found
     }
 
+    // Get all servizi
     public List<Servizio> getAll() {
         List<Servizio> servizi = new ArrayList<>();
         String sql = "SELECT * FROM Servizi";
@@ -67,6 +74,7 @@ public class ServizioDAO {
         return servizi;
     }
 
+    // Update an existing servizio
     public void update(Servizio servizio) {
         String sql = "UPDATE Servizi SET descrizione = ?, tipo = ?, durata = ?, prezzo = ? WHERE nome = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -81,6 +89,7 @@ public class ServizioDAO {
         }
     }
 
+    // Delete a servizio by nome
     public void delete(String nome) {
         String sql = "DELETE FROM Servizi WHERE nome = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -90,18 +99,20 @@ public class ServizioDAO {
             e.printStackTrace();
         }
     }
+
+    // Get prezzo by servizio nome
     public double getPrezzoByNome(String nome) {
-        String sql = "SELECT prezzo FROM Servizio WHERE nome = ?";
+        String sql = "SELECT prezzo FROM Servizi WHERE nome = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, nome);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getDouble("prezzo");  // Restituisce il prezzo
+                return resultSet.getDouble("prezzo");  // Return the prezzo
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0.0;  // Se il servizio non è trovato, restituisce 0.0 come valore di default
+        return 0.0;  // If the servizio is not found, return 0.0 as default
     }
 }

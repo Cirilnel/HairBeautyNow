@@ -26,13 +26,13 @@ public class UtenteService {
         }
 
         // Controllo in UtenteGestoreCatena (username)
-        UtenteGestoreCatena utenteGestoreCatena = utenteGestoreCatenaDAO.getByUsername(username);
-        if (utenteGestoreCatena != null && utenteGestoreCatena.getPassword().equals(password)) {
+        UtenteGestoreCatena utenteGestoreCatena = utenteGestoreCatenaDAO.getByUsername(username,password);
+        if (utenteGestoreCatena != null ) {
             return utenteGestoreCatena;
         }
 
         // Controllo in UtenteGestoreSede (username)
-        UtenteGestoreSede utenteGestoreSede = utenteGestoreSedeDAO.getByUsername(username);
+        UtenteGestoreSede utenteGestoreSede = utenteGestoreSedeDAO.getByUsername(username,password);
         if (utenteGestoreSede != null && utenteGestoreSede.getPassword().equals(password)) {
             return utenteGestoreSede;
         }

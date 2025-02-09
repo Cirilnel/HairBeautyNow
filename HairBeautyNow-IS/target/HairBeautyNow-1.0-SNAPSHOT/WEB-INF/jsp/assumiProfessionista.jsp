@@ -61,16 +61,20 @@
                 success: function(response) {
                     // Show the success message if the professionista was added successfully
                     $("#successMessage").show();
-                    $("#errorMessage").hide();
+                    $("#error").hide();
                 },
                 error: function(xhr, status, error) {
                     // Show error message if something goes wrong
                     $("#successMessage").hide();
-                    $("#errorMessage").show();
+                    $("#error").show();
+                    var errorMessage = JSON.parse(xhr.responseText).message; // Parse the JSON error message
+                    $("#error").text(errorMessage); // Display the error message in the error div
                 }
             });
         });
     });
+
+
 </script>
 <%@ include file="footer.jsp" %>
 
