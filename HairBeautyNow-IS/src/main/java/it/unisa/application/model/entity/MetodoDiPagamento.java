@@ -3,22 +3,25 @@ package it.unisa.application.model.entity;
 import java.util.Date;
 
 public class MetodoDiPagamento {
-    private String nCarta; //PK
+    private String nCarta; // PK
     private Date dataScadenza;
     private String nomeIntestatario;
     private int cvv;
     private String indirizzo;
     private String username; // FK (associato all'utente che possiede il metodo di pagamento)
+    private String metodoPagamento; // Nuovo campo per tipo di metodo di pagamento (PayPal, VISA, etc.)
 
     // Costruttore aggiornato
-    public MetodoDiPagamento(String nCarta, Date dataScadenza, String nomeIntestatario, String indirizzo, int cvv, String username) {
+    public MetodoDiPagamento(String nCarta, Date dataScadenza, String nomeIntestatario, String indirizzo, int cvv, String username, String metodoPagamento) {
         this.nCarta = nCarta;
         this.dataScadenza = dataScadenza;
         this.nomeIntestatario = nomeIntestatario;
         this.indirizzo = indirizzo;
         this.cvv = cvv;
         this.username = username; // Assegna l'utente associato
+        this.metodoPagamento = metodoPagamento; // Assegna il tipo di metodo di pagamento
     }
+
 
     // Getter e Setter per username
     public String getUsername() {
@@ -27,6 +30,15 @@ public class MetodoDiPagamento {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    // Getter e Setter per metodoPagamento
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(String metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
     }
 
     // Getter e Setter per gli altri attributi
@@ -80,6 +92,7 @@ public class MetodoDiPagamento {
                 ", cvv=" + cvv +
                 ", indirizzo='" + indirizzo + '\'' +
                 ", username='" + username + '\'' +
+                ", metodoPagamento='" + metodoPagamento + '\'' +
                 '}';
     }
 }

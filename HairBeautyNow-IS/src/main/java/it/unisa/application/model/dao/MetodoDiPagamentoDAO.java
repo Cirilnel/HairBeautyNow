@@ -16,7 +16,7 @@ public class MetodoDiPagamentoDAO {
 
     // Aggiungi un metodo di pagamento per un utente specifico
     public void addMetodoDiPagamento(MetodoDiPagamento metodo) throws SQLException {
-        String query = "INSERT INTO MetodoDiPagamento (nCarta, dataScadenza, nomeIntestatario, cvv, indirizzo, username) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO MetodoDiPagamento (nCarta, dataScadenza, nomeIntestatario, cvv, indirizzo, username, metodoPagamento) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, metodo.getnCarta());
@@ -25,16 +25,21 @@ public class MetodoDiPagamentoDAO {
             stmt.setInt(4, metodo.getCvv());
             stmt.setString(5, metodo.getIndirizzo());
             stmt.setString(6, metodo.getUsername());  // Collega il metodo di pagamento all'utente
+            stmt.setString(7, metodo.getMetodoPagamento());  // Aggiungi il tipo di metodo di pagamento
             stmt.executeUpdate();
         }
     }
 
-    // Recupera il metodo di pagamento dato il numero della carta
-    public MetodoDiPagamento getMetodoDiPagamento(String nCarta) throws SQLException {
-        String query = "SELECT * FROM MetodoDiPagamento WHERE nCarta = ?";
+
+
+
+
+    // Recupera il metodo di pagamento dato l'username
+    public MetodoDiPagamento getMetodoDiPagamentoByUsername(String username) throws SQLException {
+        String query = "SELECT * FROM MetodoDiPagamento WHERE username = ?";
         try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, nCarta);
+            stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return new MetodoDiPagamento(
@@ -43,56 +48,12 @@ public class MetodoDiPagamentoDAO {
                         rs.getString("nomeIntestatario"),
                         rs.getString("indirizzo"),
                         rs.getInt("cvv"),
-                        rs.getString("username")  // Recupera l'username associato
+                        rs.getString("username"),  // Recupera l'username associato
+                        rs.getString("metodoPagamento")  // Recupera il tipo di metodo di pagamento
                 );
             }
         }
-        return null;
+        return null;  // Se il metodo di pagamento non esiste per l'utente
     }
 
-    // Recupera tutti i metodi di pagamento
-    public List<MetodoDiPagamento> getAllMetodiDiPagamento() throws SQLException {
-        List<MetodoDiPagamento> lista = new ArrayList<>();
-        String query = "SELECT * FROM MetodoDiPagamento";
-        try (Connection conn = ds.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
-            while (rs.next()) {
-                lista.add(new MetodoDiPagamento(
-                        rs.getString("nCarta"),
-                        rs.getDate("dataScadenza"),
-                        rs.getString("nomeIntestatario"),
-                        rs.getString("indirizzo"),
-                        rs.getInt("cvv"),
-                        rs.getString("username")  // Aggiungi l'username associato
-                ));
-            }
-        }
-        return lista;
-    }
-
-    // Aggiorna un metodo di pagamento esistente
-    public void updateMetodoDiPagamento(MetodoDiPagamento metodo) throws SQLException {
-        String query = "UPDATE MetodoDiPagamento SET dataScadenza = ?, nomeIntestatario = ?, cvv = ?, indirizzo = ?, username = ? WHERE nCarta = ?";
-        try (Connection conn = ds.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setDate(1, new java.sql.Date(metodo.getDataScadenza().getTime()));
-            stmt.setString(2, metodo.getNomeIntestatario());
-            stmt.setInt(3, metodo.getCvv());
-            stmt.setString(4, metodo.getIndirizzo());
-            stmt.setString(5, metodo.getUsername());  // Aggiorna l'username associato
-            stmt.setString(6, metodo.getnCarta());
-            stmt.executeUpdate();
-        }
-    }
-
-    // Elimina un metodo di pagamento
-    public void deleteMetodoDiPagamento(String nCarta) throws SQLException {
-        String query = "DELETE FROM MetodoDiPagamento WHERE nCarta = ?";
-        try (Connection conn = ds.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, nCarta);
-            stmt.executeUpdate();
-        }
-    }
 }
