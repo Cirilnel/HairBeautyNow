@@ -6,6 +6,7 @@ import it.unisa.application.model.dao.UtenteGestoreSedeDAO;
 import it.unisa.application.model.entity.UtenteAcquirente;
 import it.unisa.application.model.entity.UtenteGestoreCatena;
 import it.unisa.application.model.entity.UtenteGestoreSede;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class UtenteService {
     private UtenteAcquirenteDAO utenteAcquirenteDAO;
@@ -39,4 +40,9 @@ public class UtenteService {
 
         return null; // Nessun utente trovato
     }
+    public void logout(HttpServletRequest request) {
+        request.getSession().invalidate(); // Invalida la sessione
+    }
+
+
 }
