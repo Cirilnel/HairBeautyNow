@@ -18,12 +18,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.sql.SQLException;
+
 @WebServlet("/completaPrenotazione")
 public class CompletaPrenotazioneServlet extends HttpServlet {
     private final PrenotazioneService prenotazioneService = new PrenotazioneService();
@@ -31,6 +33,7 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
     private final ServizioService servizioService = new ServizioService();
     private final MetodoDiPagamentoDAO metodoDiPagamentoDAO = new MetodoDiPagamentoDAO();
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
@@ -72,74 +75,99 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
                 System.out.println("Data di scadenza: " + scadenza);
                 System.out.println("Indirizzo di fatturazione: " + indirizzo);
 
-                // Se il metodo di pagamento è PayPal
-                if ("paypal".equals(metodoPagamento)) {
-                    String email = request.getParameter("emailPaypal");
-                    System.out.println("Email PayPal: " + email);  // Debug: Mostra l'email PayPal ricevuta
+                PagamentoStrategy pagamentoStrategy = null;
+                MetodoDiPagamento metodo = null;
 
-                    // Crea il metodo di pagamento PayPal (senza carta, scadenza o CVV)
-                    MetodoDiPagamento metodo = new MetodoDiPagamento(
-                            null,  // nCarta è null per PayPal
-                            null,  // dataScadenza non necessaria per PayPal
-                            utente.getNome() + " " + utente.getCognome(),
-                            indirizzo,
-                            0,  // cvv non necessario per PayPal
-                            utente.getUsername(),
-                            metodoPagamento,
-                            email
-                    );
+                try {
+                    // Controlla se esiste già un metodo di pagamento per l'utente
+                    metodo = metodoDiPagamentoDAO.getMetodoDiPagamentoByUsername(utente.getUsername());
 
-                    // Aggiungi il metodo di pagamento al database
-                    metodoDiPagamentoDAO.addMetodoDiPagamento(metodo);
-                    System.out.println("Metodo di pagamento PayPal aggiunto al database");
+                    if ("paypal".equals(metodoPagamento)) {
+                        // Se il metodo di pagamento è PayPal
+                        String email = request.getParameter("emailPaypal");
+                        System.out.println("Email PayPal: " + email);  // Debug: Mostra l'email PayPal ricevuta
 
-                    // Scegli la strategia PayPal
-                    PagamentoStrategy pagamentoStrategy = new PayPalStrategy();
-                    pagamentoStrategy.effettuaPagamento(metodo, prezzo);
-                    System.out.println("Pagamento PayPal effettuato con successo.");
-                } else {
-                    // Elaborazione della data di scadenza per Visa, MasterCard, ecc.
-                    if (scadenza != null && !scadenza.isEmpty()) {
-                        String[] scadenzaArray = scadenza.split("/");
-                        LocalDate dataScadenza = LocalDate.of(2000 + Integer.parseInt(scadenzaArray[1]), Integer.parseInt(scadenzaArray[0]), 1);
-                        System.out.println("Data di scadenza elaborata: " + dataScadenza);
+                        if (metodo != null) {
+                            // Se il metodo di pagamento esiste, aggiorna il metodo di pagamento
+                            metodo.setEmail(email);
+                            metodo.setIndirizzo(indirizzo);
+                            metodoDiPagamentoDAO.updateMetodoDiPagamento(metodo);
+                        } else {
+                            // Crea il metodo di pagamento PayPal
+                            metodo = new MetodoDiPagamento(
+                                    null,  // nCarta è null per PayPal
+                                    null,  // dataScadenza non necessaria per PayPal
+                                    utente.getNome() + " " + utente.getCognome(),
+                                    indirizzo,
+                                    0,  // cvv non necessario per PayPal
+                                    utente.getUsername(),
+                                    metodoPagamento,
+                                    email
+                            );
 
-                        // Crea il metodo di pagamento per carta di credito
-                        MetodoDiPagamento metodo = new MetodoDiPagamento(
-                                numeroCarta,  // nCarta
-                                java.sql.Date.valueOf(dataScadenza),  // dataScadenza
-                                utente.getNome() + " " + utente.getCognome(),  // nomeIntestatario
-                                indirizzo,  // indirizzo
-                                Integer.parseInt(cvv),  // cvv
-                                utente.getUsername(),  // username
-                                metodoPagamento,  // metodoPagamento
-                                null  // PayPal ha email, carte no
-                        );
-
-                        // Aggiungi il metodo di pagamento al database
-                        metodoDiPagamentoDAO.addMetodoDiPagamento(metodo);
-                        System.out.println("Metodo di pagamento aggiunto al database");
-
-                        // Seleziona la strategia di pagamento
-                        PagamentoStrategy pagamentoStrategy = null;
-                        if ("visa".equals(metodoPagamento)) {
-                            pagamentoStrategy = new VisaStrategy();
-                            System.out.println("Strategia VISA selezionata.");
-                        } else if ("mastercard".equals(metodoPagamento)) {
-                            pagamentoStrategy = new MasterCardStrategy();
-                            System.out.println("Strategia Mastercard selezionata.");
+                            // Aggiungi il metodo di pagamento al database
+                            metodoDiPagamentoDAO.addMetodoDiPagamento(metodo);
+                            System.out.println("Metodo di pagamento PayPal aggiunto al database");
                         }
 
-                        // Verifica se la strategia di pagamento è stata selezionata correttamente
-                        if (pagamentoStrategy != null) {
-                            pagamentoStrategy.effettuaPagamento(metodo, prezzo);
-                            System.out.println("Pagamento effettuato con successo.");
-                        }
+                        pagamentoStrategy = new PayPalStrategy();
+                        pagamentoStrategy.effettuaPagamento(metodo, prezzo);
+                        System.out.println("Pagamento PayPal effettuato con successo.");
                     } else {
-                        // Gestione dell'errore se la data di scadenza non è valida
-                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Data di scadenza mancante o non valida.");
-                        return;
+                        // Elaborazione della data di scadenza per Visa, MasterCard, ecc.
+                        if (scadenza != null && !scadenza.isEmpty()) {
+                            String[] scadenzaArray = scadenza.split("/");
+                            LocalDate dataScadenza = LocalDate.of(2000 + Integer.parseInt(scadenzaArray[1]), Integer.parseInt(scadenzaArray[0]), 1);
+                            System.out.println("Data di scadenza elaborata: " + dataScadenza);
+
+                            // Crea il metodo di pagamento per carta di credito
+                            if (metodo != null) {
+                                metodo.setnCarta(numeroCarta);
+                                metodo.setDataScadenza(java.sql.Date.valueOf(dataScadenza));
+                                metodo.setNomeIntestatario(utente.getNome() + " " + utente.getCognome());
+                                metodo.setCvv(Integer.parseInt(cvv));
+                                metodo.setIndirizzo(indirizzo);
+                                metodo.setMetodoPagamento(metodoPagamento);
+
+                                metodoDiPagamentoDAO.updateMetodoDiPagamento(metodo);
+                            } else {
+                                metodo = new MetodoDiPagamento(
+                                        numeroCarta,  // nCarta
+                                        java.sql.Date.valueOf(dataScadenza),  // dataScadenza
+                                        utente.getNome() + " " + utente.getCognome(),  // nomeIntestatario
+                                        indirizzo,  // indirizzo
+                                        Integer.parseInt(cvv),  // cvv
+                                        utente.getUsername(),  // username
+                                        metodoPagamento,  // metodoPagamento
+                                        null  // PayPal ha email, carte no
+                                );
+
+                                // Validazione e aggiunta del metodo di pagamento solo se i dati sono corretti
+                                if (metodoPagamento.equals("visa")) {
+                                    pagamentoStrategy = new VisaStrategy();
+                                } else if (metodoPagamento.equals("mastercard")) {
+                                    pagamentoStrategy = new MasterCardStrategy();
+                                }
+
+                                // Se i dati sono validi, aggiungi al database e procedi con il pagamento
+                                if (pagamentoStrategy != null) {
+                                    pagamentoStrategy.effettuaPagamento(metodo, prezzo);
+                                    metodoDiPagamentoDAO.addMetodoDiPagamento(metodo);
+                                    System.out.println("Pagamento effettuato con successo.");
+                                }
+                            }
+                        } else {
+                            // Gestione dell'errore se la data di scadenza non è valida
+                            request.setAttribute("errore", "Data di scadenza mancante o non valida.");
+                            request.getRequestDispatcher("/WEB-INF/jsp/metodoPagamento.jsp").forward(request, response);
+                            return;
+                        }
                     }
+                } catch (IllegalArgumentException e) {
+                    // Gestione dell'errore
+                    request.setAttribute("errore", e.getMessage());
+                    request.getRequestDispatcher("/WEB-INF/jsp/metodoPagamento.jsp").forward(request, response);
+                    return;
                 }
             }
 
@@ -152,15 +180,17 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
                 fasciaOrariaService.updateFasciaOraria(fasciaOraria);
             }
 
-            // Redirect alla home
+            // Se tutto è andato a buon fine, puoi redirect a home
             response.sendRedirect("index.jsp");
 
         } catch (SQLException | NullPointerException | IllegalArgumentException e) {
             // Gestione degli errori
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore durante la prenotazione: " + e.getMessage());
+            request.setAttribute("errore", "Errore durante la prenotazione: " + e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/jsp/metodoPagamento.jsp").forward(request, response);
         }
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
@@ -177,10 +207,11 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
             }
 
             // Invia la richiesta alla pagina metodoPagamento.jsp
-            request.getRequestDispatcher("/metodoPagamento.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/metodoPagamento.jsp").forward(request, response);
 
         } catch (SQLException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore durante il recupero del metodo di pagamento: " + e.getMessage());
         }
     }
 }
+
