@@ -12,6 +12,7 @@ public class GestioneProfessionistaService {
     private ProfessionistaDAO professionistaDAO = new ProfessionistaDAO();
     private SedeDAO sedeDAO = new SedeDAO();
 
+
     public GestioneProfessionistaService(ProfessionistaDAO professionistaDAO, SedeDAO sedeDAO) {
         this.professionistaDAO = professionistaDAO;
         this.sedeDAO = sedeDAO;

@@ -14,6 +14,7 @@ import java.io.IOException;
 public class InformazioniAccountServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+
     // Gestione della richiesta GET
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Recupera l'utente dalla sessione (se presente)

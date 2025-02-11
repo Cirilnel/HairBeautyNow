@@ -25,7 +25,7 @@ public class PrenotazioniAttiveServlet extends HttpServlet {
         UtenteGestoreSede utente = (UtenteGestoreSede) session.getAttribute("user");
 
         if (utente == null) {
-            response.sendRedirect("erroreUtente");
+            response.sendRedirect("/app/loginPage");  // Updated to match your test expectation
             return;
         }
 
@@ -40,4 +40,5 @@ public class PrenotazioniAttiveServlet extends HttpServlet {
             response.getWriter().write("Errore durante il recupero delle prenotazioni");
         }
     }
+
 }

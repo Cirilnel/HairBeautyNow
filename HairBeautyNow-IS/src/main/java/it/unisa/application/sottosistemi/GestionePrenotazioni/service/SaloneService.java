@@ -14,20 +14,8 @@ import java.util.Map;
 
 public class SaloneService {
 
-    private final ProfessionistaDAO professionistaDAO;
-    private final FasciaOrariaDAO fasciaOrariaDAO;
-
-    // Costruttore vuoto (per il sito)
-    public SaloneService() {
-        this.professionistaDAO = new ProfessionistaDAO();  // Default initialization
-        this.fasciaOrariaDAO = new FasciaOrariaDAO();      // Default initialization
-    }
-
-    // Costruttore per il test (passa i mock come parametri)
-    public SaloneService(ProfessionistaDAO professionistaDAO, FasciaOrariaDAO fasciaOrariaDAO) {
-        this.professionistaDAO = professionistaDAO;
-        this.fasciaOrariaDAO = fasciaOrariaDAO;
-    }
+    private final ProfessionistaDAO professionistaDAO = new ProfessionistaDAO();
+    private final FasciaOrariaDAO fasciaOrariaDAO = new FasciaOrariaDAO();
 
     // Ottieni professionisti per un dato salone
     public List<Professionista> getProfessionistiBySalone(int saloneId) {

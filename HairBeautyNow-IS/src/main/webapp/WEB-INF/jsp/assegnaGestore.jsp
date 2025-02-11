@@ -1,5 +1,5 @@
-<%@ page import="java.util.List, it.unisa.application.model.entity.UtenteGestoreSede" %>
-<%@ page import="it.unisa.application.model.entity.Sede" %>
+<%@ page import="it.unisa.application.model.entity.UtenteGestoreSede" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="it">
 <head>

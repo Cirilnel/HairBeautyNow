@@ -26,6 +26,7 @@ public class AssumiProfessionistaServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Recuperiamo il nome del professionista dal form

@@ -27,7 +27,7 @@
   </a>
 
   <section class="auth-container">
-    <form action="<%= request.getContextPath() %>/login" method="post" class="auth-form">
+    <form action="<%= request.getContextPath() %>/loginPage" method="post" class="auth-form">
       <label for="username">Username</label> <!-- Cambiato da 'Email' a 'Username' -->
       <input type="text" id="username" name="username" placeholder="Value" required> <!-- Cambiato da 'email' a 'username' -->
 
@@ -44,7 +44,7 @@
       </c:if>
 
       <p class="register-prompt">Non sei ancora registrato?
-        <a href="<%= request.getContextPath() %>/registerPage" class="register-link">Registrati qui</a>
+        <a href="<%= request.getContextPath() %>/register" class="register-link">Registrati qui</a>
       </p>
     </form>
   </section>

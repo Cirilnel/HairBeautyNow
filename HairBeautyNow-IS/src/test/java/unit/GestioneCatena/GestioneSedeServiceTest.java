@@ -1,61 +1,59 @@
 package unit.GestioneCatena;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-import it.unisa.application.model.dao.SedeDAO;
 import it.unisa.application.model.entity.Sede;
 import it.unisa.application.sottosistemi.GestioneCatena.service.GestioneSedeService;
 import org.junit.jupiter.api.*;
 import unit.DAO.DatabaseSetupForTest;
 
-@DisplayName("Test per il servizio GestioneSedeService")
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@DisplayName("Test per GestioneSedeService (DAO reale, senza modifiche al codice del Service)")
 public class GestioneSedeServiceTest {
 
     private GestioneSedeService gestioneSedeService;
-    private SedeDAO sedeDAOMock;
 
     @BeforeAll
     static void globalSetup() {
+        // Configura il DB in-memory H2
         DatabaseSetupForTest.configureH2DataSource();
         System.out.println("Datasource H2 configurato per i test.");
     }
 
     @BeforeEach
     void setUp() {
-        // Mock del DAO
-        sedeDAOMock = mock(SedeDAO.class);
-
-        // Inizializzazione del servizio con il DAO mockato tramite costruttore
+        // Inizializza il service (usa internamente un SedeDAO reale)
         gestioneSedeService = new GestioneSedeService();
 
-        // Per sicurezza, settiamo il DAO mockato al servizio, se necessario
-        // gestioneSedeService.setSedeDAO(sedeDAOMock); (Assicurati che il servizio possa accettare un mock se necessario)
+        // Pulisce la tabella "sede" prima di ogni test
+
     }
 
     @Test
-    @DisplayName("Creazione di una nuova sede - Successo")
+    @DisplayName("testCreaSedeSuccess - Inserimento corretto di una sede")
     void testCreaSedeSuccess() {
-        System.out.println("Test: Creazione di una nuova sede - Successo");
+        System.out.println("Inserimento corretto di una sede");
 
-        // Prepara il dato mockato (passiamo tutti i 4 parametri)
-        Sede nuovaSede = new Sede("Via Roma 123", "Sede Milano", "Milano", 0); // 'id' è inizializzato a 0 perché sarà restituito dal DB
+        // Creiamo una sede valida (tutti i campi NOT NULL)
+        Sede nuovaSede = new Sede("Via Roma 123", "Sede Milano", "Milano", 0);
 
-        // Stampa i dati della sede che stiamo per creare
-        System.out.println("Dati della nuova sede da creare:");
+        System.out.println("Dati della nuova sede:");
         System.out.println("Indirizzo: " + nuovaSede.getIndirizzo());
         System.out.println("Nome: " + nuovaSede.getNome());
         System.out.println("Città: " + nuovaSede.getCitta());
         System.out.println("ID iniziale (prima del salvataggio): " + nuovaSede.getId());
 
-        // Simula il comportamento del DAO per il metodo insert
-        when(sedeDAOMock.insertSedeAndReturnID(nuovaSede)).thenReturn(1); // Simuliamo che l'inserimento restituisca l'ID 1
+        // Chiamata al servizio per l'inserimento
+        int idGenerato = gestioneSedeService.creaSede(nuovaSede);
 
-        // Chiamata al servizio
-        int sedeID = gestioneSedeService.creaSede(nuovaSede);
+        System.out.println("ID restituito dopo l'inserimento: " + idGenerato);
 
-        // Verifica che l'ID della sede restituito sia 1
-        System.out.println("ID della sede creata: " + sedeID); // Stampa dell'ID restituito
-        assertEquals(1, sedeID, "L'ID della sede dovrebbe essere 1.");
+        // Dovrebbe essere > 0 (perché la tabella ha colonna auto-increment)
+        assertTrue(idGenerato > 0, "L'inserimento dovrebbe restituire un ID positivo.");
+
     }
+
+
 }
