@@ -10,7 +10,7 @@ public class UtenteGestoreCatena {
         this.username = username;
     }
 
-
+    public UtenteGestoreCatena() {}
     @Override
     public String toString() {
         return "UtenteGestoreCatena{" +

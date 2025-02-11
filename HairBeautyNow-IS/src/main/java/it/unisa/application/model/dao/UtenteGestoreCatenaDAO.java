@@ -20,18 +20,7 @@ public class UtenteGestoreCatenaDAO {
         return ds.getConnection();
     }
 
-    // Insert a new utente gestore catena (with hashed password)
-    public void insert(UtenteGestoreCatena utenteGestoreCatena) {
-        String hashedPassword = PasswordUtils.hashPassword(utenteGestoreCatena.getPassword()); // Hash della password
-        String sql = "INSERT INTO UtenteGestoreCatena (username, password) VALUES (?, ?)";
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, utenteGestoreCatena.getUsername());
-            preparedStatement.setString(2, hashedPassword); // Salva la password hashata
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     // Retrieve an utente gestore catena by username
     public UtenteGestoreCatena getByUsername(String username, String password) {
@@ -66,6 +55,7 @@ public class UtenteGestoreCatenaDAO {
             preparedStatement.setString(2, utenteGestoreCatena.getUsername());
 
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,6 +67,7 @@ public class UtenteGestoreCatenaDAO {
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, username);
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }

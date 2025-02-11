@@ -29,19 +29,16 @@
   <tr>
     <th>Immagine</th>
     <th>Username</th>
-    <th>Password</th>
     <th>Azione</th>
   </tr>
   <%
     List<UtenteGestoreSede> gestoriConSede = (List<UtenteGestoreSede>) request.getAttribute("gestoriConSede");
     if (gestoriConSede != null && !gestoriConSede.isEmpty()) {
       for (UtenteGestoreSede gestore : gestoriConSede) {
-        String passwordMasked = "*".repeat(gestore.getPassword().length()); // Maschera la password
   %>
   <tr>
     <td><img src="static/images/<%= gestore.getUsernameUGS() %>.png" alt="Immagine Utente" width="50" height="50"></td>
     <td><%= gestore.getUsernameUGS() %></td>
-    <td><%= passwordMasked %></td>
     <td>
       <form action="<%= request.getContextPath() %>/rimuoviGestore" method="post">
         <input type="hidden" name="usernameUGS" value="<%= gestore.getUsernameUGS() %>">
@@ -54,7 +51,7 @@
   } else {
   %>
   <tr>
-    <td colspan="4" id="error-message">Nessun gestore con sede trovato.</td>
+    <td colspan="3" id="error-message">Nessun gestore con sede trovato.</td>
   </tr>
   <% } %>
 </table>

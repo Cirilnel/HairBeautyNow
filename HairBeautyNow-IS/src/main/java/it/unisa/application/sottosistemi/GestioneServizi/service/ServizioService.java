@@ -1,64 +1,30 @@
 package it.unisa.application.sottosistemi.GestioneServizi.service;
 
+import it.unisa.application.model.dao.ServizioDAO;
 import it.unisa.application.model.entity.Servizio;
-import java.sql.*;
 import java.util.*;
 
 public class ServizioService {
-    private static final String URL = "jdbc:mysql://localhost:3306/HairBeautyNow"; // URL del DB
-    private static final String USER = "root"; // Nome utente DB
-    private static final String PASSWORD = "root"; // Password del DB
+    private ServizioDAO servizioDAO;
+
+    public ServizioService() {
+        this.servizioDAO = new ServizioDAO(); // Instanzia il DAO
+    }
+
+    public ServizioService(ServizioDAO servizioDAOMock) {
+        this.servizioDAO = servizioDAOMock;
+    }
 
     // Metodo per ottenere tutti i servizi dal DB
     public List<Servizio> getAllServizi() {
-        List<Servizio> servizi = new ArrayList<>();
-        String sql = "SELECT nome, prezzo, tipo FROM Servizio"; // Query per ottenere solo nome, prezzo e tipo
-
-        try {
-            // Registra manualmente il driver JDBC
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Driver JDBC caricato correttamente!");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Driver JDBC non trovato!");
-            e.printStackTrace();
-            return servizi; // Restituisce una lista vuota in caso di errore
-        }
-
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            if (conn != null) {
-                System.out.println("Connessione al database riuscita!"); // Log per confermare la connessione
-            } else {
-                System.out.println("Errore nella connessione al database!");
-                return servizi; // Restituisce una lista vuota in caso di errore di connessione
-            }
-
-            // Itera sui risultati della query e crea gli oggetti Servizio
-            while (rs.next()) {
-                String nome = rs.getString("nome");
-                double prezzo = rs.getDouble("prezzo");
-                String tipo = rs.getString("tipo");
-
-                // Crea il servizio solo con i dati che ti servono
-                Servizio servizio = new Servizio(nome, prezzo, tipo);
-                servizi.add(servizio);
-            }
-        } catch (SQLException e) {
-            System.out.println("Errore SQL: " + e.getMessage()); // Log per eventuali errori SQL
-            e.printStackTrace(); // Stampa l'errore per un'analisi più dettagliata
-        }
-        return servizi;
+        return servizioDAO.getAll(); // Chiama il DAO per ottenere i servizi
     }
 
     // Metodo per ottenere il prezzo di un servizio dato il nome
     public double getPrezzoByNome(String nomeServizio) {
-        List<Servizio> servizi = getAllServizi();
-        for (Servizio servizio : servizi) {
-            if (servizio.getNome().equalsIgnoreCase(nomeServizio)) {
-                return servizio.getPrezzo();
-            }
+        Servizio servizio = servizioDAO.getByNome(nomeServizio); // Chiama il DAO per ottenere il servizio
+        if (servizio != null) {
+            return servizio.getPrezzo();
         }
         return 0.0; // Se il servizio non viene trovato
     }

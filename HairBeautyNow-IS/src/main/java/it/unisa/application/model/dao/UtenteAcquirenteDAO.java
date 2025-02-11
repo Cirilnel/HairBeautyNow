@@ -40,31 +40,7 @@ public class UtenteAcquirenteDAO {
         }
     }
 
-    // Metodo per recuperare un utente tramite email e password
-    public UtenteAcquirente getByEmailAndPassword(String email, String password) {
-        String sql = "SELECT * FROM UtenteAcquirente WHERE email = ?";
-        try (Connection connection = ds.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, email);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String username = resultSet.getString("username");
-                String nome = resultSet.getString("nome");
-                String cognome = resultSet.getString("cognome");
-                String citta = resultSet.getString("citta");
-                String storedHashedPassword = resultSet.getString("password");
-
-                // Hash the provided password and compare it with the stored hash
-                if (storedHashedPassword.equals(PasswordUtils.hashPassword(password))) {
-                    return new UtenteAcquirente(username, email, password, nome, cognome, citta);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;  // Nessun utente trovato con queste credenziali
-    }
 
     // Metodo per recuperare un utente tramite username e password
     public UtenteAcquirente getByUsernameAndPassword(String username, String password) {

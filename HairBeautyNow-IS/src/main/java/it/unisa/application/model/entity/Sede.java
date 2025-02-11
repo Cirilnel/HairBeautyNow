@@ -7,6 +7,8 @@ public class Sede {
     private String citta;
     private int id; //PK
 
+
+
     public String getIndirizzo() {
         return indirizzo;
     }

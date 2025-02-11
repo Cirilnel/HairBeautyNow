@@ -29,6 +29,10 @@ public class Prenotazione {
         this.prezzo = prezzo;
     }
 
+    public Prenotazione() {
+
+    }
+
     // Getter e Setter per l'ID
     public int getId() {
         return id;

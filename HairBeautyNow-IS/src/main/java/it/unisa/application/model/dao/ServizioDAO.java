@@ -5,7 +5,9 @@ import it.unisa.application.model.entity.Servizio;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServizioDAO {
     private DataSource ds;
@@ -21,12 +23,12 @@ public class ServizioDAO {
 
     // Insert a new servizio
     public void insert(Servizio servizio) {
-        String sql = "INSERT INTO Servizi (nome, descrizione, tipo, durata, prezzo) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Servizio (nome, prezzo, tipo, descrizione) VALUES (?, ?, ?, ?)";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, servizio.getNome());
-            preparedStatement.setString(2, servizio.getDescrizione());
+            preparedStatement.setDouble(2, servizio.getPrezzo());
             preparedStatement.setString(3, servizio.getTipo());
-            preparedStatement.setDouble(5, servizio.getPrezzo());
+            preparedStatement.setString(4, servizio.getDescrizione());  // Aggiungi la descrizione
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -34,30 +36,10 @@ public class ServizioDAO {
         }
     }
 
-    // Get a servizio by nome
-    public Servizio getByNome(String nome) {
-        String sql = "SELECT * FROM Servizi WHERE nome = ?";
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, nome);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String descrizione = resultSet.getString("descrizione");
-                String tipo = resultSet.getString("tipo");
-                double prezzo = resultSet.getDouble("prezzo");
-
-                return new Servizio(nome, prezzo, tipo, descrizione);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;  // Return null if no service is found
-    }
-
     // Get all servizi
     public List<Servizio> getAll() {
         List<Servizio> servizi = new ArrayList<>();
-        String sql = "SELECT * FROM Servizi";
+        String sql = "SELECT * FROM Servizio";
         try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -74,45 +56,48 @@ public class ServizioDAO {
         return servizi;
     }
 
-    // Update an existing servizio
-    public void update(Servizio servizio) {
-        String sql = "UPDATE Servizi SET descrizione = ?, tipo = ?, durata = ?, prezzo = ? WHERE nome = ?";
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, servizio.getDescrizione());
-            preparedStatement.setString(2, servizio.getTipo());
-            preparedStatement.setDouble(4, servizio.getPrezzo());
-            preparedStatement.setString(5, servizio.getNome());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Delete a servizio by nome
-    public void delete(String nome) {
-        String sql = "DELETE FROM Servizi WHERE nome = ?";
+    // Get a specific servizio by nome
+    public Servizio getByNome(String nome) {
+        String sql = "SELECT * FROM Servizio WHERE nome = ?";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, nome);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Get prezzo by servizio nome
-    public double getPrezzoByNome(String nome) {
-        String sql = "SELECT prezzo FROM Servizi WHERE nome = ?";
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, nome);
-
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getDouble("prezzo");  // Return the prezzo
+                String nomeResult = resultSet.getString("nome");
+                String tipo = resultSet.getString("tipo");
+                double prezzo = resultSet.getDouble("prezzo");
+                String descrizione = resultSet.getString("descrizione");
+
+                return new Servizio(nomeResult, prezzo, tipo, descrizione);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0.0;  // If the servizio is not found, return 0.0 as default
+        return null; // Return null if the service was not found
+    }
+    public List<Servizio> getAllWithDescription() {
+        List<Servizio> servizi = new ArrayList<>();
+        String sql = "SELECT nome, prezzo, tipo, descrizione FROM Servizio"; // Query aggiornata per ottenere anche la descrizione
+        try (Connection connection = getConnection(); Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                String nome = rs.getString("nome");
+                double prezzo = rs.getDouble("prezzo");
+                String tipo = rs.getString("tipo");
+                String descrizione = rs.getString("descrizione"); // Recupera la descrizione dalla query
+                Servizio servizio = new Servizio(nome, prezzo, tipo, descrizione);
+                servizi.add(servizio);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return servizi;
+    }
+    public Map<String, List<Servizio>> getServiziPerTipo() {
+        List<Servizio> allServizi = getAllWithDescription();
+        Map<String, List<Servizio>> serviziPerTipo = new HashMap<>();
+        for (Servizio servizio : allServizi) {
+            serviziPerTipo.computeIfAbsent(servizio.getTipo(), k -> new ArrayList<>()).add(servizio);
+        }
+        return serviziPerTipo;
     }
 }

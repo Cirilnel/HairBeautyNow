@@ -12,7 +12,11 @@ public class GestioneProfessionistaService {
     private ProfessionistaDAO professionistaDAO = new ProfessionistaDAO();
     private SedeDAO sedeDAO = new SedeDAO();
 
-
+    public GestioneProfessionistaService(ProfessionistaDAO professionistaDAO, SedeDAO sedeDAO) {
+        this.professionistaDAO = professionistaDAO;
+        this.sedeDAO = sedeDAO;
+    }
+    public GestioneProfessionistaService() {}
     public Sede getSedeById(Integer sedeId) {
         return sedeDAO.getSedeById(sedeId);
     }
@@ -21,9 +25,7 @@ public class GestioneProfessionistaService {
         professionistaDAO.insertProfessionista(professionista);
     }
     public String rimuoviProfessionista(int professionistaId) {
-        ProfessionistaDAO professionistaDAO = new ProfessionistaDAO();
-
-        // Rimuovi il professionista, che a sua volta rimuove le fasce orarie se non ci sono prenotazioni
+        // Usa il DAO mockato iniettato nel servizio
         boolean successo = professionistaDAO.rimuoviProfessionista(professionistaId);
 
         if (successo) {
@@ -32,6 +34,7 @@ public class GestioneProfessionistaService {
             return "Errore durante la rimozione del professionista o ci sono prenotazioni attive.";
         }
     }
+
 
     public List<Professionista> getProfessionistiBySede(int sedeId) {
         return professionistaDAO.getProfessionistiBySede(sedeId);

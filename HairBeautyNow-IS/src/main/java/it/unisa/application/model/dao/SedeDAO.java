@@ -67,10 +67,6 @@ public class SedeDAO {
         return sedi;
     }
 
-    // Metodo per ottenere una sede per ID (utile per l'utente loggato)
-    public Sede findSedeById(int sedeId) {
-        return getSedeById(sedeId);
-    }
 
     public int insertSedeAndReturnID(Sede sede) {
         String query = "INSERT INTO sede (indirizzo, nome, città) VALUES (?, ?, ?)";

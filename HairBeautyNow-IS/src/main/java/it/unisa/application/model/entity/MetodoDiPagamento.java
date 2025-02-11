@@ -22,7 +22,7 @@ public class MetodoDiPagamento {
         this.metodoPagamento = metodoPagamento; // Assegna il tipo di metodo di pagamento
         this.email = email; // Assegna l'email se presente
     }
-
+    public MetodoDiPagamento(){}
     // Getter e Setter per email
     public String getEmail() {
         return email;

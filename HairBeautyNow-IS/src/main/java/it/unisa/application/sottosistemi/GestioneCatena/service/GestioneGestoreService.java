@@ -9,6 +9,11 @@ public class GestioneGestoreService {
 
     private UtenteGestoreSedeDAO utenteGestoreSedeDAO = new UtenteGestoreSedeDAO();
 
+    public GestioneGestoreService() {}
+
+    public GestioneGestoreService(UtenteGestoreSedeDAO utenteGestoreSedeDAO) {
+        this.utenteGestoreSedeDAO = utenteGestoreSedeDAO;
+    }
     // Metodo per creare un nuovo gestore
     public boolean creaGestore(UtenteGestoreSede nuovoGestore) {
         return utenteGestoreSedeDAO.insert(nuovoGestore);

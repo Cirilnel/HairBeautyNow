@@ -6,7 +6,7 @@ public class UtenteGestoreSede {
     private Integer sedeID; // FK referring to the Sede table
 
     // Constructor with updated parameters
-    public UtenteGestoreSede(String usernameUGS, String password, int sedeID) {
+    public UtenteGestoreSede(String usernameUGS, String password, Integer sedeID) {
         this.usernameUGS = usernameUGS;
         this.password = password;
         this.sedeID = sedeID;

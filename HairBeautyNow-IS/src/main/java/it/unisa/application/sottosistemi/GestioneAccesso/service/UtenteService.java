@@ -19,6 +19,12 @@ public class UtenteService {
         this.utenteGestoreSedeDAO = new UtenteGestoreSedeDAO();
     }
 
+    public UtenteService(UtenteAcquirenteDAO utenteAcquirenteDAOMock, UtenteGestoreCatenaDAO utenteGestoreCatenaDAOMock, UtenteGestoreSedeDAO utenteGestoreSedeDAOMock) {
+        this.utenteAcquirenteDAO = utenteAcquirenteDAOMock;
+        this.utenteGestoreCatenaDAO = utenteGestoreCatenaDAOMock;
+        this.utenteGestoreSedeDAO = utenteGestoreSedeDAOMock;
+    }
+
     public Object login(String username, String password) { // Cambiato 'usernameOrEmail' in 'username'
         // Controllo in UtenteAcquirente (per username, non più email)
         UtenteAcquirente utenteAcquirente = utenteAcquirenteDAO.getByUsernameAndPassword(username, password); // Cambiato da getByEmailAndPassword
