@@ -20,6 +20,9 @@
 </a>
 <h1 class="general">Aggiungi una nuova sede</h1>
 
+<% if (request.getParameter("errore") != null) { %>
+<p class="error-message"><%= request.getParameter("errore") %></p>
+<% } %>
 
 <section class="form-container">
   <form action="<%= request.getContextPath() %>/aggiungiSede" method="post">

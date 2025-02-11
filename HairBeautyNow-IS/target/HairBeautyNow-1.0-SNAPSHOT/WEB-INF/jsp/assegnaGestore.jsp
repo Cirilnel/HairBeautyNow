@@ -1,5 +1,4 @@
 <%@ page import="java.util.List, it.unisa.application.model.entity.UtenteGestoreSede" %>
-<%@ page import="it.unisa.application.model.entity.Professionista" %>
 <%@ page import="it.unisa.application.model.entity.Sede" %>
 <!DOCTYPE html>
 <html lang="it">
@@ -18,40 +17,44 @@
 <%@ include file="headerCatena.jsp" %>
 <h1>Assegna un gestore a una sede</h1>
 
-    <% if (request.getParameter("errore") != null) { %>
-  <p class="error-message"><%= request.getParameter("errore") %></p>
-    <% } %>
+<%-- Mostra messaggio di errore, se esiste --%>
+<% if (request.getParameter("errore") != null) { %>
+<div class="error-message">
+  <%= request.getParameter("errore") %>
+</div>
+<% } %>
 
-  <table>
-    <tr>
-      <th>Immagine</th>
-      <th>Username</th>
-      <th>Azione</th>
-    </tr>
-    <%
-      List<UtenteGestoreSede> gestoriSenzaSede = (List<UtenteGestoreSede>) request.getAttribute("gestoriSenzaSede");
-      if (gestoriSenzaSede != null && !gestoriSenzaSede.isEmpty()) {
-        for (UtenteGestoreSede gestore : gestoriSenzaSede) {
-    %>
-    <tr>
-      <td><img src="static/images/<%= gestore.getUsernameUGS() %>.png" alt="Immagine Utente" width="50" height="50"></td>
-      <td><%= gestore.getUsernameUGS() %></td>
-      <td>
-        <form action="<%= request.getContextPath() %>/rimuoviGestore" method="post">
-          <input type="hidden" name="usernameUGS" value="<%= gestore.getUsernameUGS() %>">
-          <button type="submit">Rimuovi</button>
-        </form>
-      </td>
-    </tr>
-    <%
-      }
-    } else {
-    %>
-    <tr>
-      <td colspan="3" id="error-message">Nessun gestore con sede trovato.</td>
-    </tr>
-    <% } %>
-  </table>
+<table>
+  <tr>
+    <th>Immagine</th>
+    <th>Username</th>
+    <th>Azione</th>
+  </tr>
+  <%
+    List<UtenteGestoreSede> gestoriSenzaSede = (List<UtenteGestoreSede>) request.getAttribute("gestoriSenzaSede");
+    if (gestoriSenzaSede != null && !gestoriSenzaSede.isEmpty()) {
+      for (UtenteGestoreSede gestore : gestoriSenzaSede) {
+  %>
+  <tr>
+    <td><img src="static/images/<%= gestore.getUsernameUGS() %>.png" alt="Immagine Utente" width="50" height="50"></td>
+    <td><%= gestore.getUsernameUGS() %></td>
+    <td>
+      <form action="<%= request.getContextPath() %>/assegnaGestore" method="post">
+        <input type="hidden" name="usernameUGS" value="<%= gestore.getUsernameUGS() %>">
+        <button type="submit">Assumi</button>
+      </form>
+    </td>
+  </tr>
+  <%
+    }
+  } else {
+  %>
+  <tr>
+    <td colspan="3" id="error-message">Nessun gestore senza sede trovato.</td>
+  </tr>
+  <% } %>
+</table>
+
 <%@ include file="footer.jsp" %>
 </body>
 </html>
