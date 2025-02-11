@@ -1,5 +1,6 @@
 package it.unisa.application.sottosistemi.GestioneServizi.view;
 
+import it.unisa.application.model.dao.ServizioDAO;
 import it.unisa.application.model.entity.Servizio;
 import it.unisa.application.model.entity.UtenteAcquirente;
 import it.unisa.application.sottosistemi.GestioneServizi.service.MakeUpService;  // Import the MakeUpService
@@ -20,7 +21,9 @@ public class MakeUpServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        makeUpService = new MakeUpService();  // Initialize the MakeUpService
+        // Inizializzazione del ServizioDAO
+        ServizioDAO servizioDAO = new ServizioDAO(); // Assicurati di avere un costruttore senza parametri o un'istanza valida
+        makeUpService = new MakeUpService(servizioDAO);  // Passa l'istanza di ServizioDAO al costruttore di MakeUpService
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

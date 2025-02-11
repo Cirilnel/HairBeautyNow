@@ -31,14 +31,6 @@ public class ServizioService {
 
     // Metodo per ottenere i servizi raggruppati per tipo
     public Map<String, List<Servizio>> getServiziPerTipo() {
-        List<Servizio> allServizi = getAllServizi();
-        Map<String, List<Servizio>> serviziPerTipo = new HashMap<>();
-
-        // Raggruppa i servizi per tipo
-        for (Servizio servizio : allServizi) {
-            serviziPerTipo.computeIfAbsent(servizio.getTipo(), k -> new ArrayList<>()).add(servizio);
-        }
-
-        return serviziPerTipo;
+        return servizioDAO.getServiziPerTipo();
     }
 }
