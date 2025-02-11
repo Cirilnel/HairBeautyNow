@@ -54,7 +54,11 @@ public class AssegnaGestoreServlet extends HttpServlet {
 
         // Se la sede esiste e il gestore è valido
         if (nuovaSede != null) {
+<<<<<<< Updated upstream
             // Crea la sede nel database
+=======
+            // Prima crea la sede
+>>>>>>> Stashed changes
             int sedeID = gestioneSedeService.creaSede(nuovaSede);
 
             if (sedeID > 0) {
@@ -82,5 +86,8 @@ public class AssegnaGestoreServlet extends HttpServlet {
     }
 }
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes

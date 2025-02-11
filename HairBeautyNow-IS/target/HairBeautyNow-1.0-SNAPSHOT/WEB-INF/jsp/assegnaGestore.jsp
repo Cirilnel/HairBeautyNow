@@ -17,10 +17,17 @@
 <%@ include file="headerCatena.jsp" %>
 <h1>Assegna un gestore a una sede</h1>
 
+<<<<<<< Updated upstream
 <%-- Mostra messaggio di errore, se esiste --%>
 <% if (request.getParameter("errore") != null) { %>
 <div class="error-message">
   <%= request.getParameter("errore") %>
+=======
+<%-- Visualizzazione di un eventuale messaggio di errore --%>
+<%@ if (request.getAttribute("errore") != null) { %>
+<div class="alert alert-danger">
+  <%= request.getAttribute("errore") %>
+>>>>>>> Stashed changes
 </div>
 <% } %>
 
@@ -33,7 +40,12 @@
   <%
     List<UtenteGestoreSede> gestoriSenzaSede = (List<UtenteGestoreSede>) request.getAttribute("gestoriSenzaSede");
     if (gestoriSenzaSede != null && !gestoriSenzaSede.isEmpty()) {
+<<<<<<< Updated upstream
       for (UtenteGestoreSede gestore : gestoriSenzaSede) {
+=======
+    for (UtenteGestoreSede gestore : gestoriSenzaSede) {
+    String passwordMasked = "*".repeat(gestore.getPassword().length()); // Maschera la password
+>>>>>>> Stashed changes
   %>
   <tr>
     <td><img src="static/images/<%= gestore.getUsernameUGS() %>.png" alt="Immagine Utente" width="50" height="50"></td>
@@ -47,7 +59,7 @@
   </tr>
   <%
     }
-  } else {
+    } else {
   %>
   <tr>
     <td colspan="3" id="error-message">Nessun gestore senza sede trovato.</td>
