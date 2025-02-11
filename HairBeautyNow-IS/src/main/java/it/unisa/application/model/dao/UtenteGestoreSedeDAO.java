@@ -180,4 +180,25 @@ public class UtenteGestoreSedeDAO {
             e.printStackTrace();
         }
     }
+    public UtenteGestoreSede getByUsername(String usernameUGS) {
+        String sql = "SELECT * FROM UtenteGestoreSede WHERE usernameUGS = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, usernameUGS);  // Usa il 'username' come parametro
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                // Estrai i dati dell'utente
+                String password = resultSet.getString("password");  // La password, se necessario per il futuro
+                int sedeID = resultSet.getInt("sedeID");
+
+                // Restituisce l'oggetto UtenteGestoreSede basato sul 'usernameUGS'
+                return new UtenteGestoreSede(usernameUGS, password, sedeID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;  // Nessun utente trovato con questo username
+    }
+
 }
