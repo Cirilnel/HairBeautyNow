@@ -41,6 +41,13 @@ public class GestioneSedeServiceTest {
         // Prepara il dato mockato (passiamo tutti i 4 parametri)
         Sede nuovaSede = new Sede("Via Roma 123", "Sede Milano", "Milano", 0); // 'id' è inizializzato a 0 perché sarà restituito dal DB
 
+        // Stampa i dati della sede che stiamo per creare
+        System.out.println("Dati della nuova sede da creare:");
+        System.out.println("Indirizzo: " + nuovaSede.getIndirizzo());
+        System.out.println("Nome: " + nuovaSede.getNome());
+        System.out.println("Città: " + nuovaSede.getCitta());
+        System.out.println("ID iniziale (prima del salvataggio): " + nuovaSede.getId());
+
         // Simula il comportamento del DAO per il metodo insert
         when(sedeDAOMock.insertSedeAndReturnID(nuovaSede)).thenReturn(1); // Simuliamo che l'inserimento restituisca l'ID 1
 
@@ -48,14 +55,7 @@ public class GestioneSedeServiceTest {
         int sedeID = gestioneSedeService.creaSede(nuovaSede);
 
         // Verifica che l'ID della sede restituito sia 1
+        System.out.println("ID della sede creata: " + sedeID); // Stampa dell'ID restituito
         assertEquals(1, sedeID, "L'ID della sede dovrebbe essere 1.");
     }
-
-
-
-
-
-
-
-
 }

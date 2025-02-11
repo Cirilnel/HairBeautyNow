@@ -13,31 +13,55 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PrenotazioneService {
-    private final PrenotazioneDAO prenotazioneDAO = new PrenotazioneDAO(); // Aggiungi il DAO per Prenotazione
-    private ProfessionistaDAO professionistaDAO = new ProfessionistaDAO();
-    private final FasciaOrariaDAO fasciaOrariaDAO = new FasciaOrariaDAO();
+    private final PrenotazioneDAO prenotazioneDAO;
+    private final ProfessionistaDAO professionistaDAO;
+    private final FasciaOrariaDAO fasciaOrariaDAO;
+    private final SedeDAO sedeDAO;
 
-    private final SedeDAO sedeDAO = new SedeDAO(); // Inizializzazione del DAO
+    // Default constructor for normal use (website)
+    public PrenotazioneService() {
+        this.prenotazioneDAO = new PrenotazioneDAO();
+        this.professionistaDAO = new ProfessionistaDAO();
+        this.fasciaOrariaDAO = new FasciaOrariaDAO();
+        this.sedeDAO = new SedeDAO();
+    }
+
+    // Constructor for testing (injecting mocks)
+    public PrenotazioneService(PrenotazioneDAO prenotazioneDAO,
+                               ProfessionistaDAO professionistaDAO,
+                               FasciaOrariaDAO fasciaOrariaDAO,
+                               SedeDAO sedeDAO) {
+        this.prenotazioneDAO = prenotazioneDAO;
+        this.professionistaDAO = professionistaDAO;
+        this.fasciaOrariaDAO = fasciaOrariaDAO;
+        this.sedeDAO = sedeDAO;
+    }
 
     public List<Sede> getSediByCitta(String cittaSelezionata) {
-       return sedeDAO.getSediByCitta(cittaSelezionata);
+        return sedeDAO.getSediByCitta(cittaSelezionata);
     }
+
     public List<Prenotazione> getPrenotazioniAttive(int sedeId) throws SQLException {
         List<Professionista> professionisti = professionistaDAO.getProfessionistiBySede(sedeId);
         return prenotazioneDAO.getPrenotazioniByProfessionisti(professionisti);
     }
+
     public Set<String> getCittaDisponibili(List<Sede> sedi) {
         return sedi.stream().map(Sede::getCitta).collect(Collectors.toSet());
     }
+
     public List<Sede> getAllSedi() {
         return sedeDAO.getAllSedi();
     }
+
     public String getCittaUtente(UtenteAcquirente user) {
         return user != null ? user.getCitta() : null;
     }
+
     public void addPrenotazione(Prenotazione prenotazione) throws SQLException {
-        prenotazioneDAO.addPrenotazione(prenotazione); // Supponiamo che nel DAO ci sia il metodo insertPrenotazione
+        prenotazioneDAO.addPrenotazione(prenotazione);
     }
+
     public String rimuoviPrenotazione(int prenotazioneId) throws SQLException {
         Prenotazione prenotazione = prenotazioneDAO.getPrenotazioneById(prenotazioneId);
         boolean success = prenotazioneDAO.rimuoviPrenotazione(prenotazioneId);

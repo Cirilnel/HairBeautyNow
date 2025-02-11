@@ -9,6 +9,7 @@ import it.unisa.application.sottosistemi.GestionePrenotazioni.service.FasciaOrar
 import org.junit.jupiter.api.*;
 import unit.DAO.DatabaseSetupForTest;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 @DisplayName("Test per il servizio FasciaOrariaService")
@@ -30,7 +31,7 @@ public class FasciaOrariaServiceTest {
         fasciaOrariaDAOMock = mock(FasciaOrariaDAO.class);
 
         // Inizializzazione del servizio con il DAO mockato tramite costruttore
-        fasciaOrariaService = new FasciaOrariaService();
+        fasciaOrariaService = new FasciaOrariaService(fasciaOrariaDAOMock);  // Ensure that the service is using the mock DAO
     }
 
     @Test
@@ -63,22 +64,24 @@ public class FasciaOrariaServiceTest {
 
     @Test
     @DisplayName("Aggiornamento fascia oraria - Successo")
-    void testUpdateFasciaOrariaSuccess() throws Exception {
+    void testUpdateFasciaOrariaSuccess() throws SQLException {
         System.out.println("Test: Aggiornamento fascia oraria - Successo");
 
-        // Dati di input per il test
         FasciaOraria fasciaOrariaMock = new FasciaOraria(1, 1, LocalDate.of(2025, 2, 11), "09:00", true);
 
-        // Simula il comportamento del DAO per il metodo aggiornaFasciaOraria
-        doNothing().when(fasciaOrariaDAOMock).aggiornaFasciaOraria(fasciaOrariaMock);
+        // Mock the return value of aggiornaFasciaOraria, assuming it returns a boolean
+        when(fasciaOrariaDAOMock.aggiornaFasciaOraria(fasciaOrariaMock)).thenReturn(true);  // assuming it returns boolean
 
-        // Chiamata al servizio
+        // Call the service method
         fasciaOrariaService.updateFasciaOraria(fasciaOrariaMock);
 
-        // Verifica che il metodo aggiornaFasciaOraria sia stato chiamato una sola volta
+        // Verify that the method aggiornaFasciaOraria was called exactly once
         verify(fasciaOrariaDAOMock, times(1)).aggiornaFasciaOraria(fasciaOrariaMock);
         System.out.println("Risultato del test 'Aggiornamento fascia oraria': Aggiornamento riuscito.");
     }
+
+
+
 
     @Test
     @DisplayName("Recupero fascia oraria non trovata - Fallimento")

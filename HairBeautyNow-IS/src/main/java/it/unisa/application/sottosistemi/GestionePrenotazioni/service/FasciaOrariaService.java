@@ -8,7 +8,13 @@ import java.time.LocalDate;
 
 public class FasciaOrariaService {
 
-    private final FasciaOrariaDAO fasciaOrariaDAO = new FasciaOrariaDAO();
+    private FasciaOrariaDAO fasciaOrariaDAO;
+
+    public FasciaOrariaService() {}
+    // Constructor with dependency injection for FasciaOrariaDAO
+    public FasciaOrariaService(FasciaOrariaDAO fasciaOrariaDAO) {
+        this.fasciaOrariaDAO = fasciaOrariaDAO;
+    }
 
     // Metodo per recuperare una fascia oraria per un determinato professionista e giorno
     public FasciaOraria getFasciaOraria(int professionistaId, LocalDate giorno, String orario) {
