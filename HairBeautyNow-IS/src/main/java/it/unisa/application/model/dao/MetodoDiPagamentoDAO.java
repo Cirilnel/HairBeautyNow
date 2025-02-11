@@ -50,7 +50,7 @@ public class MetodoDiPagamentoDAO {
                     stmt.setNull(2, Types.DATE);  // Imposta la dataScadenza come NULL per PayPal
                 } else {
                     // Imposta la data di scadenza per carte di credito (Visa, MasterCard, ecc.)
-                    stmt.setDate(2, new java.sql.Date(metodo.getDataScadenza().getTime()));
+                    stmt.setDate(2, java.sql.Date.valueOf(metodo.getDataScadenza()));
                 }
 
                 // Aggiungi gli altri parametri del metodo di pagamento
@@ -88,7 +88,7 @@ public class MetodoDiPagamentoDAO {
                 stmt.setNull(2, Types.DATE);  // Imposta la dataScadenza come NULL per PayPal
             } else {
                 // Imposta la data di scadenza per carte di credito (Visa, MasterCard, ecc.)
-                stmt.setDate(2, new java.sql.Date(metodo.getDataScadenza().getTime()));
+                stmt.setDate(2, java.sql.Date.valueOf(metodo.getDataScadenza()));
             }
 
             // Aggiungi gli altri parametri del metodo di pagamento
@@ -121,7 +121,7 @@ public class MetodoDiPagamentoDAO {
             if (rs.next()) {
                 return new MetodoDiPagamento(
                         rs.getString("nCarta"),
-                        rs.getDate("dataScadenza"),
+                        rs.getDate("dataScadenza").toLocalDate(),  // Converte java.sql.Date in LocalDate
                         rs.getString("nomeIntestatario"),
                         rs.getString("indirizzo"),
                         rs.getInt("cvv"),
@@ -129,6 +129,7 @@ public class MetodoDiPagamentoDAO {
                         rs.getString("metodoPagamento"),  // Recupera il tipo di metodo di pagamento
                         rs.getString("email")  // Recupera l'email, che può essere null
                 );
+
             }
         }
         return null;  // Se il metodo di pagamento non esiste per l'utente

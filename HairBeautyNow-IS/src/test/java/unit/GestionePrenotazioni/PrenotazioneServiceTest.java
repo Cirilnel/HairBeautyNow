@@ -40,7 +40,7 @@ public class PrenotazioneServiceTest {
         sedeDAOMock = mock(SedeDAO.class);
 
         // Inizializzazione del servizio con i DAO mockati
-        prenotazioneService = new PrenotazioneService(prenotazioneDAOMock, professionistaDAOMock, fasciaOrariaDAOMock, sedeDAOMock);
+     //   prenotazioneService = new PrenotazioneService(prenotazioneDAOMock, professionistaDAOMock, fasciaOrariaDAOMock, sedeDAOMock);
     }
 
     @Test

@@ -1,9 +1,10 @@
 package it.unisa.application.model.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 public class MetodoDiPagamento {
     private String nCarta; // PK
-    private Date dataScadenza;
+    private LocalDate dataScadenza;
     private String nomeIntestatario;
     private int cvv;
     private String indirizzo;
@@ -12,7 +13,7 @@ public class MetodoDiPagamento {
     private String email; // Campo email per PayPal (può essere null)
 
     // Costruttore aggiornato
-    public MetodoDiPagamento(String nCarta, Date dataScadenza, String nomeIntestatario, String indirizzo, int cvv, String username, String metodoPagamento, String email) {
+    public MetodoDiPagamento(String nCarta, LocalDate dataScadenza, String nomeIntestatario, String indirizzo, int cvv, String username, String metodoPagamento, String email) {
         this.nCarta = nCarta;
         this.dataScadenza = dataScadenza;
         this.nomeIntestatario = nomeIntestatario;
@@ -22,7 +23,7 @@ public class MetodoDiPagamento {
         this.metodoPagamento = metodoPagamento; // Assegna il tipo di metodo di pagamento
         this.email = email; // Assegna l'email se presente
     }
-    public MetodoDiPagamento(){}
+
     // Getter e Setter per email
     public String getEmail() {
         return email;
@@ -36,7 +37,7 @@ public class MetodoDiPagamento {
         this.nCarta = nCarta;
     }
 
-    public void setDataScadenza(Date dataScadenza) {
+    public void setDataScadenza(LocalDate dataScadenza) {
         this.dataScadenza = dataScadenza;
     }
 
@@ -64,7 +65,7 @@ public class MetodoDiPagamento {
         return nCarta;
     }
 
-    public Date getDataScadenza() {
+    public LocalDate getDataScadenza() {
         return dataScadenza;
     }
 

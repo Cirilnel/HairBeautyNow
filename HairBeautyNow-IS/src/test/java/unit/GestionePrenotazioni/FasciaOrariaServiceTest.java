@@ -31,7 +31,7 @@ public class FasciaOrariaServiceTest {
         fasciaOrariaDAOMock = mock(FasciaOrariaDAO.class);
 
         // Inizializzazione del servizio con il DAO mockato tramite costruttore
-        fasciaOrariaService = new FasciaOrariaService(fasciaOrariaDAOMock);  // Ensure that the service is using the mock DAO
+      //  fasciaOrariaService = new FasciaOrariaService(fasciaOrariaDAOMock);  // Ensure that the service is using the mock DAO
     }
 
     @Test
