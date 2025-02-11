@@ -20,11 +20,12 @@
 </a>
 <h1 class="general">Aggiungi una nuova sede</h1>
 
-<% if (request.getParameter("errore") != null) { %>
-<p class="error-message"><%= request.getParameter("errore") %></p>
-<% } %>
-
 <section class="form-container">
+
+  <% if (request.getParameter("errore") != null) { %>
+  <p class="error-message"><%= request.getParameter("errore") %></p>
+  <% } %>
+
   <form action="<%= request.getContextPath() %>/aggiungiSede" method="post">
     <label for="indirizzo">Indirizzo:</label><!--Via Senato 156 Via Giovanni 56-->
     <input type="text" id="indirizzo" name="indirizzo" required>
