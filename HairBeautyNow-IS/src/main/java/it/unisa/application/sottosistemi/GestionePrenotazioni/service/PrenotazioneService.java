@@ -59,19 +59,28 @@ public class PrenotazioneService {
     }
 
     public String rimuoviPrenotazione(int prenotazioneId) throws SQLException {
+        // Recupera la prenotazione da rimuovere
         Prenotazione prenotazione = prenotazioneDAO.getPrenotazioneById(prenotazioneId);
         boolean success = prenotazioneDAO.rimuoviPrenotazione(prenotazioneId);
 
         if (success) {
+            // Ottieni il giorno e la fascia oraria associati alla prenotazione
             LocalDate giorno = prenotazione.getData().toLocalDate();
             String fascia = prenotazione.getData().toLocalTime().toString();
-            FasciaOraria fasciaOraria = fasciaOrariaDAO.getFasciaByProfessionistaAndGiorno(prenotazione.getProfessionistaId(), giorno, fascia);
 
+            // Recupera la fascia oraria associata
+            FasciaOraria fasciaOraria = fasciaOrariaDAO.getFasciaByProfessionistaAndGiorno(
+                    prenotazione.getProfessionistaId(), giorno, fascia);
+
+            // Se la fascia oraria esiste, aggiorna lo stato per renderla disponibile
             if (fasciaOraria != null) {
-                fasciaOrariaDAO.aggiornaFasciaOraria(fasciaOraria);
+                fasciaOraria.setDisponibile(true); // Imposta la fascia oraria come disponibile
+                fasciaOrariaDAO.aggiornaFasciaOraria(fasciaOraria); // Salva le modifiche
             }
+
             return "Prenotazione rimossa con successo!";
         }
         return "Errore durante la rimozione della prenotazione.";
     }
+
 }
