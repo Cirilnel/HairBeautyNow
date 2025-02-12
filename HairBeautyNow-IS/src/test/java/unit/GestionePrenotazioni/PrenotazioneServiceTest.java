@@ -10,6 +10,7 @@ import it.unisa.application.model.dao.SedeDAO;
 import it.unisa.application.model.entity.*;
 import it.unisa.application.sottosistemi.GestionePrenotazioni.service.PrenotazioneService;
 import org.junit.jupiter.api.*;
+import unit.DAO.DatabaseSetupForTest;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -27,7 +28,7 @@ public class PrenotazioneServiceTest {
 
     @BeforeAll
     static void globalSetup() {
-        // Setup del database o configurazione globale, se necessaria
+        DatabaseSetupForTest.configureH2DataSource();
         System.out.println("Datasource H2 configurato per i test.");
     }
 
@@ -39,9 +40,10 @@ public class PrenotazioneServiceTest {
         fasciaOrariaDAOMock = mock(FasciaOrariaDAO.class);
         sedeDAOMock = mock(SedeDAO.class);
 
-        // Inizializzazione del servizio con i DAO mockati
-     //   prenotazioneService = new PrenotazioneService(prenotazioneDAOMock, professionistaDAOMock, fasciaOrariaDAOMock, sedeDAOMock);
+        // Inizializzazione del servizio con i mock dei DAO
+        prenotazioneService = new PrenotazioneService(prenotazioneDAOMock, professionistaDAOMock, fasciaOrariaDAOMock, sedeDAOMock);
     }
+
 
     @Test
     @DisplayName("Recupero sedi per una città - Successo")
@@ -76,24 +78,26 @@ public class PrenotazioneServiceTest {
 
         int sedeId = 1;
 
-        // Creazione di una lista di professionisti mockati
+        // Mock: simulazione dei professionisti nella sede
         Professionista professionista1 = new Professionista(1, "Mario Rossi", sedeId, null);
         Professionista professionista2 = new Professionista(2, "Giovanni Bianchi", sedeId, null);
         List<Professionista> professionistiMock = Arrays.asList(professionista1, professionista2);
 
-        // Creazione di prenotazioni mockate
+        // Mock: creazione delle prenotazioni
         Prenotazione prenotazione1 = new Prenotazione(1, "Servizio 1", 1, LocalDateTime.now(), "utente1", 50.0);
         Prenotazione prenotazione2 = new Prenotazione(2, "Servizio 2", 2, LocalDateTime.now(), "utente2", 70.0);
         List<Prenotazione> prenotazioniMock = Arrays.asList(prenotazione1, prenotazione2);
 
-        // Simula il comportamento del DAO per ottenere professionisti e prenotazioni
+        // Simula la chiamata del DAO per ottenere i professionisti
         when(professionistaDAOMock.getProfessionistiBySede(sedeId)).thenReturn(professionistiMock);
+
+        // Simula la chiamata del DAO per ottenere le prenotazioni
         when(prenotazioneDAOMock.getPrenotazioniByProfessionisti(professionistiMock)).thenReturn(prenotazioniMock);
 
         // Chiamata al servizio
         List<Prenotazione> result = prenotazioneService.getPrenotazioniAttive(sedeId);
 
-        // Verifica il risultato
+        // Verifica che la lista contenga le due prenotazioni attive
         assertNotNull(result, "La lista delle prenotazioni non dovrebbe essere nulla.");
         assertEquals(2, result.size(), "La lista delle prenotazioni dovrebbe contenere 2 elementi.");
         assertTrue(result.contains(prenotazione1), "La lista delle prenotazioni dovrebbe contenere 'Prenotazione 1'.");
@@ -109,8 +113,9 @@ public class PrenotazioneServiceTest {
         // Creazione della prenotazione da aggiungere
         Prenotazione prenotazione = new Prenotazione("Servizio 1", 1, LocalDateTime.now(), "utente1", 50.0);
 
-        // Simula il comportamento del DAO per l'inserimento della prenotazione
-        doNothing().when(prenotazioneDAOMock).addPrenotazione(prenotazione);
+        // Mock del comportamento del DAO per l'inserimento della prenotazione
+        // Non è necessario restituire nulla, quindi rimuoviamo 'thenReturn'
+        doNothing().when(prenotazioneDAOMock).addPrenotazione(any(Prenotazione.class));  // Utilizzo di doNothing() per metodi void
 
         // Chiamata al servizio
         prenotazioneService.addPrenotazione(prenotazione);
@@ -120,6 +125,8 @@ public class PrenotazioneServiceTest {
         System.out.println("Risultato del test 'Aggiunta prenotazione': " + prenotazione);
     }
 
+
+
     @Test
     @DisplayName("Rimozione prenotazione - Successo")
     void testRimuoviPrenotazioneSuccess() throws SQLException {
@@ -128,7 +135,7 @@ public class PrenotazioneServiceTest {
         int prenotazioneId = 1;
         Prenotazione prenotazioneMock = new Prenotazione(prenotazioneId, "Servizio 1", 1, LocalDateTime.now(), "utente1", 50.0);
 
-        // Simula il comportamento del DAO per ottenere la prenotazione e rimuoverla
+        // Mock del comportamento del DAO per ottenere la prenotazione
         when(prenotazioneDAOMock.getPrenotazioneById(prenotazioneId)).thenReturn(prenotazioneMock);
         when(prenotazioneDAOMock.rimuoviPrenotazione(prenotazioneId)).thenReturn(true);
 
@@ -139,7 +146,7 @@ public class PrenotazioneServiceTest {
         // Chiamata al servizio
         String result = prenotazioneService.rimuoviPrenotazione(prenotazioneId);
 
-        // Verifica il risultato
+        // Verifica che il messaggio di successo sia corretto
         assertEquals("Prenotazione rimossa con successo!", result, "Il messaggio di successo non è corretto.");
         System.out.println("Risultato del test 'Rimozione prenotazione': " + result);
     }

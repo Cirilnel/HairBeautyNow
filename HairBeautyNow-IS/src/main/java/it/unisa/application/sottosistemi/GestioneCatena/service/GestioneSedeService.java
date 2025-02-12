@@ -8,6 +8,10 @@ public class GestioneSedeService {
 
     private SedeDAO sedeDAO = new SedeDAO();
 
+    public GestioneSedeService(SedeDAO sedeDAO) {
+        this.sedeDAO = sedeDAO;
+    }
+
     public int creaSede(Sede nuovaSede) {
         try {
             // Chiamata al DAO per inserire la sede

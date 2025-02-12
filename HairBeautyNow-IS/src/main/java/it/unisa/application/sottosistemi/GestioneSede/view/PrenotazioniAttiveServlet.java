@@ -1,5 +1,9 @@
 package it.unisa.application.sottosistemi.GestioneSede.view;
 
+import it.unisa.application.model.dao.FasciaOrariaDAO;
+import it.unisa.application.model.dao.PrenotazioneDAO;
+import it.unisa.application.model.dao.ProfessionistaDAO;
+import it.unisa.application.model.dao.SedeDAO;
 import it.unisa.application.model.entity.Prenotazione;
 import it.unisa.application.model.entity.UtenteGestoreSede;
 import it.unisa.application.sottosistemi.GestionePrenotazioni.service.PrenotazioneService;
@@ -17,7 +21,13 @@ import java.util.List;
 @WebServlet("/prenotazioniAttive")
 public class PrenotazioniAttiveServlet extends HttpServlet {
 
-    private PrenotazioneService gestionePrenotazioniService = new PrenotazioneService();
+    // Creazione dell'oggetto PrenotazioneService con tutti i DAO
+    private PrenotazioneService gestionePrenotazioneService = new PrenotazioneService(
+            new PrenotazioneDAO(),
+            new ProfessionistaDAO(),
+            new FasciaOrariaDAO(),
+            new SedeDAO()
+    );
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,20 +35,21 @@ public class PrenotazioniAttiveServlet extends HttpServlet {
         UtenteGestoreSede utente = (UtenteGestoreSede) session.getAttribute("user");
 
         if (utente == null) {
-            response.sendRedirect("/app/loginPage");  // Updated to match your test expectation
+            response.sendRedirect("/app/loginPage");  // Aggiorna in base alla tua configurazione
             return;
         }
 
         int sedeId = utente.getSedeID();
 
         try {
-            List<Prenotazione> prenotazioniAttive = gestionePrenotazioniService.getPrenotazioniAttive(sedeId);
+            // Usa 'gestionePrenotazioneService' con il costruttore corretto
+            List<Prenotazione> prenotazioniAttive = gestionePrenotazioneService.getPrenotazioniAttive(sedeId);
             request.setAttribute("prenotazioniAttive", prenotazioniAttive);
             request.getRequestDispatcher("/WEB-INF/jsp/prenotazioniAttive.jsp").forward(request, response);
         } catch (SQLException e) {
+            // Gestisci l'errore con un messaggio appropriato
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Errore durante il recupero delle prenotazioni");
+            response.getWriter().write("Errore durante il recupero delle prenotazioni: " + e.getMessage());
         }
     }
-
 }

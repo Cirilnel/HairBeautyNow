@@ -39,8 +39,6 @@ public class PrenotazioniAttiveServletIntegrationTest {
         DatabaseSetupForTest.configureH2DataSource();
     }
 
-
-
     @BeforeEach
     void setUp() {
         prenotazioniAttiveServlet = new PrenotazioniAttiveServlet();
@@ -49,34 +47,31 @@ public class PrenotazioniAttiveServletIntegrationTest {
         sessionMock = mock(HttpSession.class);
         dispatcherMock = mock(RequestDispatcher.class);
 
-        // Create a mock PrintWriter
+        // Crea un mock PrintWriter
         PrintWriter writerMock = mock(PrintWriter.class);
 
-        // Mock the response.getWriter() to return the mocked writer
+        // Mock della risposta.getWriter()
         try {
             when(responseMock.getWriter()).thenReturn(writerMock);
         } catch (IOException e) {
-            e.printStackTrace(); // Handle IOException (though it should not occur in this case)
+            e.printStackTrace();
         }
 
         // Mock PrenotazioneService
         prenotazioneServiceMock = mock(PrenotazioneService.class);
 
-        // Inject the mock PrenotazioneService into the servlet using reflection
+        // Iniettare il mock PrenotazioneService nella servlet tramite riflessione
         try {
-            Field field = PrenotazioniAttiveServlet.class.getDeclaredField("gestionePrenotazioniService");
+            Field field = PrenotazioniAttiveServlet.class.getDeclaredField("gestionePrenotazioneService");
             field.setAccessible(true);
             field.set(prenotazioniAttiveServlet, prenotazioneServiceMock);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
-        // Mock session behavior
+        // Mock comportamento della sessione
         when(requestMock.getSession()).thenReturn(sessionMock);
     }
-
-
-
 
     @Test
     void testDoGetSuccess() throws Exception {
@@ -99,7 +94,6 @@ public class PrenotazioniAttiveServletIntegrationTest {
         verify(dispatcherMock).forward(requestMock, responseMock);
     }
 
-    
     @Test
     void testDoGetRedirectToLoginWhenNotAuthenticated() throws Exception {
         // Caso in cui l'utente non è autenticato
@@ -113,29 +107,24 @@ public class PrenotazioniAttiveServletIntegrationTest {
         verify(responseMock).sendRedirect("/app/loginPage");
     }
 
-
     @Test
     void testDoGetFailureSQLException() throws Exception {
-        // Mock the user
+        // Mock dell'utente
         UtenteGestoreSede utente = new UtenteGestoreSede("gestoreSede", "passwordSede", 1);
         when(sessionMock.getAttribute("user")).thenReturn(utente);
 
-        // Simulate a SQLException
+        // Simulazione di un errore SQL
         when(prenotazioneServiceMock.getPrenotazioniAttive(1)).thenThrow(new SQLException("Errore SQL"));
 
-        // Verify that getWriter() is being called
-        PrintWriter writerMock = responseMock.getWriter();
-        System.out.println("Writer mock: " + writerMock);  // This will let you verify if the mock is invoked
-
-        // Call the doGet method
+        // Chiamata al metodo doGet della servlet
         invokeDoGet();
 
-        // Verify the response
+        // Verifica che la risposta contenga il messaggio di errore e codice 500
         verify(responseMock).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        verify(writerMock).write("Errore durante il recupero delle prenotazioni");
+        verify(responseMock.getWriter()).write("Errore durante il recupero delle prenotazioni: Errore SQL");
     }
 
-
+    // Metodo per invocare doGet con riflessione
     private void invokeDoGet() throws Exception {
         Method doGetMethod = PrenotazioniAttiveServlet.class.getDeclaredMethod("doGet", HttpServletRequest.class, HttpServletResponse.class);
         doGetMethod.setAccessible(true);

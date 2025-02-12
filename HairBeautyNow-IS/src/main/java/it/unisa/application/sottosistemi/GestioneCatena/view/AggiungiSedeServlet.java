@@ -1,5 +1,6 @@
 package it.unisa.application.sottosistemi.GestioneCatena.view;
 
+import it.unisa.application.model.dao.SedeDAO;
 import it.unisa.application.sottosistemi.GestioneCatena.service.GestioneSedeService;
 import it.unisa.application.sottosistemi.GestioneCatena.service.GestioneGestoreService;  // AGGIUNTO
 import it.unisa.application.model.entity.Sede;
@@ -16,8 +17,8 @@ import java.util.List;
 @WebServlet("/aggiungiSede")
 public class AggiungiSedeServlet extends HttpServlet {
 
-    private GestioneSedeService gestioneSedeService = new GestioneSedeService();
     private GestioneGestoreService gestioneGestoreService = new GestioneGestoreService();
+    private GestioneSedeService gestioneSedeService = new GestioneSedeService(new SedeDAO());  // Aggiunto il campo mancante
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Ottieni la lista dei gestori senza sede

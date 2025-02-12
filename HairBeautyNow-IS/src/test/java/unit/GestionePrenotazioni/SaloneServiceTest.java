@@ -33,8 +33,9 @@ public class SaloneServiceTest {
         fasciaOrariaDAOMock = mock(FasciaOrariaDAO.class);
 
         // Inizializzazione del servizio con i DAO mockati
-       // saloneService = new SaloneService(professionistaDAOMock, fasciaOrariaDAOMock);  // Passa i mock nei costruttori
+        saloneService = new SaloneService(professionistaDAOMock, fasciaOrariaDAOMock);  // Inizializza correttamente l'oggetto saloneService
     }
+
 
     @Test
     @DisplayName("Recupero professionisti per salone - Successo")

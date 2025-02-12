@@ -8,7 +8,17 @@ import java.time.LocalDate;
 
 public class FasciaOrariaService {
 
-    private final FasciaOrariaDAO fasciaOrariaDAO = new FasciaOrariaDAO();
+    private final FasciaOrariaDAO fasciaOrariaDAO;
+
+    // Costruttore con iniezione del mock del DAO (per test)
+    public FasciaOrariaService(FasciaOrariaDAO fasciaOrariaDAO) {
+        this.fasciaOrariaDAO = fasciaOrariaDAO;
+    }
+
+    // Costruttore vuoto (per l'uso in produzione quando non si vuole iniettare il mock)
+    public FasciaOrariaService() {
+        this.fasciaOrariaDAO = new FasciaOrariaDAO();
+    }
 
     // Metodo per recuperare una fascia oraria per un determinato professionista e giorno
     public FasciaOraria getFasciaOraria(int professionistaId, LocalDate giorno, String orario) {

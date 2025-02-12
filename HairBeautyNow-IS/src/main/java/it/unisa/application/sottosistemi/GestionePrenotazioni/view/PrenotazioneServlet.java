@@ -1,5 +1,9 @@
 package it.unisa.application.sottosistemi.GestionePrenotazioni.view;
 
+import it.unisa.application.model.dao.SedeDAO;
+import it.unisa.application.model.dao.PrenotazioneDAO;
+import it.unisa.application.model.dao.ProfessionistaDAO;
+import it.unisa.application.model.dao.FasciaOrariaDAO;
 import it.unisa.application.model.entity.Sede;
 import it.unisa.application.model.entity.UtenteAcquirente;
 import it.unisa.application.sottosistemi.GestionePrenotazioni.service.PrenotazioneService;
@@ -19,7 +23,13 @@ import java.util.Set;
 @WebServlet("/prenota")
 public class PrenotazioneServlet extends HttpServlet {
 
-    private final PrenotazioneService prenotazioneService = new PrenotazioneService();
+    // Creazione dell'oggetto PrenotazioneService con tutti i DAO
+    private final PrenotazioneService prenotazioneService = new PrenotazioneService(
+            new PrenotazioneDAO(),
+            new ProfessionistaDAO(),
+            new FasciaOrariaDAO(),
+            new SedeDAO()
+    );
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String servizioSelezionato = request.getParameter("servizio");
@@ -27,14 +37,22 @@ public class PrenotazioneServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("servizioPrenotato", servizioSelezionato);
 
+        // Verifica che l'utente sia presente nella sessione
         UtenteAcquirente user = (UtenteAcquirente) session.getAttribute("user");
+        if (user == null) {
+            response.sendRedirect("/app/loginPage"); // Redirect se l'utente non è loggato
+            return;
+        }
+
+        // Ottieni la città dell'utente
         String cittaUtente = prenotazioneService.getCittaUtente(user);
 
+        // Se non viene selezionata una città, prendi quella dell'utente
         if (cittaSelezionata == null || cittaSelezionata.isEmpty()) {
             cittaSelezionata = cittaUtente;
         }
 
-        // Ottieni tutte le sedi e filtra in base alla città
+        // Ottieni tutte le sedi per la città selezionata
         List<Sede> sedi = prenotazioneService.getSediByCitta(cittaSelezionata);
 
         // Ottieni tutte le città disponibili senza duplicati
@@ -52,11 +70,13 @@ public class PrenotazioneServlet extends HttpServlet {
             sedi = prenotazioneService.getSediByCitta(cittaSelezionata);
         }
 
+        // Imposta gli attributi per la JSP
         request.setAttribute("cittaDisponibili", cittaDisponibili);
         request.setAttribute("saloni", sedi);
         request.setAttribute("messaggio", messaggio);
         request.setAttribute("cittaSelezionata", cittaSelezionata);
 
+        // Forward alla pagina JSP
         request.getRequestDispatcher("/WEB-INF/jsp/saloni.jsp").forward(request, response);
     }
 }

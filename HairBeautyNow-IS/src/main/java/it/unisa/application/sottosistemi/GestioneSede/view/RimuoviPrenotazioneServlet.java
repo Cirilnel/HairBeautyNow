@@ -1,5 +1,9 @@
 package it.unisa.application.sottosistemi.GestioneSede.view;
 
+import it.unisa.application.model.dao.FasciaOrariaDAO;
+import it.unisa.application.model.dao.PrenotazioneDAO;
+import it.unisa.application.model.dao.ProfessionistaDAO;
+import it.unisa.application.model.dao.SedeDAO;
 import it.unisa.application.sottosistemi.GestionePrenotazioni.service.PrenotazioneService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,7 +17,13 @@ import java.sql.SQLException;
 @WebServlet("/rimuoviPrenotazione")
 public class RimuoviPrenotazioneServlet extends HttpServlet {
 
-    private PrenotazioneService gestionePrenotazioneService = new PrenotazioneService();
+    // Creazione dell'oggetto PrenotazioneService con tutti i DAO
+    private PrenotazioneService gestionePrenotazioneService = new PrenotazioneService(
+            new PrenotazioneDAO(),
+            new ProfessionistaDAO(),
+            new FasciaOrariaDAO(),
+            new SedeDAO()
+    );
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

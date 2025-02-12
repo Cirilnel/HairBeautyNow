@@ -94,31 +94,42 @@ public class ServizioServiceTest {
         serviziMock.add(new Servizio("Taglio", 20.0, "Haircut", "Taglio capelli base"));
         serviziMock.add(new Servizio("Colore", 40.0, "Haircolor", "Trattamento di colorazione"));
 
-        // Stampa dei dati mockati
-        System.out.println("Dati mockati per il test 'Recupero servizi per tipo':");
-        for (Servizio servizio : serviziMock) {
-            System.out.println("Nome: " + servizio.getNome() + ", Prezzo: " + servizio.getPrezzo() + ", Tipo: " + servizio.getTipo() + ", Descrizione: " + servizio.getDescrizione());
-        }
-
         // Simula il comportamento del DAO per il metodo getAll
         when(servizioDAOMock.getAll()).thenReturn(serviziMock);
 
-        // Chiamata al servizio
-        Map<String, List<Servizio>> serviziPerTipo = servizioService.getServiziPerTipo();
+        // Simula il comportamento del DAO per il metodo getServiziPerTipo
+        Map<String, List<Servizio>> serviziPerTipoMock = new HashMap<>();
+        List<Servizio> haircutServices = new ArrayList<>();
+        List<Servizio> haircolorServices = new ArrayList<>();
 
-        // Stampa del risultato
-        System.out.println("Risultato del test 'Recupero servizi per tipo':");
-        for (Map.Entry<String, List<Servizio>> entry : serviziPerTipo.entrySet()) {
-            System.out.println("Tipo: " + entry.getKey());
-            for (Servizio servizio : entry.getValue()) {
-                System.out.println("Nome: " + servizio.getNome() + ", Prezzo: " + servizio.getPrezzo() + ", Descrizione: " + servizio.getDescrizione());
+        // Aggiungi i servizi ai rispettivi tipi
+        for (Servizio servizio : serviziMock) {
+            if ("Haircut".equals(servizio.getTipo())) {
+                haircutServices.add(servizio);
+            } else if ("Haircolor".equals(servizio.getTipo())) {
+                haircolorServices.add(servizio);
             }
         }
+
+        // Popola la mappa con i servizi raggruppati
+        serviziPerTipoMock.put("Haircut", haircutServices);
+        serviziPerTipoMock.put("Haircolor", haircolorServices);
+
+        // Simula il comportamento del metodo getServiziPerTipo
+        when(servizioDAOMock.getServiziPerTipo()).thenReturn(serviziPerTipoMock);
+
+        // Chiamata al servizio
+        Map<String, List<Servizio>> serviziPerTipo = servizioService.getServiziPerTipo();
 
         // Verifica che i servizi siano raggruppati per tipo
         assertNotNull(serviziPerTipo);
         assertEquals(2, serviziPerTipo.size(), "Dovrebbero esserci 2 tipi di servizi.");
         assertTrue(serviziPerTipo.containsKey("Haircut"), "Dovrebbe esserci un servizio di tipo 'Haircut'.");
         assertTrue(serviziPerTipo.containsKey("Haircolor"), "Dovrebbe esserci un servizio di tipo 'Haircolor'.");
+
+        // Aggiungi ulteriori verifiche per i servizi raggruppati
+        assertEquals(1, serviziPerTipo.get("Haircut").size(), "Dovrebbe esserci 1 servizio di tipo 'Haircut'.");
+        assertEquals(1, serviziPerTipo.get("Haircolor").size(), "Dovrebbe esserci 1 servizio di tipo 'Haircolor'.");
     }
+
 }

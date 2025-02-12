@@ -14,8 +14,20 @@ import java.util.Map;
 
 public class SaloneService {
 
-    private final ProfessionistaDAO professionistaDAO = new ProfessionistaDAO();
-    private final FasciaOrariaDAO fasciaOrariaDAO = new FasciaOrariaDAO();
+    private final ProfessionistaDAO professionistaDAO;
+    private final FasciaOrariaDAO fasciaOrariaDAO;
+
+    // Costruttore vuoto per l'uso normale nel sito
+    public SaloneService() {
+        this.professionistaDAO = new ProfessionistaDAO();
+        this.fasciaOrariaDAO = new FasciaOrariaDAO();
+    }
+
+    // Costruttore con parametri per facilitare i test
+    public SaloneService(ProfessionistaDAO professionistaDAO, FasciaOrariaDAO fasciaOrariaDAO) {
+        this.professionistaDAO = professionistaDAO;
+        this.fasciaOrariaDAO = fasciaOrariaDAO;
+    }
 
     // Ottieni professionisti per un dato salone
     public List<Professionista> getProfessionistiBySalone(int saloneId) {
@@ -32,7 +44,6 @@ public class SaloneService {
         // Aggiungiamo le fasce orarie disponibili alla mappa
         for (FasciaOraria fascia : fasceOrarie) {
             if (fascia.isDisponibile()) {
-                // Per ogni giorno, aggiungiamo la fascia oraria
                 fasceOrarieByDay.putIfAbsent(fascia.getGiorno(), new ArrayList<>());
                 fasceOrarieByDay.get(fascia.getGiorno()).add(fascia.getFascia());
             }
@@ -40,5 +51,4 @@ public class SaloneService {
 
         return fasceOrarieByDay;
     }
-
 }
