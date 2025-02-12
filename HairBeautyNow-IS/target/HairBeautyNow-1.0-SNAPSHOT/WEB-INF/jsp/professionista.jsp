@@ -5,6 +5,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.util.stream.Collectors" %>
+<%@ page import="java.util.TreeSet" %>  <!-- Importa TreeSet per ordinare le date -->
 
 <html>
 <head>
@@ -59,10 +60,15 @@
                 <select name="data" id="data<%= professionista.getId() %>" onchange="aggiornaOrari(<%= professionista.getId() %>)">
                     <%
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                        for (LocalDate giorno : fasceOrarieForProfessionista.keySet()) {
+                        LocalDate selectedDay = (LocalDate) request.getAttribute("selectedDay"); // Giorno selezionato
+
+                        // Ordinare le date in ordine crescente
+                        TreeSet<LocalDate> sortedDates = new TreeSet<>(fasceOrarieForProfessionista.keySet());  // Usa TreeSet per ordinare
+
+                        for (LocalDate giorno : sortedDates) {
                             String giornoFormattato = giorno.format(formatter);
                     %>
-                    <option value="<%= giornoFormattato %>"><%= giornoFormattato %></option>
+                    <option value="<%= giornoFormattato %>" <% if (giorno.equals(selectedDay)) { %>selected<% } %>><%= giornoFormattato %></option>
                     <% } %>
                 </select>
 
@@ -71,7 +77,16 @@
                 <!-- Selezione orario -->
                 <label for="orario<%= professionista.getId() %>">Seleziona l'orario:</label>
                 <select name="orario" id="orario<%= professionista.getId() %>">
-                    <!-- Gli orari saranno aggiornati dinamicamente in base al giorno -->
+                    <%
+                        if (selectedDay != null && fasceOrarieForProfessionista.containsKey(selectedDay)) {
+                            List<String> availableTimes = fasceOrarieForProfessionista.get(selectedDay);
+                            for (String time : availableTimes) {
+                    %>
+                    <option value="<%= time %>" <% if (time.equals(request.getAttribute("selectedTime"))) { %>selected<% } %>><%= time %></option>
+                    <%
+                            }
+                        }
+                    %>
                 </select>
 
                 <br><br>
@@ -112,19 +127,31 @@
             var selectedDate = selezioneGiorno.value;
             if (fasceOrarieByProfessionista[professionistaId] && fasceOrarieByProfessionista[professionistaId][selectedDate]) {
                 selezioneOrario.innerHTML = ""; // Svuota il selettore
-                fasceOrarieByProfessionista[professionistaId][selectedDate].forEach(function(fascia) {
+                var availableTimes = fasceOrarieByProfessionista[professionistaId][selectedDate];
+                availableTimes.forEach(function(fascia) {
                     var option = document.createElement("option");
                     option.value = fascia;
                     option.text = fascia;
                     selezioneOrario.appendChild(option);
                 });
+
+                // Seleziona automaticamente la prima fascia oraria disponibile
+                if (availableTimes.length > 0) {
+                    selezioneOrario.value = availableTimes[0];
+                }
             } else {
                 selezioneOrario.innerHTML = "<option value=''>Nessun orario disponibile</option>";
             }
         }
+
+        // Aggiorna l'orario automaticamente quando la pagina viene caricata
+        window.onload = function() {
+            <% for (Professionista professionista : professionisti) { %>
+            aggiornaOrari(<%= professionista.getId() %>);
+            <% } %>
+        }
     </script>
 </div>
-
 
 <%@ include file="footer.jsp" %>
 </body>

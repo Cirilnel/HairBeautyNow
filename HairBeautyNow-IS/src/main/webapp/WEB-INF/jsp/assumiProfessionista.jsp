@@ -51,6 +51,18 @@
 
             // Collect form data
             var nomeProfessionista = $("#nome").val();
+
+            // Regex to check for special characters (only allows letters, spaces, and basic punctuation)
+            var specialCharsRegex = /^[a-zA-ZÀ-ÿ\s\.,'-]+$/;
+
+            // Check if the nomeProfessionista matches the regex
+            if (!specialCharsRegex.test(nomeProfessionista)) {
+                // Show error message if invalid characters are present
+                $("#error").text("Il nome del professionista contiene caratteri non validi.").show();
+                $("#successMessage").hide();
+                return; // Prevent form submission
+            }
+
             var formData = { nome: nomeProfessionista };
 
             // Send the form data via AJAX
@@ -73,8 +85,6 @@
             });
         });
     });
-
-
 </script>
 <%@ include file="footer.jsp" %>
 

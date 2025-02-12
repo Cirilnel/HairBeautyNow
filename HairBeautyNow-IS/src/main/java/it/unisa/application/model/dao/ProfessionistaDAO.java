@@ -129,7 +129,6 @@ public class ProfessionistaDAO {
         return false;
     }
 
-    // Metodo per inserire un nuovo professionista
     public void insertProfessionista(Professionista professionista) {
         String queryProfessionista = "INSERT INTO professionista (nome, sedeId) VALUES (?, ?)";
         String queryFasceOrarie = "INSERT INTO fascia_oraria (professionista_id, giorno, fascia, disponibile) VALUES (?, ?, ?, ?)";
@@ -153,7 +152,8 @@ public class ProfessionistaDAO {
                             "17:30-18:00"
                     };
 
-                    for (int day = 4; day <= 28; day++) {
+                    // Ciclo per i giorni dal 18 febbraio al 18 marzo
+                    for (int day = 18; day <= 31; day++) {  // Dal 18 febbraio al 28 febbraio
                         String data = String.format("2025-02-%02d", day);
                         for (String fascia : fasce) {
                             statementFasceOrarie.setInt(1, professionistaId);
@@ -163,6 +163,19 @@ public class ProfessionistaDAO {
                             statementFasceOrarie.addBatch();
                         }
                     }
+
+                    // Aggiungi marzo dal 1 al 18
+                    for (int day = 1; day <= 18; day++) {  // Dal 1 marzo al 18 marzo
+                        String data = String.format("2025-03-%02d", day);
+                        for (String fascia : fasce) {
+                            statementFasceOrarie.setInt(1, professionistaId);
+                            statementFasceOrarie.setString(2, data);
+                            statementFasceOrarie.setString(3, fascia);
+                            statementFasceOrarie.setBoolean(4, true);
+                            statementFasceOrarie.addBatch();
+                        }
+                    }
+
                     statementFasceOrarie.executeBatch();
                 }
             }
@@ -171,6 +184,7 @@ public class ProfessionistaDAO {
             LOGGER.log(Level.SEVERE, "Error while inserting professionista", e);
         }
     }
+
 
     public double getPrezzoByServizio(String servizioName) {
         String query = "SELECT prezzo FROM Servizio WHERE nome = ?";
