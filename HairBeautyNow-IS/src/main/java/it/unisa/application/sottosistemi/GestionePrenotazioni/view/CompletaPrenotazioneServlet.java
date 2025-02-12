@@ -24,13 +24,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 @WebServlet("/completaPrenotazione")
 public class CompletaPrenotazioneServlet extends HttpServlet {
-    // Aggiungi tutte le dipendenze richieste per il servizio
-    private final PrenotazioneService prenotazioneService = new PrenotazioneService(
-            new PrenotazioneDAO(),
-            new ProfessionistaDAO(),
-            new FasciaOrariaDAO(),
-            new SedeDAO()
-    );
+    private final PrenotazioneService prenotazioneService = new PrenotazioneService();
     private final FasciaOrariaService fasciaOrariaService = new FasciaOrariaService();
     private final ServizioService servizioService = new ServizioService();
     private final MetodoDiPagamentoDAO metodoDiPagamentoDAO = new MetodoDiPagamentoDAO();
@@ -78,47 +72,54 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
             String indirizzo = request.getParameter("indirizzo");
 
             // Gestione del pagamento
-            PagamentoStrategy pagamentoStrategy = null;
             MetodoDiPagamento metodo = metodoDiPagamentoDAO.getMetodoDiPagamentoByUsername(utente.getUsername());
-            pagamentoStrategy = PagamentoFactory.getPagamentoStrategy(metodoPagamento);
 
-            if ("paypal".equals(metodoPagamento)) {
-                String email = request.getParameter("emailPaypal");
-                if (metodo != null) {
+            // Verifica se il metodo di pagamento esiste già per l'utente
+            if (metodo != null) {
+                // Metodo di pagamento esistente, aggiorniamo i dati se necessario
+                if ("paypal".equals(metodoPagamento)) {
+                    String email = request.getParameter("emailPaypal");
                     metodo.setEmail(email);
                     metodo.setIndirizzo(indirizzo);
-                    metodoDiPagamentoDAO.updateMetodoDiPagamento(metodo);
                 } else {
-                    metodo = new MetodoDiPagamento(
-                            null, null, utente.getNome() + " " + utente.getCognome(),
-                            indirizzo, 0, utente.getUsername(), metodoPagamento, email
-                    );
-                    metodoDiPagamentoDAO.addMetodoDiPagamento(metodo);
-                }
-            } else {
-                if (scadenza == null || scadenza.isEmpty()) {
-                    throw new IllegalArgumentException("Data di scadenza mancante o non valida.");
-                }
-                String[] scadenzaArray = scadenza.split("/");
-                LocalDate dataScadenza = LocalDate.of(2000 + Integer.parseInt(scadenzaArray[1]), Integer.parseInt(scadenzaArray[0]), 1);
-                if (metodo != null) {
+                    if (scadenza == null || scadenza.isEmpty()) {
+                        throw new IllegalArgumentException("Data di scadenza mancante o non valida.");
+                    }
+                    String[] scadenzaArray = scadenza.split("/");
+                    LocalDate dataScadenza = LocalDate.of(2000 + Integer.parseInt(scadenzaArray[1]), Integer.parseInt(scadenzaArray[0]), 1);
                     metodo.setnCarta(numeroCarta);
                     metodo.setDataScadenza(dataScadenza);
                     metodo.setNomeIntestatario(utente.getNome() + " " + utente.getCognome());
                     metodo.setCvv(Integer.parseInt(cvv));
                     metodo.setIndirizzo(indirizzo);
                     metodo.setMetodoPagamento(metodoPagamento);
-                    metodoDiPagamentoDAO.updateMetodoDiPagamento(metodo);
+                }
+                // Aggiorna il metodo di pagamento esistente
+                metodoDiPagamentoDAO.updateMetodoDiPagamento(metodo);
+            } else {
+                // Metodo di pagamento non trovato, creiamo un nuovo metodo
+                if ("paypal".equals(metodoPagamento)) {
+                    String email = request.getParameter("emailPaypal");
+                    metodo = new MetodoDiPagamento(
+                            null, null, utente.getNome() + " " + utente.getCognome(),
+                            indirizzo, 0, utente.getUsername(), metodoPagamento, email
+                    );
                 } else {
+                    if (scadenza == null || scadenza.isEmpty()) {
+                        throw new IllegalArgumentException("Data di scadenza mancante o non valida.");
+                    }
+                    String[] scadenzaArray = scadenza.split("/");
+                    LocalDate dataScadenza = LocalDate.of(2000 + Integer.parseInt(scadenzaArray[1]), Integer.parseInt(scadenzaArray[0]), 1);
                     metodo = new MetodoDiPagamento(
                             numeroCarta, dataScadenza, utente.getNome() + " " + utente.getCognome(),
                             indirizzo, Integer.parseInt(cvv), utente.getUsername(), metodoPagamento, null
                     );
-                    metodoDiPagamentoDAO.addMetodoDiPagamento(metodo);
                 }
+                metodoDiPagamentoDAO.addMetodoDiPagamento(metodo);
             }
 
             // Esegui il pagamento
+            PagamentoStrategy pagamentoStrategy = PagamentoFactory.getPagamentoStrategy(metodoPagamento);
             pagamentoStrategy.effettuaPagamento(metodo, prezzo);
 
             // Solo dopo il pagamento, crea la prenotazione
@@ -141,4 +142,3 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
         }
     }
 }
-

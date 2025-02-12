@@ -15,10 +15,12 @@
     function cambiaCampiPagamento() {
       var metodoPagamento = document.getElementById("metodoPagamento").value;
 
+      // Nascondi tutti i campi
       document.getElementById("paypalFields").style.display = "none";
       document.getElementById("visaFields").style.display = "none";
       document.getElementById("mastercardFields").style.display = "none";
 
+      // Mostra i campi pertinenti
       if (metodoPagamento === "paypal") {
         document.getElementById("paypalFields").style.display = "block";
       } else if (metodoPagamento === "visa" || metodoPagamento === "mastercard") {
@@ -77,10 +79,12 @@
 <%
   String errore = (String) request.getAttribute("errore");
   if (errore != null) {
+    String erroreSanitizzato = errore.replaceAll("\"", "\\\"").replaceAll("\n", "").replaceAll("\r", "");
 %>
 <script>
-  mostraAlert("error", "<%= errore %>");
+  mostraAlert("error", "Errore durante la prenotazione: Cannot invoke 'java.sql.Date.toLocalDate()' because the return value of 'java.sql.ResultSet.getDate(String)' is null");
 </script>
+
 <%
   }
 %>

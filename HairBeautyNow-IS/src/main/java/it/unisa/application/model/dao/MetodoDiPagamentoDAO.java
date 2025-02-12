@@ -112,6 +112,7 @@ public class MetodoDiPagamentoDAO {
     }
 
     // Recupera il metodo di pagamento dato l'username
+    // Recupera il metodo di pagamento dato l'username
     public MetodoDiPagamento getMetodoDiPagamentoByUsername(String username) throws SQLException {
         String query = "SELECT * FROM MetodoDiPagamento WHERE username = ?";
         try (Connection conn = ds.getConnection();
@@ -119,9 +120,10 @@ public class MetodoDiPagamentoDAO {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
+                Date dataScadenza = rs.getDate("dataScadenza");
                 return new MetodoDiPagamento(
                         rs.getString("nCarta"),
-                        rs.getDate("dataScadenza").toLocalDate(),  // Converte java.sql.Date in LocalDate
+                        dataScadenza != null ? dataScadenza.toLocalDate() : null,  // Controlla se la data è null
                         rs.getString("nomeIntestatario"),
                         rs.getString("indirizzo"),
                         rs.getInt("cvv"),
@@ -129,9 +131,9 @@ public class MetodoDiPagamentoDAO {
                         rs.getString("metodoPagamento"),  // Recupera il tipo di metodo di pagamento
                         rs.getString("email")  // Recupera l'email, che può essere null
                 );
-
             }
         }
         return null;  // Se il metodo di pagamento non esiste per l'utente
     }
+
 }
