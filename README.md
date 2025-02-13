@@ -1,4 +1,4 @@
-# HairBeautyNow - Sistema di Gestione Prenotazioni
+# HairBeautyNow
 
 ## Scopo del Sistema
 Il sistema HairBeautyNow nasce per facilitare la gestione centralizzata e la prenotazione di appuntamenti per una catena di barbieri e saloni di bellezza. La piattaforma digitale offre un'interfaccia intuitiva e funzionale per migliorare l'esperienza dei clienti e ottimizzare l'efficienza operativa dei gestori.
