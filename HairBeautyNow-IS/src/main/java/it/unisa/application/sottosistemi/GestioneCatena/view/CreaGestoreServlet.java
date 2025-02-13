@@ -48,7 +48,7 @@ public class CreaGestoreServlet extends HttpServlet {
         }
 
         // Crea il nuovo UtenteGestoreSede con ID sede corretto (ad esempio 1)
-        UtenteGestoreSede nuovoGestore = new UtenteGestoreSede(username, password, 1); // Usando l'ID valido per la sede
+        UtenteGestoreSede nuovoGestore = new UtenteGestoreSede(username, password, null); // Usando l'ID valido per la sede
 
         // Chiama il servizio per creare il gestore
         boolean success = gestioneGestoreService.creaGestore(nuovoGestore);

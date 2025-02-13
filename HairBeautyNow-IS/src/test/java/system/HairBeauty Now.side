@@ -1,0 +1,2037 @@
+{
+  "id": "34d69f27-c0b0-4c8b-9270-a33077d6ee95",
+  "version": "2.0",
+  "name": "HairBeauty Now",
+  "url": "http://localhost:8080/HairBeautyNow_war_exploded/",
+  "tests": [{
+    "id": "f8d92e78-f8e3-4ed8-94ee-8618d0a7026b",
+    "name": "Registrazione",
+    "commands": [{
+      "id": "e08e9fa8-80e5-4c83-8c2b-860d28836aba",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/HairBeautyNow_war_exploded/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "674c9d17-c2b6-4b94-bbfd-99e76ce6b1c8",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1051x798",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "541adefe-2da8-4634-a4fe-dc5a7ebc5c52",
+      "comment": "",
+      "command": "click",
+      "target": "id=user-icon",
+      "targets": [
+        ["id=user-icon", "id"],
+        ["css=#user-icon", "css:finder"],
+        ["xpath=//i[@id='user-icon']", "xpath:attributes"],
+        ["xpath=//div[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d6a8b16f-7f46-48fe-bde0-8e6389a8bdca",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrati qui",
+      "targets": [
+        ["linkText=Registrati qui", "linkText"],
+        ["css=.register-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrati qui')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/HairBeautyNow_war_exploded/register')]", "xpath:href"],
+        ["xpath=//p/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrati qui')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b10f4c18-31bf-4a2c-b83b-27f8acdb1a10",
+      "comment": "",
+      "command": "click",
+      "target": "id=nome",
+      "targets": [
+        ["id=nome", "id"],
+        ["name=nome", "name"],
+        ["css=#nome", "css:finder"],
+        ["xpath=//input[@id='nome']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "62079df2-db1b-4e31-92f4-ae69750033b6",
+      "comment": "",
+      "command": "type",
+      "target": "id=nome",
+      "targets": [
+        ["id=nome", "id"],
+        ["name=nome", "name"],
+        ["css=#nome", "css:finder"],
+        ["xpath=//input[@id='nome']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Christian"
+    }, {
+      "id": "c8253441-7e13-4040-b075-486bf8320c11",
+      "comment": "",
+      "command": "click",
+      "target": "id=cognome",
+      "targets": [
+        ["id=cognome", "id"],
+        ["name=cognome", "name"],
+        ["css=#cognome", "css:finder"],
+        ["xpath=//input[@id='cognome']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "33ac5bfb-5784-4a91-a90b-ec6ee9daba79",
+      "comment": "",
+      "command": "type",
+      "target": "id=cognome",
+      "targets": [
+        ["id=cognome", "id"],
+        ["name=cognome", "name"],
+        ["css=#cognome", "css:finder"],
+        ["xpath=//input[@id='cognome']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "Lanziero"
+    }, {
+      "id": "6cc672be-e48e-4356-90ab-86c84e52ae07",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1ce8ca75-22c0-45df-9745-5b7d631f136f",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "aylanzee"
+    }, {
+      "id": "0ffd91b3-6498-4b8b-8c69-0a63ac0d8f46",
+      "comment": "",
+      "command": "click",
+      "target": "id=citta",
+      "targets": [
+        ["id=citta", "id"],
+        ["name=citta", "name"],
+        ["css=#citta", "css:finder"],
+        ["xpath=//input[@id='citta']", "xpath:attributes"],
+        ["xpath=//input[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0ab0d97d-1e7f-4d9e-aa21-0f1e466074f4",
+      "comment": "",
+      "command": "type",
+      "target": "id=citta",
+      "targets": [
+        ["id=citta", "id"],
+        ["name=citta", "name"],
+        ["css=#citta", "css:finder"],
+        ["xpath=//input[@id='citta']", "xpath:attributes"],
+        ["xpath=//input[4]", "xpath:position"]
+      ],
+      "value": "Scafati"
+    }, {
+      "id": "20a5b3dd-23f2-4672-bd0e-3c401238387c",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input[5]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "af2cf187-3604-4b5a-b98a-dc817b64ad82",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input[5]", "xpath:position"]
+      ],
+      "value": "lanzierochristian@gmail.com"
+    }, {
+      "id": "d5ecb4b3-972d-42e4-8d1f-ead6ab8e8a27",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[6]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a890fdff-b393-485d-b4b0-eece194008dd",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[6]", "xpath:position"]
+      ],
+      "value": "prova123"
+    }, {
+      "id": "fa6f6a55-e428-49ac-aa21-f05a1613aa6d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.auth-button",
+      "targets": [
+        ["css=.auth-button", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Registrati')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "3aef3fec-2945-484e-910e-44dfa34f7483",
+    "name": "Autenticazione e Disconessione",
+    "commands": [{
+      "id": "12570e1b-0f1c-4787-b83d-c38e35d3e819",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/HairBeautyNow_war_exploded/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "78fd67e4-83bd-4c5b-918a-57ec95fc7496",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1054x800",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "734af1ee-4504-4fab-8387-c4a9d9955036",
+      "comment": "",
+      "command": "click",
+      "target": "id=user-icon",
+      "targets": [
+        ["id=user-icon", "id"],
+        ["css=#user-icon", "css:finder"],
+        ["xpath=//i[@id='user-icon']", "xpath:attributes"],
+        ["xpath=//div[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cb25313e-c01d-491f-8b39-40b763249f8e",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "21cfc2df-cec9-4518-b32d-5ce33c4ae405",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "cirilnel"
+    }, {
+      "id": "9d2de0aa-c09d-4b78-9669-7ec92f6bd8e1",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "13a6fcbc-2c33-491c-a77f-586750246f23",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "jegerugeru"
+    }, {
+      "id": "e1115c23-5051-4cfe-886c-51484c0a92b1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.auth-button",
+      "targets": [
+        ["css=.auth-button", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b90d7e88-1901-415f-88ca-fb3b82076c19",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b00df4ea-e9cc-4532-a4ea-61ece533d1cf",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "cirilnel"
+    }, {
+      "id": "3a786539-e214-4c43-a571-b963d7d8d222",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4a2facea-e4f7-401f-86a6-4a468140fb22",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "prova123"
+    }, {
+      "id": "36ea2a8f-38af-4359-a1a7-0c3981fc35d2",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "61692f7f-fa18-491b-aba1-31389a1fc15a",
+      "comment": "",
+      "command": "click",
+      "target": "id=logged-user-icon",
+      "targets": [
+        ["id=logged-user-icon", "id"],
+        ["css=#logged-user-icon", "css:finder"],
+        ["xpath=//i[@id='logged-user-icon']", "xpath:attributes"],
+        ["xpath=//div/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c8599e10-daf1-4da0-a1ef-0cac1cc74780",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Disconnetti",
+      "targets": [
+        ["linkText=Disconnetti", "linkText"],
+        ["css=.logout-link", "css:finder"],
+        ["xpath=//div[@id='dropdown-menu']/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/HairBeautyNow_war_exploded/logout')]", "xpath:href"],
+        ["xpath=//div[2]/div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,' Disconnetti')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "4464adf4-1822-46b2-a2eb-ce0075dee165",
+    "name": "Prenotazione",
+    "commands": [{
+      "id": "82a10840-feea-43e2-8bf0-4f66c050dd9b",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/HairBeautyNow_war_exploded/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "73c74195-a7f0-4cf3-be5d-b62856d17619",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1060x800",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1d90856a-f297-4f99-addc-c4e0a3f3d349",
+      "comment": "",
+      "command": "click",
+      "target": "id=user-icon",
+      "targets": [
+        ["id=user-icon", "id"],
+        ["css=#user-icon", "css:finder"],
+        ["xpath=//i[@id='user-icon']", "xpath:attributes"],
+        ["xpath=//div[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d7696332-8fca-4c39-bae7-b4166e8ee614",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2fb3e24b-48a7-47e2-b953-d610bd0b4aba",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "cirilnel"
+    }, {
+      "id": "abdb9452-243c-4f0c-9869-21c30740659a",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9fe3682d-9936-4e4c-99a7-92c113de5e3e",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "prova123"
+    }, {
+      "id": "cde2bbb7-43cf-469c-acc3-898b0cd94210",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "c7c9c05d-b927-425a-907c-cf645676f88f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.service-card:nth-child(4) > a > img",
+      "targets": [
+        ["css=.service-card:nth-child(4) > a > img", "css:finder"],
+        ["xpath=//img[@alt='Massaggi']", "xpath:img"],
+        ["xpath=//div[4]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4593291e-2214-4d99-b1ee-42f75b562f3c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.service-item:nth-child(4) .book-button",
+      "targets": [
+        ["css=.service-item:nth-child(4) .book-button", "css:finder"],
+        ["xpath=(//button[@type='submit'])[3]", "xpath:attributes"],
+        ["xpath=//div[3]/div/form/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "75c0c3bf-6264-4afa-a8d5-c71102deadfb",
+      "comment": "",
+      "command": "click",
+      "target": "css=button",
+      "targets": [
+        ["css=button", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Seleziona Salone')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f5c19be1-4627-4eb2-b5b3-13151cf9cf32",
+      "comment": "",
+      "command": "click",
+      "target": "id=data1",
+      "targets": [
+        ["id=data1", "id"],
+        ["name=data", "name"],
+        ["css=#data1", "css:finder"],
+        ["xpath=//select[@id='data1']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c8aff538-b12d-48b9-af0d-5bfbbc6800f2",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(10)",
+      "targets": [
+        ["css=input:nth-child(10)", "css:finder"],
+        ["xpath=//input[@value='Prenota']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "84db14b8-5f38-4752-ac26-63794237ba32",
+      "comment": "",
+      "command": "click",
+      "target": "id=metodoPagamento",
+      "targets": [
+        ["id=metodoPagamento", "id"],
+        ["name=metodoPagamento", "name"],
+        ["css=#metodoPagamento", "css:finder"],
+        ["xpath=//select[@id='metodoPagamento']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9422f841-8b82-47a4-9d4a-36b957419b65",
+      "comment": "",
+      "command": "select",
+      "target": "id=metodoPagamento",
+      "targets": [],
+      "value": "label=VISA"
+    }, {
+      "id": "e4e2340e-6e15-464a-8673-206095e6d215",
+      "comment": "",
+      "command": "click",
+      "target": "id=indirizzo",
+      "targets": [
+        ["id=indirizzo", "id"],
+        ["name=indirizzo", "name"],
+        ["css=#indirizzo", "css:finder"],
+        ["xpath=//input[@id='indirizzo']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0d467475-c511-4504-8f0c-35cc6f046a78",
+      "comment": "",
+      "command": "type",
+      "target": "id=indirizzo",
+      "targets": [
+        ["id=indirizzo", "id"],
+        ["name=indirizzo", "name"],
+        ["css=#indirizzo", "css:finder"],
+        ["xpath=//input[@id='indirizzo']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Via G. Iervolino"
+    }, {
+      "id": "bec8b8bf-7f15-498b-95f3-4b68192d0de5",
+      "comment": "",
+      "command": "click",
+      "target": "id=numeroCarta",
+      "targets": [
+        ["id=numeroCarta", "id"],
+        ["name=numeroCarta", "name"],
+        ["css=#numeroCarta", "css:finder"],
+        ["xpath=//input[@id='numeroCarta']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3ceac76c-f656-4845-b8cf-c2b9e7dc89de",
+      "comment": "",
+      "command": "type",
+      "target": "id=numeroCarta",
+      "targets": [
+        ["id=numeroCarta", "id"],
+        ["name=numeroCarta", "name"],
+        ["css=#numeroCarta", "css:finder"],
+        ["xpath=//input[@id='numeroCarta']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "13185"
+    }, {
+      "id": "377431b0-9ab1-4af6-8324-59463427b893",
+      "comment": "",
+      "command": "click",
+      "target": "id=cvv",
+      "targets": [
+        ["id=cvv", "id"],
+        ["name=cvv", "name"],
+        ["css=#cvv", "css:finder"],
+        ["xpath=//input[@id='cvv']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7c515eb9-bb60-4fbf-aa94-cedbb348c4b2",
+      "comment": "",
+      "command": "type",
+      "target": "id=cvv",
+      "targets": [
+        ["id=cvv", "id"],
+        ["name=cvv", "name"],
+        ["css=#cvv", "css:finder"],
+        ["xpath=//input[@id='cvv']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "123"
+    }, {
+      "id": "20434fe4-961c-4544-9c9f-096edf8433f8",
+      "comment": "",
+      "command": "click",
+      "target": "id=scadenza",
+      "targets": [
+        ["id=scadenza", "id"],
+        ["name=scadenza", "name"],
+        ["css=#scadenza", "css:finder"],
+        ["xpath=//input[@id='scadenza']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6d104507-6703-41f1-91ea-81aef35b9197",
+      "comment": "",
+      "command": "type",
+      "target": "id=scadenza",
+      "targets": [
+        ["id=scadenza", "id"],
+        ["name=scadenza", "name"],
+        ["css=#scadenza", "css:finder"],
+        ["xpath=//input[@id='scadenza']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "12/25"
+    }, {
+      "id": "6eb7b22b-6e50-4a2e-b6a8-faaf1731d8f7",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(12)",
+      "targets": [
+        ["css=input:nth-child(12)", "css:finder"],
+        ["xpath=//input[@value='Effettua Prenotazione']", "xpath:attributes"],
+        ["xpath=//form/input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "47a48981-8cd5-4284-bef6-20bc08c24a44",
+      "comment": "",
+      "command": "click",
+      "target": "id=metodoPagamento",
+      "targets": [
+        ["id=metodoPagamento", "id"],
+        ["name=metodoPagamento", "name"],
+        ["css=#metodoPagamento", "css:finder"],
+        ["xpath=//select[@id='metodoPagamento']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "37af2ab1-811b-4edb-b57a-309c6e0c0f3a",
+      "comment": "",
+      "command": "select",
+      "target": "id=metodoPagamento",
+      "targets": [],
+      "value": "label=VISA"
+    }, {
+      "id": "b7b5ef3e-a389-4029-87ff-cf59a9baa073",
+      "comment": "",
+      "command": "click",
+      "target": "id=indirizzo",
+      "targets": [
+        ["id=indirizzo", "id"],
+        ["name=indirizzo", "name"],
+        ["css=#indirizzo", "css:finder"],
+        ["xpath=//input[@id='indirizzo']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c4f967bc-b9d4-4749-9d57-1a9ae2eb396c",
+      "comment": "",
+      "command": "type",
+      "target": "id=indirizzo",
+      "targets": [
+        ["id=indirizzo", "id"],
+        ["name=indirizzo", "name"],
+        ["css=#indirizzo", "css:finder"],
+        ["xpath=//input[@id='indirizzo']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Via G. Iervolino"
+    }, {
+      "id": "833d4ee2-76e8-4e0e-9d84-416d2db00a9e",
+      "comment": "",
+      "command": "click",
+      "target": "id=numeroCarta",
+      "targets": [
+        ["id=numeroCarta", "id"],
+        ["name=numeroCarta", "name"],
+        ["css=#numeroCarta", "css:finder"],
+        ["xpath=//input[@id='numeroCarta']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5eb19b07-3808-432d-98b2-3e2521ed7343",
+      "comment": "",
+      "command": "type",
+      "target": "id=numeroCarta",
+      "targets": [
+        ["id=numeroCarta", "id"],
+        ["name=numeroCarta", "name"],
+        ["css=#numeroCarta", "css:finder"],
+        ["xpath=//input[@id='numeroCarta']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "3275684573845475"
+    }, {
+      "id": "d023f028-cf22-4db7-82ff-6e3a8d9a7fc1",
+      "comment": "",
+      "command": "click",
+      "target": "id=cvv",
+      "targets": [
+        ["id=cvv", "id"],
+        ["name=cvv", "name"],
+        ["css=#cvv", "css:finder"],
+        ["xpath=//input[@id='cvv']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "90a6f7db-19b2-4cd9-90a4-dd427951b7c5",
+      "comment": "",
+      "command": "type",
+      "target": "id=cvv",
+      "targets": [
+        ["id=cvv", "id"],
+        ["name=cvv", "name"],
+        ["css=#cvv", "css:finder"],
+        ["xpath=//input[@id='cvv']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "123"
+    }, {
+      "id": "9342ce93-1563-4523-8486-4a7eade4f452",
+      "comment": "",
+      "command": "click",
+      "target": "id=scadenza",
+      "targets": [
+        ["id=scadenza", "id"],
+        ["name=scadenza", "name"],
+        ["css=#scadenza", "css:finder"],
+        ["xpath=//input[@id='scadenza']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f54574c0-64a2-49de-a648-03c694a0a67b",
+      "comment": "",
+      "command": "type",
+      "target": "id=scadenza",
+      "targets": [
+        ["id=scadenza", "id"],
+        ["name=scadenza", "name"],
+        ["css=#scadenza", "css:finder"],
+        ["xpath=//input[@id='scadenza']", "xpath:attributes"],
+        ["xpath=//div[@id='visaFields']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "12/25"
+    }, {
+      "id": "39b8c6a9-1d96-4f96-a8bf-b33ad76bcb32",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(12)",
+      "targets": [
+        ["css=input:nth-child(12)", "css:finder"],
+        ["xpath=//input[@value='Effettua Prenotazione']", "xpath:attributes"],
+        ["xpath=//form/input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b8640dcd-77e2-45ee-8d42-8728a5273328",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Storico Ordini",
+      "targets": [
+        ["linkText=Storico Ordini", "linkText"],
+        ["css=li:nth-child(5) > .interactive-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Storico Ordini')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/HairBeautyNow_war_exploded/storicoOrdini')]", "xpath:href"],
+        ["xpath=//li[5]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Storico Ordini')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2755c24d-fe10-4cbf-b433-55626c72e3cd",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Home",
+      "targets": [
+        ["linkText=Home", "linkText"],
+        ["css=li:nth-child(1) > .interactive-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Home')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/HairBeautyNow_war_exploded/home')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Home')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c1f1f457-1da2-4355-bc21-ebbf8b54045f",
+      "comment": "",
+      "command": "click",
+      "target": "id=logged-user-icon",
+      "targets": [
+        ["id=logged-user-icon", "id"],
+        ["css=#logged-user-icon", "css:finder"],
+        ["xpath=//i[@id='logged-user-icon']", "xpath:attributes"],
+        ["xpath=//div/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "edef8d2b-9de5-4004-9094-160411b1acac",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Disconnetti",
+      "targets": [
+        ["linkText=Disconnetti", "linkText"],
+        ["css=.logout-link", "css:finder"],
+        ["xpath=//div[@id='dropdown-menu']/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/HairBeautyNow_war_exploded/logout')]", "xpath:href"],
+        ["xpath=//div[2]/div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,' Disconnetti')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "c48fe9c5-5bcf-41b0-9fa9-26976e8a0ca1",
+    "name": "Autenticazione Gestore Sede e Logout",
+    "commands": [{
+      "id": "66504152-ef9c-401f-8310-5dcaa44a57ff",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/HairBeautyNow_war_exploded/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "aa3baa2d-0b86-4c1d-85e0-1c0aa4914709",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1064x800",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "21a7d125-89c5-4fab-84bf-af55c0db9d96",
+      "comment": "",
+      "command": "click",
+      "target": "id=user-icon",
+      "targets": [
+        ["id=user-icon", "id"],
+        ["css=#user-icon", "css:finder"],
+        ["xpath=//i[@id='user-icon']", "xpath:attributes"],
+        ["xpath=//div[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "749a6937-6c6d-4497-becf-88f1bc9df380",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0c7546c8-5d10-4f32-8615-a52e93ad36dd",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "gestore1"
+    }, {
+      "id": "f3d60a45-871c-47f6-a76f-57e089d2ae7d",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a2506f83-3f11-4644-a7f3-48f71a8575a9",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "password123"
+    }, {
+      "id": "947d48c3-31f8-4901-a2ee-d2bcb9653618",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "0d1fcdfa-0368-41c8-bfb3-2ecc31cad187",
+      "comment": "",
+      "command": "click",
+      "target": "css=.top-bar",
+      "targets": [
+        ["css=.top-bar", "css:finder"],
+        ["xpath=//div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "77738425-afc5-4d18-beda-1bf5055941ee",
+      "comment": "",
+      "command": "click",
+      "target": "id=logged-user-icon",
+      "targets": [
+        ["id=logged-user-icon", "id"],
+        ["css=#logged-user-icon", "css:finder"],
+        ["xpath=//i[@id='logged-user-icon']", "xpath:attributes"],
+        ["xpath=//div/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0a1c6b87-31e7-47b3-b1c6-bb94a13ccc40",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Disconnetti",
+      "targets": [
+        ["linkText=Disconnetti", "linkText"],
+        ["css=.logout-link", "css:finder"],
+        ["xpath=//div[@id='dropdown-menu']/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/HairBeautyNow_war_exploded/logout')]", "xpath:href"],
+        ["xpath=//div[2]/div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,' Disconnetti')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "c2e376d4-77ec-4b7b-8360-8c5b1674d64d",
+    "name": "Aggiungere Professionista",
+    "commands": [{
+      "id": "d8af674c-92ee-463b-8e6d-88140ddab079",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/HairBeautyNow_war_exploded/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fc59f9fb-edb6-4603-9494-f1d565295971",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1060x800",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1cf5536b-5ae3-4c4a-9716-25fe14d85a18",
+      "comment": "",
+      "command": "click",
+      "target": "id=user-icon",
+      "targets": [
+        ["id=user-icon", "id"],
+        ["css=#user-icon", "css:finder"],
+        ["xpath=//i[@id='user-icon']", "xpath:attributes"],
+        ["xpath=//div[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "000621dd-7cce-4e71-8450-b01dd03a4e24",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5f7bcfd8-2a9f-42d8-9d72-c70db26c56e2",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "gestore1"
+    }, {
+      "id": "4dc53763-cc56-4c99-bf6f-02f0d6220825",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f947e857-cd32-48cc-b46c-fe9bf52bf391",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "password123"
+    }, {
+      "id": "544cf9f9-c318-4a8d-b1a3-c52a6e742cab",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "5edf8c59-b326-4a38-a903-d52f4de2763d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.service-card:nth-child(2) img",
+      "targets": [
+        ["css=.service-card:nth-child(2) img", "css:finder"],
+        ["xpath=//img[@alt='Hair Styling']", "xpath:img"],
+        ["xpath=//div[2]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8beceff2-a820-4afe-abb0-2e29c17594aa",
+      "comment": "",
+      "command": "click",
+      "target": "id=nome",
+      "targets": [
+        ["id=nome", "id"],
+        ["name=nome", "name"],
+        ["css=#nome", "css:finder"],
+        ["xpath=//input[@id='nome']", "xpath:attributes"],
+        ["xpath=//form[@id='assumiForm']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5c0c865a-69c2-492f-9ed1-d641e4d788ba",
+      "comment": "",
+      "command": "type",
+      "target": "id=nome",
+      "targets": [
+        ["id=nome", "id"],
+        ["name=nome", "name"],
+        ["css=#nome", "css:finder"],
+        ["xpath=//input[@id='nome']", "xpath:attributes"],
+        ["xpath=//form[@id='assumiForm']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Antonia"
+    }, {
+      "id": "8f6674b5-d086-484e-93e4-6a3bd537ad1c",
+      "comment": "",
+      "command": "click",
+      "target": "css=button",
+      "targets": [
+        ["css=button", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//form[@id='assumiForm']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Assumi Professionista')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d57b557c-31e6-4647-879f-ff7293b906d0",
+      "comment": "",
+      "command": "click",
+      "target": "id=logged-user-icon",
+      "targets": [
+        ["id=logged-user-icon", "id"],
+        ["css=#logged-user-icon", "css:finder"],
+        ["xpath=//i[@id='logged-user-icon']", "xpath:attributes"],
+        ["xpath=//div/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e0781673-9c29-491e-801f-f20569bbd2bf",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Disconnetti",
+      "targets": [
+        ["linkText=Disconnetti", "linkText"],
+        ["css=.logout-link", "css:finder"],
+        ["xpath=//div[@id='dropdown-menu']/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/HairBeautyNow_war_exploded/logout')]", "xpath:href"],
+        ["xpath=//div[2]/div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,' Disconnetti')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "3c0eae3b-6082-43f7-b730-5dca20edc63b",
+    "name": "Rimuovi Professionista",
+    "commands": [{
+      "id": "7fbcfdd8-dbab-4942-abbe-45071dd98938",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/HairBeautyNow_war_exploded/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "185b785a-93f0-48f9-b4e9-9626e8ec6440",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1064x800",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b4518ae1-2ceb-4cfe-a86f-810feeeda4d4",
+      "comment": "",
+      "command": "click",
+      "target": "id=user-icon",
+      "targets": [
+        ["id=user-icon", "id"],
+        ["css=#user-icon", "css:finder"],
+        ["xpath=//i[@id='user-icon']", "xpath:attributes"],
+        ["xpath=//div[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ef389b72-b3db-45c1-aa56-9fdabe56cb8b",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0abec68f-0724-416d-8794-cc81896d1df7",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "gestore1"
+    }, {
+      "id": "15956d0d-0fe0-44c6-9278-75144ff0bb56",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ca14fabc-1b1f-41dd-859d-e0fd94644aa8",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "password123"
+    }, {
+      "id": "e1f739f9-c576-453b-9e2a-6ef27beb7c8e",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "0ccb0005-1da9-4bd3-8ff3-459c67f72d41",
+      "comment": "",
+      "command": "click",
+      "target": "css=.service-card:nth-child(1) img",
+      "targets": [
+        ["css=.service-card:nth-child(1) img", "css:finder"],
+        ["xpath=//img[@alt='Make Up']", "xpath:img"],
+        ["xpath=//a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f096a22c-bad7-41a0-8b36-ff6707b76be4",
+      "comment": "",
+      "command": "click",
+      "target": "css=#professionista-4 > button",
+      "targets": [
+        ["css=#professionista-4 > button", "css:finder"],
+        ["xpath=//button[@onclick='rimuoviProfessionista(4)']", "xpath:attributes"],
+        ["xpath=//li[@id='professionista-4']/button", "xpath:idRelative"],
+        ["xpath=//li[3]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f1346488-98c0-4298-a6da-c7416ac40be7",
+      "comment": "",
+      "command": "click",
+      "target": "id=logged-user-icon",
+      "targets": [
+        ["id=logged-user-icon", "id"],
+        ["css=#logged-user-icon", "css:finder"],
+        ["xpath=//i[@id='logged-user-icon']", "xpath:attributes"],
+        ["xpath=//div/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "36335eeb-2017-4404-b0d2-962983cece2b",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Disconnetti",
+      "targets": [
+        ["linkText=Disconnetti", "linkText"],
+        ["css=.logout-link", "css:finder"],
+        ["xpath=//div[@id='dropdown-menu']/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/HairBeautyNow_war_exploded/logout')]", "xpath:href"],
+        ["xpath=//div[2]/div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,' Disconnetti')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "8e4a00dd-0a3d-4b3c-8b8f-142e49a640c4",
+    "name": "Rimuovi prenotazione",
+    "commands": [{
+      "id": "7365105c-655d-4cce-ba57-5679ddb38d0a",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/HairBeautyNow_war_exploded/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4d772f1c-a5b7-44ad-9f8e-6025b3ed3906",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1053x799",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7153b18e-03cd-474c-8973-82738ae97076",
+      "comment": "",
+      "command": "click",
+      "target": "id=user-icon",
+      "targets": [
+        ["id=user-icon", "id"],
+        ["css=#user-icon", "css:finder"],
+        ["xpath=//i[@id='user-icon']", "xpath:attributes"],
+        ["xpath=//div[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c5e13fdc-3fb1-434c-9409-5ac7b7422870",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8dcb4e78-031c-42cd-8c41-330cc078e364",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "gestore1"
+    }, {
+      "id": "e4e28825-838d-496d-bcb1-39ffd9807462",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "90590c62-8c3e-4b80-aed7-db4bb8a9a000",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "password123"
+    }, {
+      "id": "ebd99ec2-6667-4413-9234-ea94ff49a724",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "2b66a73f-88c3-47c7-8094-2a61342adefb",
+      "comment": "",
+      "command": "click",
+      "target": "css=.service-card:nth-child(3) img",
+      "targets": [
+        ["css=.service-card:nth-child(3) img", "css:finder"],
+        ["xpath=//img[@alt='Nail Care']", "xpath:img"],
+        ["xpath=//div[3]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8ff17a95-5c95-4820-b0fb-f18c51bf2bc0",
+      "comment": "",
+      "command": "chooseOkOnNextConfirmation",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e4fdc1a0-0628-4f65-9834-b72045d7d889",
+      "comment": "",
+      "command": "click",
+      "target": "css=button",
+      "targets": [
+        ["css=button", "css:finder"],
+        ["xpath=//button[@onclick='rimuoviPrenotazione(1)']", "xpath:attributes"],
+        ["xpath=//tr[@id='prenotazione-1']/td[7]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Rimuovi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a178b581-db02-4f35-bdf2-e5e95426bbc6",
+      "comment": "",
+      "command": "assertConfirmation",
+      "target": "Sei sicuro di voler rimuovere questa prenotazione?",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "30366339-59ec-4024-a38e-0c47959fa1f8",
+      "comment": "",
+      "command": "webdriverChooseOkOnVisibleConfirmation",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "05e891df-a3f0-47cd-ae76-be8f9dd87d26",
+      "comment": "",
+      "command": "click",
+      "target": "id=logged-user-icon",
+      "targets": [
+        ["id=logged-user-icon", "id"],
+        ["css=#logged-user-icon", "css:finder"],
+        ["xpath=//i[@id='logged-user-icon']", "xpath:attributes"],
+        ["xpath=//div/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "531f311f-7c1d-44ad-b727-69c2f535936a",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Disconnetti",
+      "targets": [
+        ["linkText=Disconnetti", "linkText"],
+        ["css=.logout-link", "css:finder"],
+        ["xpath=//div[@id='dropdown-menu']/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/HairBeautyNow_war_exploded/logout')]", "xpath:href"],
+        ["xpath=//div[2]/div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,' Disconnetti')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "08cb3f2b-8c98-4b10-aeb0-d480d22f6e28",
+    "name": "Creazione gestore",
+    "commands": [{
+      "id": "fe4c3cbf-de94-440c-8a7f-c69354e08333",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/HairBeautyNow_war_exploded/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "01ea8611-ffb0-4f9f-b02f-54b101b619db",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1069x804",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1f9e8f0c-f2a8-439f-8e80-e60ac8dc6369",
+      "comment": "",
+      "command": "click",
+      "target": "id=user-icon",
+      "targets": [
+        ["id=user-icon", "id"],
+        ["css=#user-icon", "css:finder"],
+        ["xpath=//i[@id='user-icon']", "xpath:attributes"],
+        ["xpath=//div[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9b2253d1-6d72-4f6d-8d81-2cbd731c0fc5",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "173e67e0-5e58-492a-ba7b-9900b150491b",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "gestoreC"
+    }, {
+      "id": "94b9d1f1-27c6-41e7-abaf-12a2c344098e",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "571a8c1b-4256-40c7-8b39-b90ac72b4875",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "password123"
+    }, {
+      "id": "ab8647a9-76b9-4aca-bc57-443fa7982619",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "44cec195-d52d-42ff-b1b8-4ecdb1dab097",
+      "comment": "",
+      "command": "click",
+      "target": "css=.service-card:nth-child(2) img",
+      "targets": [
+        ["css=.service-card:nth-child(2) img", "css:finder"],
+        ["xpath=//img[@alt='Hair Styling']", "xpath:img"],
+        ["xpath=//div[2]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ad974655-7b7c-499d-b342-64014f65644d",
+      "comment": "",
+      "command": "click",
+      "target": "id=usernameUGS",
+      "targets": [
+        ["id=usernameUGS", "id"],
+        ["name=usernameUGS", "name"],
+        ["css=#usernameUGS", "css:finder"],
+        ["xpath=//input[@id='usernameUGS']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "94972146-8eba-4647-933e-c22d3ae8d997",
+      "comment": "",
+      "command": "type",
+      "target": "id=usernameUGS",
+      "targets": [
+        ["id=usernameUGS", "id"],
+        ["name=usernameUGS", "name"],
+        ["css=#usernameUGS", "css:finder"],
+        ["xpath=//input[@id='usernameUGS']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "gestore9"
+    }, {
+      "id": "4b7869e8-836e-40ea-bbb7-a3fe7ab5cd4e",
+      "comment": "",
+      "command": "type",
+      "target": "id=usernameUGS",
+      "targets": [
+        ["id=usernameUGS", "id"],
+        ["name=usernameUGS", "name"],
+        ["css=#usernameUGS", "css:finder"],
+        ["xpath=//input[@id='usernameUGS']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "gestore8"
+    }, {
+      "id": "64228681-d742-4f3e-a6ca-f3fd484b2d11",
+      "comment": "",
+      "command": "click",
+      "target": "css=.form-container",
+      "targets": [
+        ["css=.form-container", "css:finder"],
+        ["xpath=//form[@action='/HairBeautyNow_war_exploded/creaGestore']", "xpath:attributes"],
+        ["xpath=//form", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "113e677f-d02e-41ba-b787-14827e2d6d3d",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "17c12d3b-65b2-4e02-b29f-51a5e087ef60",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "password123"
+    }, {
+      "id": "948ca0b3-8837-446f-abcf-0b0405659714",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }]
+  }, {
+    "id": "83775514-38cf-451c-a70f-7bb64776c280",
+    "name": "Aggiungi Sede + Assegna gestore",
+    "commands": [{
+      "id": "9cfc218b-901d-4f05-8d40-53e56df45065",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/HairBeautyNow_war_exploded/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e85911c5-21d4-466c-8685-388528f61968",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1070x804",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "636e5725-98e3-4662-ada6-2d1fc5dc3f69",
+      "comment": "",
+      "command": "click",
+      "target": "id=user-icon",
+      "targets": [
+        ["id=user-icon", "id"],
+        ["css=#user-icon", "css:finder"],
+        ["xpath=//i[@id='user-icon']", "xpath:attributes"],
+        ["xpath=//div[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9e19b666-1d26-4eb9-86e8-ccb85bccc32d",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3df179eb-281d-41f4-8a46-5e354de257fc",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "gestoreC"
+    }, {
+      "id": "b7e9dea0-fc4c-48de-9eba-f17d3ed5ed05",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "91ad9f30-ccf7-4604-aa9a-9cc6b0ed66a2",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "password123"
+    }, {
+      "id": "c6182432-64e2-44cd-8e0d-0fabcb473a51",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "92a5f5de-853b-4807-bf6b-d7c4d53cb61a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.service-card:nth-child(1) img",
+      "targets": [
+        ["css=.service-card:nth-child(1) img", "css:finder"],
+        ["xpath=//img[@alt='Make Up']", "xpath:img"],
+        ["xpath=//a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "90568417-9e11-400f-896e-118ec2174303",
+      "comment": "",
+      "command": "click",
+      "target": "id=indirizzo",
+      "targets": [
+        ["id=indirizzo", "id"],
+        ["name=indirizzo", "name"],
+        ["css=#indirizzo", "css:finder"],
+        ["xpath=//input[@id='indirizzo']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cfaf0ed7-db3c-452d-96e5-5c1502bfce5d",
+      "comment": "",
+      "command": "type",
+      "target": "id=indirizzo",
+      "targets": [
+        ["id=indirizzo", "id"],
+        ["name=indirizzo", "name"],
+        ["css=#indirizzo", "css:finder"],
+        ["xpath=//input[@id='indirizzo']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Via Senato 146"
+    }, {
+      "id": "dd3af1b9-06fb-4231-82ea-6c6c151d7e12",
+      "comment": "",
+      "command": "click",
+      "target": "id=citta",
+      "targets": [
+        ["id=citta", "id"],
+        ["name=citta", "name"],
+        ["css=#citta", "css:finder"],
+        ["xpath=//input[@id='citta']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "623c1f30-aa87-47da-8583-09b1088d1975",
+      "comment": "",
+      "command": "type",
+      "target": "id=citta",
+      "targets": [
+        ["id=citta", "id"],
+        ["name=citta", "name"],
+        ["css=#citta", "css:finder"],
+        ["xpath=//input[@id='citta']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "Salerno"
+    }, {
+      "id": "7502ffc7-dabe-4904-a0ce-b5cb3806ce15",
+      "comment": "",
+      "command": "click",
+      "target": "css=button",
+      "targets": [
+        ["css=button", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Aggiungi Sede')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b8ac9725-77b4-4227-aa3a-6d93e0fcaf5c",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(2) button",
+      "targets": [
+        ["css=tr:nth-child(2) button", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Assumi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "7c459d93-0198-4b76-bf25-55728e09b687",
+    "name": "Rimuovi Gestore",
+    "commands": [{
+      "id": "b188fed0-c717-4e5b-9781-3e6c135153a1",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/HairBeautyNow_war_exploded/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ef4c4be4-cb76-4253-af01-39fc038a627b",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1073x804",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b2a8aa4b-9044-45ea-a5a3-0d9b0efb55cb",
+      "comment": "",
+      "command": "click",
+      "target": "id=user-icon",
+      "targets": [
+        ["id=user-icon", "id"],
+        ["css=#user-icon", "css:finder"],
+        ["xpath=//i[@id='user-icon']", "xpath:attributes"],
+        ["xpath=//div[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f5b42e36-6085-4012-a171-85061cafb391",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "baf7714e-6bab-4b74-bbb2-969416dd9551",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "gestoreC"
+    }, {
+      "id": "d355a5a4-5676-42f0-ab47-7aa7f13847e0",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b113a72e-7aa9-4635-ae07-dcbe7e6b6de5",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "password123"
+    }, {
+      "id": "3d5d1fca-9a5d-419c-8daa-72297b1afd0b",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "7cdcc972-d5d4-4a5a-8fbf-9bdd94232011",
+      "comment": "",
+      "command": "click",
+      "target": "css=.service-card:nth-child(3) img",
+      "targets": [
+        ["css=.service-card:nth-child(3) img", "css:finder"],
+        ["xpath=//img[@alt='Nail Care']", "xpath:img"],
+        ["xpath=//div[3]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d2d1ec60-7775-4b3f-8f9e-1d6ba1cc325e",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(4) button",
+      "targets": [
+        ["css=tr:nth-child(4) button", "css:finder"],
+        ["xpath=(//button[@type='submit'])[3]", "xpath:attributes"],
+        ["xpath=//tr[4]/td[3]/form/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f3d67f6c-0caf-43eb-8a83-a3767eb6956e",
+      "comment": "",
+      "command": "click",
+      "target": "id=logged-user-icon",
+      "targets": [
+        ["id=logged-user-icon", "id"],
+        ["css=#logged-user-icon", "css:finder"],
+        ["xpath=//i[@id='logged-user-icon']", "xpath:attributes"],
+        ["xpath=//div/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "67e8765b-a512-4cd8-89ad-17a8fa09e51d",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Disconnetti",
+      "targets": [
+        ["linkText=Disconnetti", "linkText"],
+        ["css=.logout-link", "css:finder"],
+        ["xpath=//div[@id='dropdown-menu']/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/HairBeautyNow_war_exploded/logout')]", "xpath:href"],
+        ["xpath=//div[2]/div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,' Disconnetti')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "51d4a3d4-d9df-40ac-b9e5-451f55164b7f",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:8080/", "http://localhost:8080/HairBeautyNow_war_exploded/"],
+  "plugins": []
+}
