@@ -82,5 +82,5 @@ Gli obiettivi principali di HairBeautyNow includono:
    - Aprire il file `index.html` nel browser o avviare un server locale.
 
 ## Conclusioni
-HairBeautyNow rappresenta una soluzione innovativa e completa per la gestione delle prenotazioni nei saloni di bellezza e barbieri. Grazie alla sua struttura centralizzata, garantisce un'esperienza fluida per i clienti e una gestione efficiente per i professionisti e i gestori delle sedi.
+HairBeautyNow rappresenta una soluzione innovativa e completa per la gestione delle prenotazioni nei saloni di bellezza e parrucchieri. Grazie alla sua struttura centralizzata, garantisce un'esperienza fluida per i clienti e una gestione efficiente per i professionisti e i gestori delle sedi.
 
