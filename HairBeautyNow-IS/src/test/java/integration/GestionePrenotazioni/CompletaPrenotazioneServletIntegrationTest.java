@@ -69,8 +69,8 @@ public class CompletaPrenotazioneServletIntegrationTest {
     @Test
     void testDoPost() throws Exception {
         // Configura i dati della sessione
-        String giornoString = "2025-02-15";
-        String orario = "10:00-12:00";
+        String giornoString = "2025-02-18";
+        String orario = "10:00-10:30";
         int professionistaId = 1;
         String servizioName = "Taglio di capelli";
         double prezzo = 30.0;
@@ -105,7 +105,7 @@ public class CompletaPrenotazioneServletIntegrationTest {
         prenotazione.setServizioName(servizioName);
         prenotazione.setProfessionistaId(professionistaId);
         prenotazione.setPrezzo(prezzo);
-        prenotazione.setData(LocalDateTime.of(2025, 2, 15, 10, 0));  // Assicurati che la data sia uguale
+        prenotazione.setData(LocalDateTime.of(2025, 2, 18, 10, 0));  // Assicurati che la data sia uguale
         prenotazione.setUsername(utente.getUsername());  // Usa l'utente dalla sessione
 
         // Stampa i valori coinvolti
@@ -148,7 +148,22 @@ public class CompletaPrenotazioneServletIntegrationTest {
         System.out.println("Verifica che la risposta sia stata reindirizzata a index.jsp...");
         verify(responseMock).sendRedirect("index.jsp");
     }
+    @Test
+    void testDoPostPrenotazioneFailure() throws Exception {
+        when(sessionMock.getAttribute("giorno")).thenReturn(null);
+        when(requestMock.getRequestDispatcher("/WEB-INF/jsp/metodoPagamento.jsp")).thenReturn(dispatcherMock);
 
+        // Stampa i valori di sessione per il debug
+        System.out.println("Giorno: " + sessionMock.getAttribute("giorno"));
+        System.out.println("Orario: " + sessionMock.getAttribute("orario"));
+
+        // Invoca il doPost
+        invokeDoPost();
+
+        // Verifica le interazioni e stampa il risultato
+        verify(requestMock).setAttribute(eq("errore"), anyString());
+        verify(dispatcherMock).forward(requestMock, responseMock);
+    }
 
     // Metodo per invocare doPost con riflessione
     private void invokeDoPost() throws Exception {

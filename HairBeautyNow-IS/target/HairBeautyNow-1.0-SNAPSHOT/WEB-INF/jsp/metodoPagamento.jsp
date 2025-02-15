@@ -82,7 +82,7 @@
     String erroreSanitizzato = errore.replaceAll("\"", "\\\"").replaceAll("\n", "").replaceAll("\r", "");
 %>
 <script>
-  mostraAlert("error", "Errore durante la prenotazione: Cannot invoke 'java.sql.Date.toLocalDate()' because the return value of 'java.sql.ResultSet.getDate(String)' is null");
+  mostraAlert("error", "Errore durante la prenotazione");
 </script>
 
 <%

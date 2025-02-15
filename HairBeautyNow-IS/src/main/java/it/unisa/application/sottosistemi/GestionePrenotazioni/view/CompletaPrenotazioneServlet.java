@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+
 @WebServlet("/completaPrenotazione")
 public class CompletaPrenotazioneServlet extends HttpServlet {
     private final PrenotazioneService prenotazioneService = new PrenotazioneService();
@@ -34,20 +35,16 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         try {
-            // Verifica che i dati siano presenti nella sessione
+            // Verifica dati in sessione
             String giornoString = (String) session.getAttribute("giorno");
-            if (giornoString == null) {
-                throw new IllegalArgumentException("Giorno non selezionato.");
-            }
-
+            if (giornoString == null) throw new IllegalArgumentException("Giorno non selezionato.");
             LocalDate giorno = LocalDate.parse(giornoString, DateTimeFormatter.ISO_LOCAL_DATE);
-            String orario = (String) session.getAttribute("orario");
-            if (orario == null) {
-                throw new IllegalArgumentException("Orario non selezionato.");
-            }
 
+            String orario = (String) session.getAttribute("orario");
+            if (orario == null) throw new IllegalArgumentException("Orario non selezionato.");
             String[] orari = orario.split("-");
             LocalTime time = LocalTime.parse(orari[0], DateTimeFormatter.ofPattern("HH:mm"));
+
             int professionistaId = Integer.parseInt((String) session.getAttribute("professionistaId"));
             String servizioName = (String) session.getAttribute("servizioPrenotato");
 
@@ -56,25 +53,19 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
 
             // Recupera l'utente dalla sessione
             UtenteAcquirente utente = (UtenteAcquirente) session.getAttribute("user");
-            if (utente == null) {
-                throw new IllegalArgumentException("Utente non loggato.");
-            }
+            if (utente == null) throw new IllegalArgumentException("Utente non loggato.");
 
-            // Aggiungi il metodo di pagamento se non esiste già
+            // Metodo di pagamento
             String metodoPagamento = request.getParameter("metodoPagamento");
-            if (metodoPagamento == null) {
-                throw new IllegalArgumentException("Metodo di pagamento non selezionato.");
-            }
+            if (metodoPagamento == null) throw new IllegalArgumentException("Metodo di pagamento non selezionato.");
 
             String numeroCarta = request.getParameter("numeroCarta");
             String cvv = request.getParameter("cvv");
             String scadenza = request.getParameter("scadenza");
             String indirizzo = request.getParameter("indirizzo");
 
-            // Gestione del pagamento
             MetodoDiPagamento metodo = metodoDiPagamentoDAO.getMetodoDiPagamentoByUsername(utente.getUsername());
 
-            // Verifica se il metodo di pagamento esiste già per l'utente
             if (metodo != null) {
                 // Metodo di pagamento esistente, aggiorniamo i dati se necessario
                 if ("paypal".equals(metodoPagamento)) {
@@ -82,9 +73,7 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
                     metodo.setEmail(email);
                     metodo.setIndirizzo(indirizzo);
                 } else {
-                    if (scadenza == null || scadenza.isEmpty()) {
-                        throw new IllegalArgumentException("Data di scadenza mancante o non valida.");
-                    }
+                    if (scadenza == null || scadenza.isEmpty()) throw new IllegalArgumentException("Data di scadenza mancante.");
                     String[] scadenzaArray = scadenza.split("/");
                     LocalDate dataScadenza = LocalDate.of(2000 + Integer.parseInt(scadenzaArray[1]), Integer.parseInt(scadenzaArray[0]), 1);
                     metodo.setnCarta(numeroCarta);
@@ -94,35 +83,30 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
                     metodo.setIndirizzo(indirizzo);
                     metodo.setMetodoPagamento(metodoPagamento);
                 }
-                // Aggiorna il metodo di pagamento esistente
                 metodoDiPagamentoDAO.updateMetodoDiPagamento(metodo);
             } else {
-                // Metodo di pagamento non trovato, creiamo un nuovo metodo
+                // Creiamo un nuovo metodo di pagamento
                 if ("paypal".equals(metodoPagamento)) {
                     String email = request.getParameter("emailPaypal");
-                    metodo = new MetodoDiPagamento(
-                            null, null, utente.getNome() + " " + utente.getCognome(),
-                            indirizzo, 0, utente.getUsername(), metodoPagamento, email
-                    );
+                    metodo = new MetodoDiPagamento(null, null, utente.getNome() + " " + utente.getCognome(), indirizzo, 0, utente.getUsername(), metodoPagamento, email);
                 } else {
-                    if (scadenza == null || scadenza.isEmpty()) {
-                        throw new IllegalArgumentException("Data di scadenza mancante o non valida.");
-                    }
+                    if (scadenza == null || scadenza.isEmpty()) throw new IllegalArgumentException("Data di scadenza mancante.");
                     String[] scadenzaArray = scadenza.split("/");
                     LocalDate dataScadenza = LocalDate.of(2000 + Integer.parseInt(scadenzaArray[1]), Integer.parseInt(scadenzaArray[0]), 1);
-                    metodo = new MetodoDiPagamento(
-                            numeroCarta, dataScadenza, utente.getNome() + " " + utente.getCognome(),
-                            indirizzo, Integer.parseInt(cvv), utente.getUsername(), metodoPagamento, null
-                    );
+                    metodo = new MetodoDiPagamento(numeroCarta, dataScadenza, utente.getNome() + " " + utente.getCognome(), indirizzo, Integer.parseInt(cvv), utente.getUsername(), metodoPagamento, null);
                 }
                 metodoDiPagamentoDAO.addMetodoDiPagamento(metodo);
             }
 
             // Esegui il pagamento
-            PagamentoStrategy pagamentoStrategy = PagamentoFactory.getPagamentoStrategy(metodoPagamento);
-            pagamentoStrategy.effettuaPagamento(metodo, prezzo);
+            try {
+                PagamentoStrategy pagamentoStrategy = PagamentoFactory.getPagamentoStrategy(metodoPagamento);
+                pagamentoStrategy.effettuaPagamento(metodo, prezzo);
+            } catch (IllegalArgumentException e) {
+                throw new ServletException("Errore nel pagamento: " + e.getMessage(), e);
+            }
 
-            // Solo dopo il pagamento, crea la prenotazione
+            // Creazione prenotazione solo dopo il pagamento
             LocalDateTime localDateTime = LocalDateTime.of(giorno, time);
             Prenotazione prenotazione = new Prenotazione(servizioName, professionistaId, localDateTime, utente.getUsername(), prezzo);
             prenotazioneService.addPrenotazione(prenotazione);
@@ -136,8 +120,14 @@ public class CompletaPrenotazioneServlet extends HttpServlet {
 
             response.sendRedirect("index.jsp");
 
-        } catch (SQLException | NullPointerException | IllegalArgumentException e) {
-            request.setAttribute("errore", "Errore durante la prenotazione: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            request.setAttribute("errore", "Errore nei dati inseriti: " + e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/jsp/metodoPagamento.jsp").forward(request, response);
+        } catch (SQLException e) {
+            request.setAttribute("errore", "Errore di sistema: problema con il database.");
+            request.getRequestDispatcher("/WEB-INF/jsp/metodoPagamento.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("errore", "Errore imprevisto: " + e.getMessage());
             request.getRequestDispatcher("/WEB-INF/jsp/metodoPagamento.jsp").forward(request, response);
         }
     }
